@@ -1,0 +1,12 @@
+{
+    "plugins": ["custom-elements"],
+    "extends": ["plugin:custom-elements/recommended"],
+    "overrides": [
+      {
+        "files": "test/**/*.js",
+        "globals": {
+          "assert": true
+        }
+      }
+    ]
+}

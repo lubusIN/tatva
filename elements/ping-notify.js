@@ -1,14 +1,14 @@
 /**
  * Custom Element
  */
-class Ping extends HTMLElement {
+class PingNotify extends HTMLElement {
     // Lifecycle event: executed when the component is inserted into the DOM
     connectedCallback() {
         let shadow = this.attachShadow({ mode: 'open' })
 
         const size = this.getAttribute('size') ?? '.75rem';
         const color = this.getAttribute('color') ?? '#000';
-        
+
         shadow.appendChild(this.renderStyle(size, color));
         shadow.appendChild(this.renderElement());
     }
@@ -75,5 +75,9 @@ class Ping extends HTMLElement {
     }
 }
 
+window.PingNotify = PingNotify;
+
 // Register Element
-customElements.define('x-ping', Ping);
+if (!window.customElements.get('ping-notify')) {
+    window.customElements.define('ping-notify', PingNotify);
+}
