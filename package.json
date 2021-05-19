@@ -1,0 +1,29 @@
+{
+  "name": "tattva",
+  "version": "1.0.0",
+  "description": "Custom Elements and Web Components",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx mix",
+    "watch": "npx mix watch",
+    "start": "npx mix watch --hot",
+    "build": "npx mix --production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lubusIN/tattva.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lubusIN/tattva/issues"
+  },
+  "homepage": "https://github.com/lubusIN/tattva#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "laravel-mix": "^6.0.19",
+    "postcss": "^8.2.15",
+    "tailwindcss": "^2.1.2"
+  }
+}
