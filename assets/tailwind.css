@@ -2,17 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-    .gist-file {
-        @apply rounded-lg overflow-hidden !important;
-    }
+/**
+ Gist Embed
+*/
+.gist-file {
+    @apply rounded-lg overflow-hidden !important;
+}
 
-    .gist-meta,
-    .js-line-number {
-        @apply hidden;
-    }
+.gist-meta,
+.js-line-number {
+    @apply hidden;
+}
 
-    .gist-data {
-        @apply border-b-0 p-6 !important;
-    }
+.gist-data {
+    @apply border-b-0 p-6 !important;
 }
