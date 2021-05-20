@@ -4,74 +4,66 @@
 class PingNotify extends HTMLElement {
     // Lifecycle event: executed when the component is inserted into the DOM
     connectedCallback() {
-        let shadow = this.attachShadow({ mode: 'open' })
-
-        const size = this.getAttribute('size') ?? '.75rem';
-        const color = this.getAttribute('color') ?? '#000';
-
-        shadow.appendChild(this.renderStyle(size, color));
-        shadow.appendChild(this.renderElement());
+        const template = this.renderElement(); 
+        this.attachShadow({ mode: 'open' })
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
     renderElement() {
-        // Create elements for UI
-        const ping = document.createElement('span');
-        ping.classList.add("x-ping-wrapper");
+        const size = this.getAttribute('size') ?? '.75rem';
+        const color = this.getAttribute('color') ?? '#000';
 
-        const pingSpread = document.createElement('span');
-        pingSpread.classList.add("x-ping-spread");
-        pingSpread.setAttribute('part', 'spread');
+        const template = document.createElement('template');
+        template.innerHTML =  `
+            ${this.renderStyle(size, color)}
 
-        const pingDot = document.createElement('span');
-        pingDot.classList.add("x-ping-dot");
-        pingDot.setAttribute('part', 'dot');
+            <slot></slot>
+            <span class="x-ping-wrapper">
+                <span class="x-ping-spread" part="spread"></span>
+                <span class="x-ping-dot" part="dot"></span>
+            </span>    
+        `;
 
-        // Construct UI
-        ping.appendChild(pingSpread);
-        ping.appendChild(pingDot);
-
-        return ping;
+        return template;
     }
 
     renderStyle(size, color) {
-        let style = document.createElement('style');
-
-        style.textContent = `
-            .x-ping-wrapper {
-                display: flex;
-                width: ${size};
-                height: ${size};
-                position: relative;
-            }
-
-            .x-ping-spread {
-                width: 100%;
-                height: 100%;
-                opacity: .75;
-                position: absolute;
-                border-radius: 9999px;
-                background-color: ${color};
-                animation: ping 1s cubic-bezier(0,0,.2,1) infinite;
-            }
-
-            .x-ping-dot {
-                width: ${size};
-                height: ${size};
-                position: relative;
-                display: inline-flex;
-                border-radius: 9999px;
-                background-color: ${color};
-            }
-
-            @keyframes ping {
-                75%, 100% {
-                  transform: scale(2);
-                  opacity: 0;
+        return `
+            <style>
+                .x-ping-wrapper {
+                    display: flex;
+                    width: ${size};
+                    height: ${size};
+                    position: relative;
                 }
-            }
-        `;
 
-        return style;
+                .x-ping-spread {
+                    width: 100%;
+                    height: 100%;
+                    opacity: .75;
+                    position: absolute;
+                    border-radius: 9999px;
+                    background-color: ${color};
+                    animation: ping 1s cubic-bezier(0,0,.2,1) infinite;
+                }
+
+                .x-ping-dot {
+                    width: ${size};
+                    height: ${size};
+                    position: relative;
+                    display: inline-flex;
+                    border-radius: 9999px;
+                    background-color: ${color};
+                }
+
+                @keyframes ping {
+                    75%, 100% {
+                    transform: scale(2);
+                    opacity: 0;
+                    }
+                }
+            </style>
+        `;
     }
 }
 
