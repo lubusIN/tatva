@@ -17,8 +17,10 @@ class PingNotify extends HTMLElement {
         template.innerHTML =  `
             ${this.renderStyle(size, color)}
 
-            <slot></slot>
-            <span class="x-ping-wrapper">
+            <div part="content">
+                <slot></slot>
+            </div>
+            <span class="x-ping-wrapper" part="wrapper  ">
                 <span class="x-ping-spread" part="spread"></span>
                 <span class="x-ping-dot" part="dot"></span>
             </span>    
