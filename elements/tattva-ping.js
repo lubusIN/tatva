@@ -1,7 +1,7 @@
 /**
  * Custom Element
  */
-class PingNotify extends HTMLElement {
+class TattvaPing extends HTMLElement {
     // Lifecycle event: executed when the component is inserted into the DOM
     connectedCallback() {
         const template = this.renderElement(); 
@@ -20,9 +20,9 @@ class PingNotify extends HTMLElement {
             <div part="content">
                 <slot></slot>
             </div>
-            <span class="x-ping-wrapper" part="wrapper  ">
-                <span class="x-ping-spread" part="spread"></span>
-                <span class="x-ping-dot" part="dot"></span>
+            <span class="wrapper" part="wrapper">
+                <span class="spread" part="spread"></span>
+                <span class="dot" part="dot"></span>
             </span>    
         `;
 
@@ -32,14 +32,14 @@ class PingNotify extends HTMLElement {
     renderStyle(size, color) {
         return `
             <style>
-                .x-ping-wrapper {
+                .wrapper {
                     display: flex;
                     width: ${size};
                     height: ${size};
                     position: relative;
                 }
 
-                .x-ping-spread {
+                .spread {
                     width: 100%;
                     height: 100%;
                     opacity: .75;
@@ -49,7 +49,7 @@ class PingNotify extends HTMLElement {
                     animation: ping 1s cubic-bezier(0,0,.2,1) infinite;
                 }
 
-                .x-ping-dot {
+                .dot {
                     width: ${size};
                     height: ${size};
                     position: relative;
@@ -69,9 +69,9 @@ class PingNotify extends HTMLElement {
     }
 }
 
-window.PingNotify = PingNotify;
+window.TattvaPing = TattvaPing;
 
 // Register Element
-if (!window.customElements.get('ping-notify')) {
-    window.customElements.define('ping-notify', PingNotify);
+if (!window.customElements.get('tattva-ping')) {
+    window.customElements.define('tattva-ping', TattvaPing);
 }
