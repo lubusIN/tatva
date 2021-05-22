@@ -17,7 +17,9 @@ class TattvaHighlighted extends HTMLElement {
             ${this.renderStyle()}
 
             <span class="wrapper">
-                <span class="text-3xl">Tattva</span>
+                <span class="text">
+                    <slot></slot>
+                </span>
                 <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
                     preserveAspectRatio="none">
                         ${this.renderPath(type)}
@@ -100,7 +102,7 @@ class TattvaHighlighted extends HTMLElement {
                     overflow: visible;
                     top: 50%;
                     left: 50%;
-                    width: calc(100% + 20px);
+                    width: calc(100% + 2px);
                     stroke-width: 9;
                     height: calc(100% + 5px);
                     -webkit-transform: translate(-50%, -50%);
