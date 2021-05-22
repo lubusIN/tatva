@@ -31,20 +31,44 @@
         <div class="container max-w-3xl mx-auto mt-auto mb-12">
 
             <!-- Title -->
-            <h1 class="pb-4 mb-16 text-2xl font-medium text-center text-gray-800 border-b-2 border-red-100">Ping</h1>
+            <h1 class="pb-4 mb-10 text-2xl font-medium text-center text-gray-800 border-b-2 border-red-100">Ping
+            </h1>
 
-            <div class="flex items-center justify-around">
-                <tattva-ping></tattva-ping>
+            <!-- Demos-->
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
+                <!-- Default -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="text-sm font-medium text-gray-400">Default</h2>
+                    <tattva-ping></tattva-ping>
+                </div>
+                
+                <!-- Color -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="text-sm font-medium text-gray-400">Color</h2>
+                    <tattva-ping color="red"></tattva-ping>
+                </div>
 
-                <tattva-ping color="red"></tattva-ping>
+                <!-- Size -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="text-sm font-medium text-gray-400">Size</h2>
+                    <tattva-ping color="red" size="1.2rem"></tattva-ping>
+                </div>
 
-                <tattva-ping color="blue" size="1.2rem" ></tattva-ping>
+                <!-- Content -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="text-sm font-medium text-gray-400">Content</h2>
+                    <tattva-ping class="flex" color="red" size="1.4rem">New</tattva-ping>
+                </div>
+            </div>
 
-                <tattva-ping class="flex" color="green" size="1.4rem" >New</tattva-ping>
-            </div>  
-
+            <!-- Sample Code -->
             <div class="mt-16">
-                <script src="https://gist.github.com/ajitbohra/ad5b73844f3fd5daf5c9a13c8d984549.js?file=ping-notify.js"></script>
+                <script
+                    src="https://gist.github.com/ajitbohra/ad5b73844f3fd5daf5c9a13c8d984549.js?file=ping-notify.js"></script>
             </div>
         </div>
 
