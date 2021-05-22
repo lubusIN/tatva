@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tattva | Highlighted</title>
+    <link rel="stylesheet" href="../../assets/style.css">
+    <script src="../elements/tattva-highlighted.js"></script>
+    <style>
+        .wrapper {
+            position: relative;
+            overflow: visible;
+        }
+
+        .text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .highlighted {
+            fill: none;
+            position: absolute;
+            overflow: visible;
+            top: 50%;
+            left: 50%;
+            width: calc(100% + 20px);
+            stroke-width: 9;
+            height: calc(100% + 5px);
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            overflow: visible;
+        }
+
+        .highlighted path {
+            stroke: red;
+            stroke-dasharray: 1500;
+            stroke-dashoffset: 1500;
+            animation-name: acfb-hh-dash;
+            animation-iteration-count: infinite;
+            animation-duration: 5s;
+        }
+
+        .highlighted path:nth-of-type(2) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes acfb-hh-dash {
+            0% {
+                stroke-dashoffset: 1500;
+            }
+
+            15% {
+                stroke-dashoffset: 0;
+            }
+
+            85% {
+                opacity: 1;
+            }
+
+            90% {
+                stroke-dashoffset: 0;
+                opacity: 0;
+            }
+
+            100% {
+                stroke-dashoffset: 1500;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-red-50">
+    <div class="flex flex-col items-center justify-start min-w-full min-h-screen px-4 py-8">
+        <!-- Header -->
+        <div class="flex flex-col items-center justify-center mb-14">
+            <a href="../../index.html"
+                class="flex items-center justify-center px-4 py-2 text-sm font-medium tracking-wide bg-red-800 rounded-md hover:bg-red-900 text-red-50">
+                <svg class="w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                    </path>
+                </svg>
+                Browse All
+            </a>
+        </div>
+
+        <!-- Trail-->
+        <div class="container max-w-3xl mx-auto mt-auto mb-12">
+
+            <!-- Title -->
+            <h1 class="pb-4 mb-10 text-2xl font-medium text-center text-gray-800 border-b-2 border-red-100">Highlighted
+            </h1>
+
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <!-- Circle -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Circle</h2>
+
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path
+                                d="M325,18C228.7-8.3,118.5,8.3,78,21C22.4,38.4,4.6,54.6,5.6,77.6c1.4,32.4,52.2,54,142.6,63.7 c66.2,7.1,212.2,7.5,273.5-8.3c64.4-16.6,104.3-57.6,33.8-98.2C386.7-4.9,179.4-1.4,126.3,20.7">
+                            </path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Curly -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Curly</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path
+                                d="M3,146.1c17.1-8.8,33.5-17.8,51.4-17.8c15.6,0,17.1,18.1,30.2,18.1c22.9,0,36-18.6,53.9-18.6 c17.1,0,21.3,18.5,37.5,18.5c21.3,0,31.8-18.6,49-18.6c22.1,0,18.8,18.8,36.8,18.8c18.8,0,37.5-18.6,49-18.6c20.4,0,17.1,19,36.8,19 c22.9,0,36.8-20.6,54.7-18.6c17.7,1.4,7.1,19.5,33.5,18.8c17.1,0,47.2-6.5,61.1-15.6">
+                            </path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Underline -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Underline</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path d="M7.7,145.6C109,125,299.9,116.2,401,121.3c42.1,2.2,87.6,11.8,87.3,25.7"></path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Double -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Double</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path d="M8.4,143.1c14.2-8,97.6-8.8,200.6-9.2c122.3-0.4,287.5,7.2,287.5,7.2"></path>
+                            <path d="M8,19.4c72.3-5.3,162-7.8,216-7.8c54,0,136.2,0,267,7.8"></path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Double underline-->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Double Underline</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path d="M5,125.4c30.5-3.8,137.9-7.6,177.3-7.6c117.2,0,252.2,4.7,312.7,7.6"></path>
+                            <path d="M26.9,143.8c55.1-6.1,126-6.3,162.2-6.1c46.5,0.2,203.9,3.2,268.9,6.4"></path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Underline zigzag -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Underline Zigzag</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path
+                                d="M9.3,127.3c49.3-3,150.7-7.6,199.7-7.4c121.9,0.4,189.9,0.4,282.3,7.2C380.1,129.6,181.2,130.6,70,139 c82.6-2.9,254.2-1,335.9,1.3c-56,1.4-137.2-0.3-197.1,9">
+                            </path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Strikethrough -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Strikethrough</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path d="M3,75h493.5"></path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Cross -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Cross</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path d="M497.4,23.9C301.6,40,155.9,80.6,4,144.4"></path>
+                            <path d="M14.1,27.6c204.5,20.3,393.8,74,467.3,111.7"></path>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Strike -->
+                <div
+                    class="flex flex-col items-center justify-center p-4 pb-6 space-y-8 bg-white border rounded shadow">
+                    <h2 class="font-semibold text-gray-600">Strike</h2>
+                    <span class="wrapper">
+                        <span class="text">Gutenberg</span>
+                        <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                            preserveAspectRatio="none">
+                            <path d="M13.5,15.5c131,13.7,289.3,55.5,475,125.5"></path>
+                        </svg>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="mt-16">
+                <script
+                    src="https://gist.github.com/ajitbohra/c6089b82c2364587153a8b33bc4a61b7.js?file=tattva-highlighted.js"></script>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex flex-col items-center mt-auto">
+            <!-- Source Code -->
+            <div
+                class="inline-block mx-auto my-4 text-sm text-gray-500 border border-gray-300 rounded hover:bg-gray-600 hover:text-white">
+                <a class="flex items-center px-2 py-1 "
+                    href="https://github.com/lubusIN/tattva/blob/main/elements/tattva-highlighted.js" target="_new">
+                    <svg class="w-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    source code
+                </a>
+            </div>
+
+            <!-- Work with us -->
+            <div
+                class="relative flex px-4 py-2 mx-auto overflow-hidden text-sm text-red-100 bg-red-800 border border-gray-200 rounded-md shadow-2xl">
+                <span class="flex items-center">
+                    <svg class="w-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    Work With Us
+                </span>
+                <svg class="w-10 h-auto -my-2 -mr-8 text-red-800 transform" fill="currentColor" viewBox="0 0 100 100"
+                    preserveAspectRatio="none" aria-hidden="true">
+                    <polygon points="50,0 100,0 50,100 0,100"></polygon>
+                </svg>
+                <a class="flex items-center px-8 ml-3 -my-2 -mr-4 italic bg-red-500 hover:underline"
+                    href="mailto:info@lubus.in">info@lubus.in</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
