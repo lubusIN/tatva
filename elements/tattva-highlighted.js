@@ -1,12 +1,15 @@
 /**
- * Custom Element
+ * Tattva: Highlighted
  */
 class TattvaHighlighted extends HTMLElement {
-    // Lifecycle event: executed when the component is inserted into the DOM
+    static get observedAttributes() { 
+        return ['type']; 
+    }
+
     connectedCallback() {
         const template = this.renderElement();
         this.attachShadow({ mode: 'open' })
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.shadowRoot.appendChild(template.content.cloneNode(true));        
     }
 
     renderElement() {
@@ -14,7 +17,9 @@ class TattvaHighlighted extends HTMLElement {
 
         const template = document.createElement('template');
         template.innerHTML = `
-            ${this.renderStyle()}
+            <style>
+             ${this.renderStyle()}
+            </style>
 
             <span class="wrapper">
                 <span class="text">
@@ -85,70 +90,82 @@ class TattvaHighlighted extends HTMLElement {
 
     renderStyle() {
         return `
-            <style>
-               .wrapper {
-                    position: relative;
-                    overflow: visible;
-                }
+            .wrapper {
+                position: relative;
+                overflow: visible;
+            }
 
-                .text {
-                    position: relative;
-                    z-index: 1;
-                }
+            .text {
+                position: relative;
+                z-index: 1;
+            }
 
-                .highlighted {
-                    fill: none;
-                    position: absolute;
-                    overflow: visible;
-                    top: 50%;
-                    left: 50%;
-                    width: calc(100% + 2px);
-                    stroke-width: 9;
-                    height: calc(100% + 5px);
-                    -webkit-transform: translate(-50%, -50%);
-                    -ms-transform: translate(-50%, -50%);
-                    transform: translate(-50%, -50%);
-                    overflow: visible;
-                }
+            .highlighted {
+                fill: none;
+                position: absolute;
+                overflow: visible;
+                top: 50%;
+                left: 50%;
+                width: calc(100% + 2px);
+                stroke-width: 9;
+                height: calc(100% + 5px);
+                -webkit-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+                overflow: visible;
+            }
 
-                .highlighted path {
-                    stroke: red;
-                    stroke-dasharray: 1500;
+            .highlighted path {
+                stroke: red;
+                stroke-dasharray: 1500;
+                stroke-dashoffset: 1500;
+                animation-name: acfb-hh-dash;
+                animation-iteration-count: infinite;
+                animation-duration: 5s;
+            }
+
+            .highlighted path:nth-of-type(2) {
+                animation-delay: 0.3s;
+            }
+
+            @keyframes acfb-hh-dash {
+                0% {
                     stroke-dashoffset: 1500;
-                    animation-name: acfb-hh-dash;
-                    animation-iteration-count: infinite;
-                    animation-duration: 5s;
                 }
 
-                .highlighted path:nth-of-type(2) {
-                    animation-delay: 0.3s;
+                15% {
+                    stroke-dashoffset: 0;
                 }
 
-                @keyframes acfb-hh-dash {
-                    0% {
-                        stroke-dashoffset: 1500;
-                    }
-
-                    15% {
-                        stroke-dashoffset: 0;
-                    }
-
-                    85% {
-                        opacity: 1;
-                    }
-
-                    90% {
-                        stroke-dashoffset: 0;
-                        opacity: 0;
-                    }
-
-                    100% {
-                        stroke-dashoffset: 1500;
-                        opacity: 0;
-                    }
+                85% {
+                    opacity: 1;
                 }
-            </style>
+
+                90% {
+                    stroke-dashoffset: 0;
+                    opacity: 0;
+                }
+
+                100% {
+                    stroke-dashoffset: 1500;
+                    opacity: 0;
+                }
+            }
         `;
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      if( !oldValue ) return;
+
+        const shadow = this.shadowRoot;
+
+        const svg = shadow.querySelector('svg');
+        const path = this.renderPath(newValue);
+
+        const style = shadow.querySelector('style');
+        
+        svg.innerHTML = path;
+        style.textContent(this.renderStyle());
     }
 }
 
