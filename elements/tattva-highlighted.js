@@ -160,12 +160,10 @@ class TattvaHighlighted extends HTMLElement {
         const shadow = this.shadowRoot;
 
         const svg = shadow.querySelector('svg');
-        const path = this.renderPath(newValue);
-
         const style = shadow.querySelector('style');
         
-        svg.innerHTML = path;
-        style.textContent(this.renderStyle());
+        svg.innerHTML = this.renderPath(newValue);
+        style.textContent = this.renderStyle();
     }
 }
 
