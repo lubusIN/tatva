@@ -34,6 +34,7 @@ class TattvaPing extends HTMLElement {
             <style>
                 .wrapper {
                     display: flex;
+                    margin-left: 4px;
                     width: ${size};
                     height: ${size};
                     position: relative;
