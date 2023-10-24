@@ -23,7 +23,6 @@
   "devDependencies": {
     "autoprefixer": "^10.2.5",
     "eslint": "^7.26.0",
-    "eslint-plugin-custom-elements": "^0.0.2",
     "laravel-mix": "^6.0.19",
     "postcss": "^8.2.15",
     "tailwindcss": "^2.1.2"
