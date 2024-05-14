@@ -1,7 +1,7 @@
 /**
  * Custom Element: Image Compare
  */
-class TattvaImageCompare extends HTMLElement {
+class tatvaImageCompare extends HTMLElement {
     static get observedAttributes() { 
         return [
             'handle',
@@ -214,9 +214,9 @@ class TattvaImageCompare extends HTMLElement {
     }
 }
 
-window.TattvaImageCompare = TattvaImageCompare;
+window.tatvaImageCompare = tatvaImageCompare;
 
 // Register Element
-if (!window.customElements.get('tattva-image-compare')) {
-    window.customElements.define('tattva-image-compare', TattvaImageCompare);
+if (!window.customElements.get('tatva-image-compare')) {
+    window.customElements.define('tatva-image-compare', tatvaImageCompare);
 }

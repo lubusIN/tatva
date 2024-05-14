@@ -1,2 +1,2 @@
-# tattva
+# tatva
 Custom Elements and Web Components

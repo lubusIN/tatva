@@ -1,7 +1,7 @@
 /**
  * Custom Element
  */
-class TattvaPing extends HTMLElement {
+class tatvaPing extends HTMLElement {
     // Lifecycle event: executed when the component is inserted into the DOM
     connectedCallback() {
         const template = this.renderElement(); 
@@ -70,9 +70,9 @@ class TattvaPing extends HTMLElement {
     }
 }
 
-window.TattvaPing = TattvaPing;
+window.tatvaPing = tatvaPing;
 
 // Register Element
-if (!window.customElements.get('tattva-ping')) {
-    window.customElements.define('tattva-ping', TattvaPing);
+if (!window.customElements.get('tatva-ping')) {
+    window.customElements.define('tatva-ping', tatvaPing);
 }

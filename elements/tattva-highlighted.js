@@ -1,7 +1,7 @@
 /**
- * Tattva: Highlighted
+ * tatva: Highlighted
  */
-class TattvaHighlighted extends HTMLElement {
+class tatvaHighlighted extends HTMLElement {
     static get observedAttributes() { 
         return ['type']; 
     }
@@ -167,9 +167,9 @@ class TattvaHighlighted extends HTMLElement {
     }
 }
 
-window.TattvaHighlighted = TattvaHighlighted;
+window.tatvaHighlighted = tatvaHighlighted;
 
 // Register Element
-if (!window.customElements.get('tattva-highlighted')) {
-    window.customElements.define('tattva-highlighted', TattvaHighlighted);
+if (!window.customElements.get('tatva-highlighted')) {
+    window.customElements.define('tatva-highlighted', tatvaHighlighted);
 }

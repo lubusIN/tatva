@@ -1,8 +1,10 @@
 {
-  "name": "tattva",
-  "version": "1.0.0",
-  "description": "Custom Elements and Web Components",
-  "main": "index.js",
+  "name": "@lubusin/tatva",
+  "version": "0.1.1",
+  "description": "Tatva Web Components",
+  "files": [
+    "elements/*.js"
+  ],
   "scripts": {
     "dev": "npx mix",
     "watch": "npx mix watch",
@@ -11,15 +13,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lubusIN/tattva.git"
+    "url": "git+https://github.com/lubusIN/tatva.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lubusIN/tattva/issues"
+    "url": "https://github.com/lubusIN/tatva/issues"
   },
-  "homepage": "https://github.com/lubusIN/tattva#readme",
+  "homepage": "https://github.com/lubusIN/tatva#readme",
   "devDependencies": {
     "autoprefixer": "^10.2.5",
     "eslint": "^7.26.0",

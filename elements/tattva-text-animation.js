@@ -1,7 +1,7 @@
 /**
- * Tattva: Text Animation
+ * tatva: Text Animation
  */
-class TattvaTextAnimation extends HTMLElement {
+class tatvaTextAnimation extends HTMLElement {
     static get observedAttributes() {
         return [
             'animation-type',
@@ -130,8 +130,8 @@ class TattvaTextAnimation extends HTMLElement {
     }
 }
 
-window.TattvaTextAnimation = TattvaTextAnimation;
+window.tatvaTextAnimation = tatvaTextAnimation;
 
-if (!window.customElements.get('tattva-text-animation')) {
-    window.customElements.define('tattva-text-animation', TattvaTextAnimation);
+if (!window.customElements.get('tatva-text-animation')) {
+    window.customElements.define('tatva-text-animation', tatvaTextAnimation);
 }
