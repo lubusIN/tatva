@@ -1,6 +1,6 @@
 {
   "name": "@lubusin/tatva",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Tatva Web Components",
   "files": [
     "elements/*.js"
