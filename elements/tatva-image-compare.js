@@ -1,7 +1,7 @@
 /**
  * Custom Element: Image Compare
  */
-class tatvaImageCompare extends HTMLElement {
+class TatvaImageCompare extends HTMLElement {
     static get observedAttributes() { 
         return [
             'handle',
@@ -50,10 +50,9 @@ class tatvaImageCompare extends HTMLElement {
 
             <div class="image-compare">
                 <div class="image-container" handle_type="${handleType}" hover=${onHover}>
-                    <slot id="before" name="before">
-                        <img id="before_image" src="${before}" />
-                    </slot>
-                   
+                    <img id="before_img"
+                        src="${before}" />
+
                     <div class="slider_overlay">
                         <div class="slider_handle">
                             <div class="slide_mover">
@@ -63,9 +62,8 @@ class tatvaImageCompare extends HTMLElement {
                         </div>
                     </div>
 
-                    <slot id="after" name="after">
-                        <img id ="after_image" src="${after}" />
-                     </slot>
+                    <img id="after_img"
+                        src="${after}" />
                 </div>
         `;
 
@@ -86,12 +84,11 @@ class tatvaImageCompare extends HTMLElement {
                 }
                 
                 .image-container img {
-                    user-select: none;
                     width: 100%;
                     background-color: #94a3b8;
                 }
                 
-                .image-container img#before_image {
+                .image-container img:nth-child(1) {
                     position: absolute;
                 }
                 
@@ -165,7 +162,7 @@ class tatvaImageCompare extends HTMLElement {
         this.sliderOverlay = this.shadowRoot.querySelector('.slider_overlay');
         this.sliderHandle = this.shadowRoot.querySelector('.slider_handle');
         this.slideMover = this.shadowRoot.querySelector('.slide_mover');
-        this.beforeImg = this.shadowRoot.querySelector('slot#before');
+        this.beforeImg = this.shadowRoot.querySelector('#before_img');
         this.handleType = this.imageContainer.getAttribute('handle_type');
         this.onHover = this.imageContainer.getAttribute('hover');
         this.isDragging = false;
@@ -217,9 +214,9 @@ class tatvaImageCompare extends HTMLElement {
     }
 }
 
-window.tatvaImageCompare = tatvaImageCompare;
+window.TatvaImageCompare = TatvaImageCompare;
 
 // Register Element
 if (!window.customElements.get('tatva-image-compare')) {
-    window.customElements.define('tatva-image-compare', tatvaImageCompare);
+    window.customElements.define('tatva-image-compare', TatvaImageCompare);
 }
