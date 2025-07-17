@@ -7,7 +7,10 @@ export default defineConfig({
         rollupOptions: {
             input: 'tailwind.css',
             output: {
-                assetFileNames: '[name].[ext]',
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name === 'tailwind.css') return 'style.css';
+                    return assetInfo.name;
+                },
             },
         },
         outDir: 'website/assets',
