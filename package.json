@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "Tatva Web Components",
   "files": [
-    "elements/*.js"
+    "src/*.js"
   ],
   "scripts": {
     "dev": "npx mix",
