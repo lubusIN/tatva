@@ -1,7 +1,7 @@
 /**
  * tatva: marker
  */
-export class tatvamarker extends HTMLElement {
+class tatvamarker extends HTMLElement {
     static get observedAttributes() { 
         return ['type']; 
     }

@@ -1,7 +1,7 @@
 /**
  * Custom Element
  */
-export class tatvaPing extends HTMLElement {
+class tatvaPing extends HTMLElement {
     // Lifecycle event: executed when the component is inserted into the DOM
     connectedCallback() {
         const template = this.renderElement(); 
