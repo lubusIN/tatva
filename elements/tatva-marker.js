@@ -1,7 +1,7 @@
 /**
- * tatva: Highlighted
+ * tatva: marker
  */
-class tatvaHighlighted extends HTMLElement {
+class tatvamarker extends HTMLElement {
     static get observedAttributes() { 
         return ['type']; 
     }
@@ -25,7 +25,7 @@ class tatvaHighlighted extends HTMLElement {
                 <span class="text">
                     <slot></slot>
                 </span>
-                <svg class="highlighted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
+                <svg class="marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150"
                     preserveAspectRatio="none">
                         ${this.renderPath(type)}
                 </svg>
@@ -100,7 +100,7 @@ class tatvaHighlighted extends HTMLElement {
                 z-index: 1;
             }
 
-            .highlighted {
+            .marker {
                 fill: none;
                 position: absolute;
                 overflow: visible;
@@ -115,7 +115,7 @@ class tatvaHighlighted extends HTMLElement {
                 overflow: visible;
             }
 
-            .highlighted path {
+            .marker path {
                 stroke: red;
                 stroke-dasharray: 1500;
                 stroke-dashoffset: 1500;
@@ -124,7 +124,7 @@ class tatvaHighlighted extends HTMLElement {
                 animation-duration: 5s;
             }
 
-            .highlighted path:nth-of-type(2) {
+            .marker path:nth-of-type(2) {
                 animation-delay: 0.3s;
             }
 
@@ -167,9 +167,9 @@ class tatvaHighlighted extends HTMLElement {
     }
 }
 
-window.tatvaHighlighted = tatvaHighlighted;
+window.tatvamarker = tatvamarker;
 
 // Register Element
-if (!window.customElements.get('tatva-highlighted')) {
-    window.customElements.define('tatva-highlighted', tatvaHighlighted);
+if (!window.customElements.get('tatva-marker')) {
+    window.customElements.define('tatva-marker', tatvamarker);
 }
