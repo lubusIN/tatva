@@ -20,4 +20,4 @@ A set of custom HTML elements / Web Components to power various functionality fo
 
 ## License
 
-`WPUI` is an open-source software licensed under the [MIT](LICENSE)
+`Tatva` is an open-source software licensed under the [MIT](LICENSE)
