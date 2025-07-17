@@ -1,15 +1,14 @@
 {
   "name": "@lubusin/tatva",
+  "type": "module",
   "version": "0.1.2",
   "description": "Tatva Web Components",
   "files": [
     "src/*.js"
   ],
   "scripts": {
-    "dev": "npx mix",
-    "watch": "npx mix watch",
-    "start": "npx mix watch --hot",
-    "build": "npx mix --production"
+    "dev": "vite",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -23,10 +22,12 @@
   },
   "homepage": "https://github.com/lubusIN/tatva#readme",
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
     "autoprefixer": "^10.2.5",
     "eslint": "^7.26.0",
-    "laravel-mix": "^6.0.19",
     "postcss": "^8.2.15",
-    "tailwindcss": "^2.1.2"
+    "tailwindcss": "^4.1.11",
+    "vite": "^7.0.5",
+    "vite-plugin-static-copy": "^3.1.1"
   }
 }
