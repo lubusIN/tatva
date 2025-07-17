@@ -1,7 +1,7 @@
 /**
  * tatva: Text Animation
  */
-class tatvaTextAnimation extends HTMLElement {
+export class tatvaTextAnimation extends HTMLElement {
     static get observedAttributes() {
         return [
             'animation-type',

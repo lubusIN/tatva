@@ -1,7 +1,7 @@
 /**
  * Custom Element: Image Compare
  */
-class TatvaImageCompare extends HTMLElement {
+export class TatvaImageCompare extends HTMLElement {
     static get observedAttributes() { 
         return [
             'handle',

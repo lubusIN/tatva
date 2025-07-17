@@ -1,10 +1,10 @@
 {
   "name": "@lubusin/tatva",
   "type": "module",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Tatva Web Components",
   "main": "src/index.js",
-    "exports": {
+  "exports": {
     "./tatva-image-compare.js": "./src/tatva-image-compare.js",
     "./tatva-marker.js": "./src/tatva-marker.js",
     "./tatva-ping.js": "./src/tatva-ping.js",
