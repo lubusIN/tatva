@@ -1,4 +1,4 @@
-<p align="center"><img src=".github/logo.svg?v=1"></p>
+<p align="center"><img height="60px" src=".github/logo.svg?v=1"></p>
 
 # Tatva
 ### A Sanskrit word, "तत्त्व", meaning "Element", is a Library of custom HTML elements.
