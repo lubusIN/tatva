@@ -1,0 +1,20 @@
+.tatva-pattern-view {
+  padding: 1rem;
+
+  .tatva-preview-card {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    border-radius: 8px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+
+    iframe {
+      width: 100%;
+      border: none;
+      display: block;
+    }
+  }
+}
