@@ -1,7 +1,7 @@
 import '../../../../src/index';
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
-function Ping4() {
+function Content() {
   return (
     <VStack
       align="center"
@@ -15,12 +15,12 @@ function Ping4() {
 }
 
 // @meta-start
-Ping4.meta = {
+Content.meta = {
   title: 'Content',
-  name: 'Ping4',
+  name: 'Content',
   category: 'Ping',
-  path: '/Ping/ping4',
+  path: '/Ping/content',
 };
 // @meta-end
 
-export default Ping4;
+export default Content;

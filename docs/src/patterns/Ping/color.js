@@ -1,7 +1,7 @@
 import '../../../../src/index';
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
-function Ping2() {
+function Color() {
   return (
    <VStack
       align="center" // horizontal
@@ -16,12 +16,12 @@ function Ping2() {
 }
 
 // @meta-start
-Ping2.meta = {
+Color.meta = {
   title: 'Color',
-  name: 'Ping2',
+  name: 'Color',
   category: 'Ping',
-  path: '/Ping/ping2',
+  path: '/Ping/color',
 };
 // @meta-end
 
-export default Ping2;
+export default Color;

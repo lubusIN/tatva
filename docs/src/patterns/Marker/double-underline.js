@@ -4,7 +4,7 @@ import {
 } from "@wordpress/components";
 import '../../../../src/index';
 
-function Marker6() {
+function DoubleUnderline() {
   return (
     <VStack
       align="center"
@@ -13,20 +13,19 @@ function Marker6() {
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
-        <tatva-marker type="strikethrough">tatva</tatva-marker>
+        <tatva-marker type="double-underline">tatva</tatva-marker>
       </Heading>
     </VStack>
-
   );
 }
 
 // @meta-start
-Marker6.meta = {
-  title: 'Strikethrough',
-  name: 'Marker6',
+DoubleUnderline.meta = {
+  title: 'Double Underline',
+  name: 'DoubleUnderline',
   category: 'Marker',
-  path: '/Marker/marker6',
+  path: '/Marker/double-underline',
 };
 // @meta-end
 
-export default Marker6;
+export default DoubleUnderline;

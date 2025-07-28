@@ -1,32 +1,31 @@
-import { 
+import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
-
- } from "@wordpress/components";
+} from "@wordpress/components";
 import '../../../../src/index';
 
-function Marker7() {
+function Circle() {
   return (
     <VStack
-      align="center" 
+      align="center"
       style={{
         height: '100vh',
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
-        <tatva-marker type="cross">tatva</tatva-marker>
+        <tatva-marker type="circle">tatva</tatva-marker>
       </Heading>
-      </VStack>
+    </VStack>
   );
 }
 
 // @meta-start
-Marker7.meta = {
-  title: 'Cross',
-  name: 'Marker7',
+Circle.meta = {
+  title: 'Circle',
+  name: 'Circle',
   category: 'Marker',
-  path: '/Marker/marker7',
+  path: '/Marker/circle',
 };
 // @meta-end
 
-export default Marker7;
+export default Circle;

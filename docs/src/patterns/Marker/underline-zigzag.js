@@ -4,7 +4,7 @@ import {
 } from "@wordpress/components";
 import '../../../../src/index';
 
-function Marker1() {
+function UnderlineZigzag() {
   return (
     <VStack
       align="center"
@@ -13,19 +13,19 @@ function Marker1() {
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
-        <tatva-marker type="circle">tatva</tatva-marker>
+        <tatva-marker type="underline-zigzag">tatva</tatva-marker>
       </Heading>
     </VStack>
   );
 }
 
 // @meta-start
-Marker1.meta = {
-  title: 'Circle',
-  name: 'Marker1',
+UnderlineZigzag.meta = {
+  title: 'Underline Zigzag',
+  name: 'UnderlineZigzag',
   category: 'Marker',
-  path: '/Marker/marker1',
+  path: '/Marker/underline-zigzag',
 };
 // @meta-end
 
-export default Marker1;
+export default UnderlineZigzag;

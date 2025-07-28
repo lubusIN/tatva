@@ -4,7 +4,7 @@ import {
 } from "@wordpress/components";
 import '../../../../src/index';
 
-function Marker8() {
+function Underline() {
   return (
     <VStack
       align="center"
@@ -13,20 +13,19 @@ function Marker8() {
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
-        <tatva-marker type="strike">tatva</tatva-marker>
+        <tatva-marker type="underline">tatva</tatva-marker>
       </Heading>
     </VStack>
-
   );
 }
 
 // @meta-start
-Marker8.meta = {
-  title: 'Strike',
-  name: 'Marker8',
+Underline.meta = {
+  title: 'Underline',
+  name: 'Underline',
   category: 'Marker',
-  path: '/Marker/marker8',
+  path: '/Marker/underline',
 };
 // @meta-end
 
-export default Marker8;
+export default Underline;

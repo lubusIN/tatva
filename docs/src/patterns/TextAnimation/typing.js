@@ -4,7 +4,7 @@ import {
 } from "@wordpress/components";
 import '../../../../src/index';
 
-function TextAnimation1() {
+function Typing() {
   return (
     <VStack
       align="center"
@@ -22,12 +22,12 @@ function TextAnimation1() {
 }
 
 // @meta-start
-TextAnimation1.meta = {
+Typing.meta = {
   title: 'Typing',
-  name: 'TextAnimation1',
+  name: 'Typing',
   category: 'TextAnimation',
-  path: '/TextAnimation/text-animation1',
+  path: '/TextAnimation/typing',
 };
 // @meta-end
 
-export default TextAnimation1;
+export default Typing;

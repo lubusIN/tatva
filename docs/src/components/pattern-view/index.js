@@ -28,15 +28,7 @@ function PatternView({ title, name, category, path, component: Pattern }) {
     }
   };
 
-  useEffect(() => {
-    if (iframeRef.current) {
-      const iframeDocument = iframeRef.current.contentWindow.document;
-      const observer = new MutationObserver(() => updateHeight());
-      observer.observe(iframeDocument.body, { childList: true, subtree: true });
-      updateHeight();
-      return () => observer.disconnect();
-    }
-  }, []);
+
 
   return (
     <VStack spacing={0} className="pattern-view">
@@ -47,8 +39,6 @@ function PatternView({ title, name, category, path, component: Pattern }) {
       <Card className="preview-card">
         <iframe
           loading="lazy"
-          seamless
-          ref={iframeRef}
           height={`${height}px`}
           src={`/?mode=embed&category=${category}&pattern=${name}`}
           title={title}

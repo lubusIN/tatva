@@ -1,25 +1,21 @@
 import '../../../../src/index';
 
-function ImageCompare3() {
+function Default() {
   return (
-    <div>
-      <tatva-image-compare
-        class="w-[400px]"
+    <div >
+    <tatva-image-compare
+        class="tatva-responsive-compare"
         before="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-4.jpg"
         after="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-3.jpg"
-        handle="rectangle"
       ></tatva-image-compare>
     </div>
   );
 }
-
-// @meta-start
-ImageCompare3.meta = {
-  title: 'Rectangle',
-  name: 'ImageCompare3',
+Default.meta = {
+  title: 'Default',
+  name: 'Default',
   category: 'ImageCompare',
-  path: '/ImageCompare/image-compare3',
+  path: '/ImageCompare/default',
 };
-// @meta-end
 
-export default ImageCompare3;
+export default Default;

@@ -1,10 +1,10 @@
 import {
   __experimentalHeading as Heading,
-  __experimentalVStack as VStack,
+  __experimentalVStack as VStack
 } from "@wordpress/components";
 import '../../../../src/index';
 
-function Marker5() {
+function Flyin() {
   return (
     <VStack
       align="center"
@@ -12,20 +12,22 @@ function Marker5() {
         height: '100vh',
         justifyContent: 'center',
       }}>
-      <Heading size={'45px'} align="center">
-        <tatva-marker type="underline-zigzag">tatva</tatva-marker>
+      <Heading size={25}>
+        <tatva-text-animation
+          animation-type="flyin"
+          words="Hello Lubus !" />
       </Heading>
     </VStack>
   );
 }
 
 // @meta-start
-Marker5.meta = {
-  title: 'Underline Zigzag',
-  name: 'Marker5',
-  category: 'Marker',
-  path: '/Marker/marker5',
+Flyin.meta = {
+  title: 'Flyin',
+  name: 'Flyin',
+  category: 'TextAnimation',
+  path: '/TextAnimation/flyin',
 };
 // @meta-end
 
-export default Marker5;
+export default Flyin;

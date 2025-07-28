@@ -1,2 +1,2 @@
-export { default as TextAnimation1} from './text-animation1';
-export { default as TextAnimation2} from './text-animation2';
+export { default as Typing} from './typing';
+export { default as Flyin} from './flyin';

@@ -1,26 +1,26 @@
 import '../../../../src/index';
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
-function Ping3() {
+function Default() {
   return (
     <VStack
-      align="center" 
+      align="center"
       style={{
         height: '100vh',
         justifyContent: 'center',
       }}>
-      <tatva-ping color="blue" size="1.2rem"></tatva-ping>
+      <tatva-ping></tatva-ping>
     </VStack>
   );
 }
 
 // @meta-start
-Ping3.meta = {
-  title: 'Size + Color',
-  name: 'Ping3',
+Default.meta = {
+  title: 'Default',
+  name: 'Default',
   category: 'Ping',
-  path: '/Ping/ping3',
+  path: '/Ping/default',
 };
 // @meta-end
 
-export default Ping3;
+export default Default;

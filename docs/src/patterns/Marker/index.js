@@ -1,13 +1,13 @@
 /**
  * Components
  */
-export { default as Marker1} from './marker1';
-export { default as Marker2} from './marker2';
-export { default as Marker3} from './marker3';
-export { default as Marker4} from './marker4';
-export { default as Marker5} from './marker5';
-export { default as Marker6} from './marker6';
-export { default as Marker7} from './marker7';
-export { default as Marker8} from './marker8';
-export { default as Marker9} from './marker9';
+export { default as Circle } from './circle';
+export { default as Curly } from './curly';
+export { default as Underline } from './underline';
+export { default as DoubleUnderline } from './double-underline';
+export { default as UnderlineZigzag } from './underline-zigzag';
+export { default as Strikethrough } from './strikethrough';
+export { default as Cross } from './cross';
+export { default as Strike } from './strike';
+export { default as Double } from './double';
 
