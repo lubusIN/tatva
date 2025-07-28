@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm';
 /**
  * internal dependencies.
  */
-import gettingStarted from "@wpui/docs/getting-started.md"
+import gettingStarted from "@tatva/docs/getting-started.md"
 
 function GettingStarted() {x
   return (

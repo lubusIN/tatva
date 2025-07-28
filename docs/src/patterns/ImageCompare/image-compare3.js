@@ -1,4 +1,4 @@
-import '../../Tatva';
+import '../../../../src/index';
 
 function ImageCompare3() {
   return (

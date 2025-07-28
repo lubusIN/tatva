@@ -27,7 +27,7 @@ const Year = date.getFullYear();
  */
 function Footer() {
     return (
-        <Card className="wpui-footer" size="large" isBorderless>
+        <Card className="tatva-footer" size="large" isBorderless>
             <CardBody>
                 <VStack className="footer-content" alignment="center" spacing={4}>
                     <HStack expanded={false}>
@@ -37,16 +37,16 @@ function Footer() {
                          Tatva is crafted with ❤️ by the team at LUBUS
                         Let’s create something meaningful together. 🌱
                     </Text>
-                    <Button className='footer_btn' href='https://github.com/lubusIN/wpui/discussions'>
+                    <Button className='footer_btn' href='https://github.com/lubusIN/tatva/discussions'>
                         Join discussion
                     </Button>
                 </VStack>
             </CardBody>
             <CardDivider style={{ backgroundColor: '#ffffff4f' }} />
             <CardBody style={{ padding: '20px' }}>
-                <HStack className='wpui-footer-bottom' wrap justify='center'>
-                    <Text className='wpui-footer-bottom-left' color='white'>&copy; {Year} WPUI. All Rights Reserved.</Text>
-                    <HStack expanded={false} spacing={1} className='wpui-footer-bottom-right'>
+                <HStack className='tatva-footer-bottom' wrap justify='center'>
+                    <Text className='tatva-footer-bottom-left' color='white'>&copy; {Year} tatva. All Rights Reserved.</Text>
+                    <HStack expanded={false} spacing={1} className='tatva-footer-bottom-right'>
                         <Text color='white'>Made in India</Text>
                         <Flag />
                     </HStack>

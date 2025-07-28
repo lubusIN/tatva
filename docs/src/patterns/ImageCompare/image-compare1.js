@@ -1,5 +1,4 @@
-import '../../Tatva';
-import { __experimentalView as View , Card} from "@wordpress/components";
+import '../../../../src/index';
 
 function ImageCompare1() {
   return (

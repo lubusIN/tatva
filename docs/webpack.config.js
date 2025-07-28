@@ -17,7 +17,7 @@ module.exports = {
   resolve: {
     ...defaultConfig.resolve,
     alias: {
-      '@wpui': resolve(__dirname, 'src/'),
+      '@tatva': resolve(__dirname, 'src/'),
     },
   },
 };

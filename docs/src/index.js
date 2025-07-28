@@ -13,9 +13,9 @@ import '@wordpress/components/build-style/style.css';
 /**
  * Internal dependencies.
  */
-import '@wpui/app.scss';
-import App from '@wpui/app';
-import * as Patterns from '@wpui/patterns'
+import '@tatva/app.scss';
+import App from '@tatva/app';
+import * as Patterns from '@tatva/patterns'
 
 const queryParams = new URLSearchParams(window.location.search)
 const mode = queryParams.get("mode");
@@ -29,7 +29,7 @@ if (mode) {
     const embedStyle = category !== 'Shells' ? { marginTop: '1px', marginLeft: '1px', marginRight: '1px' } : {};
 
     root.render(
-        <div className="wpui-pattern-embed" style={embedStyle}>
+        <div className="tatva-pattern-embed" style={embedStyle}>
             <Pattern />
         </div>
     )

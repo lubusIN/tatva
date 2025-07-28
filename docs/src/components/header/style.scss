@@ -1,4 +1,4 @@
-.wpui-header {
+.tatva-header {
     padding: 12px 20px;
     background-color: #FEF2F2 !important;
     position: sticky !important;
@@ -7,7 +7,7 @@
     z-index: 10;
 }
 
-.wpui_container .header_cont {
+.tatva_container .header_cont {
     width: 1200px;
     margin: auto;
 }
@@ -29,11 +29,11 @@
 }
 
 @media only screen and (max-width:480px) {
-    .wpui-header-button .components-button {
+    .tatva-header-button .components-button {
         font-size: 10px;
     }
 
-    .wpui-site-logo svg {
+    .tatva-site-logo svg {
         width: 120px;
     }
 }

@@ -6,9 +6,9 @@ import { Routes, Route } from "react-router-dom";
 /**
  * Internal dependencies.
  */
-import * as categories from '@wpui/categories';
-import { Home, Patterns, GettingStarted } from '@wpui/pages'
-import { Footer, Header, ScrollToTop } from '@wpui/components';
+import * as categories from '@tatva/categories';
+import { Home, Patterns, GettingStarted } from '@tatva/pages'
+import { Footer, Header, ScrollToTop } from '@tatva/components';
 
 /**
  * Render App
@@ -16,7 +16,7 @@ import { Footer, Header, ScrollToTop } from '@wpui/components';
 function App() {
     return (
         <ScrollToTop>
-            <div className='wpui_container'>
+            <div className='tatva_container'>
                 <Header />
 
                 <Routes>

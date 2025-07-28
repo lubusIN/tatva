@@ -21,7 +21,7 @@ import {
 /**
  * Internal dependencies.
  */
-import PatternViewTatva from "@wpui/components/tatva-pattern-view";
+import PatternView from "@tatva/components/pattern-view";
 
 /**
  * Render Patterns Page
@@ -31,8 +31,8 @@ function Patterns({ title, patterns }) {
     const categoryTitle = patterns?.[Object.keys(patterns)[0]]?.meta?.category ?? "Tatva UI";
 
     return (
-        <VStack className="wpui-com-page" spacing={8}>
-            <HStack className="wpui-back-button" alignment="left" spacing={0}>
+        <VStack className="tatva-com-page" spacing={8}>
+            <HStack className="tatva-back-button" alignment="left" spacing={0}>
                 <Link to="/" style={{ boxShadow: 'none', textDecoration: 'none' }}>
                     <div>
                         <span className="home" style={{ display: "flex" }}>
@@ -56,7 +56,7 @@ function Patterns({ title, patterns }) {
                     const { title, name, category, path } = Pattern.meta;
                     return (
                         <div key={index}>
-                            <PatternViewTatva
+                            <PatternView
                                 title={title}
                                 name={name}
                                 category={category}

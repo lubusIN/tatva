@@ -2,12 +2,12 @@ body {
     font-family: Inter, sans-serif;
     margin: 0;
 }
-.wpui_container {
+.tatva_container {
     background-color: #FEF2F2;
     width: 100%; 
 }
 
-.wpui-hero-Section {
+.tatva-hero-Section {
     background-image: url(img/banner.png);
     background-repeat: no-repeat;
     background-size: cover;
@@ -15,19 +15,19 @@ body {
     border-radius: 0% !important;
 }
 
-.wpui-hero-cont {
+.tatva-hero-cont {
     margin: auto 0 auto auto;
     width: 50%;
 }
-.wpui-com-page,
-.wpui-lcont {
+.tatva-com-page,
+.tatva-lcont {
     margin: 0 auto;
     max-width: 1200px;
     padding: 40px 20px;
     background-color: #FEF2F2;
 }
 
-div.wpui-column {
+div.tatva-column {
     border-radius: 10px;
     box-shadow: none !important;
     height: auto;
@@ -37,18 +37,18 @@ div.wpui-column {
     padding: 6px !important
 }
 
-.wpui-back-button span,
-.wpui-back-button button {
+.tatva-back-button span,
+.tatva-back-button button {
     color: #535353;
     font-size: .875rem;
     font-weight: 500;
 }
 
-.wpui-back-button .home:hover {
+.tatva-back-button .home:hover {
     color: #3858e9;
 }
 
-.wpui-hero-cta {
+.tatva-hero-cta {
     .components-button {
         padding: 20px !important;
         color: white !important;
@@ -80,8 +80,8 @@ pre {
 
 @media only screen and (max-width:820px) {
 
-    .wpui-com-page,
-    .wpui-lcont,
+    .tatva-com-page,
+    .tatva-lcont,
     .getting_started {
         max-width: 100% !important;
 
@@ -91,12 +91,12 @@ pre {
         overflow: scroll;
     }
 
-    .wpui-footer .components-card__body .footer-content,
-    div.wpui-hero-cont {
+    .tatva-footer .components-card__body .footer-content,
+    div.tatva-hero-cont {
         width: 100% !important
     }
 
-    .wpui-variation-card {
+    .tatva-variation-card {
         padding: 35px 20px;
     }
 }

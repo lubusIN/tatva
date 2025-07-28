@@ -36,7 +36,7 @@ function CopyButton({ content }) {
 
     return (
         <Button
-            className='wpui-copy'
+            className='tatva-copy'
             icon={hasCopied ? check : copy}
             onClick={handleCopyClick}
             ref={useCopyToClipboard(content)}

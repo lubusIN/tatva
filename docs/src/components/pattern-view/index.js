@@ -16,7 +16,7 @@ import {
 import { PatternCode } from "../index";
 import './style.scss';
 
-function PatternViewTatva({ title, name, category, path, component: Pattern }) {
+function PatternView({ title, name, category, path, component: Pattern }) {
   const iframeRef = useRef(null);
   const [height, setHeight] = useState(380);
 
@@ -39,12 +39,12 @@ function PatternViewTatva({ title, name, category, path, component: Pattern }) {
   }, []);
 
   return (
-    <VStack spacing={0} className="tatva-pattern-view">
-      <Heading level={2} weight={600} align="center" className="tatva-heading">
+    <VStack spacing={0} className="pattern-view">
+      <Heading level={2} weight={600} align="center" className="heading">
         {title}
       </Heading>
 
-      <Card className="tatva-preview-card">
+      <Card className="preview-card">
         <iframe
           loading="lazy"
           seamless
@@ -59,4 +59,4 @@ function PatternViewTatva({ title, name, category, path, component: Pattern }) {
   );
 }
 
-export default PatternViewTatva;
+export default PatternView;

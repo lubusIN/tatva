@@ -25,7 +25,7 @@ import Logo from '../logo';
 function Header() {
     const { pathname } = useLocation();
     const [showButtons, setShowButton] = useState('none');
-    const headerClass = pathname === '/' ? 'wpui-header' : 'not-sticky';
+    const headerClass = pathname === '/' ? 'tatva-header' : 'not-sticky';
 
 useEffect(() => {
     const observer = new IntersectionObserver(entries => {
@@ -36,7 +36,7 @@ useEffect(() => {
     if (pathname === '/') {
         setShowButton('none');
 
-        const target = document.querySelector('.wpui-hero-card');
+        const target = document.querySelector('.tatva-hero-card');
 
         // 🛑 Add this null check
         if (target) {
@@ -55,10 +55,10 @@ useEffect(() => {
     return (
         <Card className={headerClass} isBorderless>
             <HStack className="header_cont">
-                <Link to={"/"} className='wpui-site-logo'>
+                <Link to={"/"} className='tatva-site-logo'>
                     <Logo />
                 </Link>
-                <HStack expanded={false} className={`wpui-header-button ${showButtons}`}>
+                <HStack expanded={false} className={`tatva-header-button ${showButtons}`}>
                     <Link  to="getting-started">
                         <Button variant="primary">
                             Getting started
@@ -66,7 +66,7 @@ useEffect(() => {
                     </Link>
                     <Button
                         style={{ border: '1.5px solid #241717ff', color:'#241717ff'}}
-                        href='https://github.com/lubusIN/wpui/discussions'
+                        href='https://github.com/lubusIN/tatva/discussions'
                     >
                         Join discussion
                     </Button>

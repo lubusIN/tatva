@@ -9,6 +9,6 @@ export { default as CopyButton } from './copy-button';
 export { default as ContentLoader } from './content-loader';
 export { default as ScrollToTop } from './scroll-to-top';
 export { default as CategoryCard } from './category-card';
-export { default as PatternViewTatva } from './tatva-pattern-view';
+export { default as PatternView } from './pattern-view';
 export { default as PatternCode } from './pattern-code';
 export { default as Flag } from './flag';

@@ -3,7 +3,7 @@ import {
   __experimentalVStack as VStack,
 
  } from "@wordpress/components";
-import '../../Tatva';
+import '../../../../src/index';
 
 function Marker7() {
   return (

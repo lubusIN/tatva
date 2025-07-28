@@ -10,8 +10,8 @@ import {
 /**
  * Internal dependencies.
  */
-import { Banner, CategoryCard } from "@wpui/components";
-import * as categories from '@wpui/categories';
+import { Banner, CategoryCard } from "@tatva/components";
+import * as categories from '@tatva/categories';
 
 /**
  * Render Component Menu
@@ -21,10 +21,10 @@ function Home() {
     return (
         <>
             <Banner />
-            <VStack className="wpui-lcont" spacing={5}>
-                <Heading className="wpui-heading">Web Components</Heading>
+            <VStack className="tatva-lcont" spacing={5}>
+                <Heading className="tatva-heading">Web Components</Heading>
                 <Grid
-                    className="wpui-column"
+                    className="tatva-column"
                     alignment="bottom"
                     columns={[1, 2, 3]}
                     columnGap={30}

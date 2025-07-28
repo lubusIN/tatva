@@ -2,7 +2,7 @@ import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
 } from "@wordpress/components";
-import '../../Tatva';
+import '../../../../src/index';
 
 function Marker9() {
   return (

@@ -26,11 +26,11 @@ import './style.scss';
  */
 function Banner() {
     return (
-        <Card className="wpui-hero-Section" isBorderless>
-            <CardBody className="wpui-hero-cont">
-                <VStack spacing={12} className='wpui-hero-card'>
+        <Card className="tatva-hero-Section" isBorderless>
+            <CardBody className="tatva-hero-cont">
+                <VStack spacing={12} className='tatva-hero-card'>
                     <VStack spacing={5}>
-                        <Text className='wpui-lubus' size={15} align="left" color="white">Custom elements from the house of lubus</Text>
+                        <Text className='tatva-lubus' size={15} align="left" color="white">Custom elements from the house of lubus</Text>
                         <Heading size={40} align="left" color="white" lineHeight={1.3} weight={500}>
                             Craft blazing fast UI with Tatva custom elements.
 
@@ -39,7 +39,7 @@ function Banner() {
                             Welcome to the era of custom HTML elements with Tatva.
                         </Text>
                     </VStack>
-                    <HStack className='wpui-hero-cta' alignment="center" justify="left">
+                    <HStack className='tatva-hero-cta' alignment="center" justify="left">
                         <Link to="getting-started">
                             <Button variant="primary">
                                 Getting started
@@ -48,7 +48,7 @@ function Banner() {
                         <Button
                             variant="secondary"
                             style={{ borderColor: '#ffffff' }}
-                            href='https://github.com/lubusIN/wpui/discussions'
+                            href='https://github.com/lubusIN/tatva/discussions'
                         >
                             Join discussion
                         </Button>

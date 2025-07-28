@@ -1,4 +1,4 @@
-import '../../Tatva';
+import '../../../../src/index';
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
 function Ping1() {

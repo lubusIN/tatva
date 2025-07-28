@@ -23,10 +23,10 @@ import './style.scss'
  */
 function CategoryCard({ thumbnail: Thumbnail, title, path }) {
     return (
-        <VStack className="wpui-preview">
-            <Link className="wpui-card-link" to={path}>
+        <VStack className="tatva-preview">
+            <Link className="tatva-card-link" to={path}>
                 <VStack>
-                    <Card className="wpui-card-preview" size="large" isBorderless >
+                    <Card className="tatva-card-preview" size="large" isBorderless >
                         <Thumbnail />
                     </Card>
                     <VStack spacing={0}>
