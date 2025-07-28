@@ -9,23 +9,23 @@ function Curly() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
+        {/* @code-start */}
         <tatva-marker type="curly">tatva</tatva-marker>
+        {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-// @meta-start
 Curly.meta = {
   title: 'Curly',
   name: 'Curly',
   category: 'Marker',
-  path: '/Marker/Curly',
+  path: '/Marker/curly',
 };
-// @meta-end
 
 export default Curly;

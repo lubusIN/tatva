@@ -9,25 +9,25 @@ function Flyin() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={25}>
+        {/* @code-start */}
         <tatva-text-animation
           animation-type="flyin"
           words="Hello Lubus !" />
+        {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-// @meta-start
 Flyin.meta = {
   title: 'Flyin',
   name: 'Flyin',
   category: 'TextAnimation',
   path: '/TextAnimation/flyin',
 };
-// @meta-end
 
 export default Flyin;

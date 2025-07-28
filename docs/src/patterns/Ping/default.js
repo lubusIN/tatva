@@ -6,21 +6,21 @@ function Default() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
+      {/* @code-start */}
       <tatva-ping></tatva-ping>
+      {/* @code-end */}
     </VStack>
   );
 }
 
-// @meta-start
 Default.meta = {
   title: 'Default',
   name: 'Default',
   category: 'Ping',
   path: '/Ping/default',
 };
-// @meta-end
 
 export default Default;

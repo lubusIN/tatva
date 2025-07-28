@@ -1,14 +1,17 @@
 /**
  * External dependencies.
  */
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 /**
  * WordPress dependencies.
  */
 import {
   Card,
   __experimentalVStack as VStack,
-  __experimentalHeading as Heading
+  __experimentalHStack as HStack,
+  __experimentalHeading as Heading,
+  __experimentalToggleGroupControl as ToggleGroupControl,
+  __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 /**
  * Internal dependencies.
@@ -16,19 +19,8 @@ import {
 import { PatternCode } from "../index";
 import './style.scss';
 
-function PatternView({ title, name, category, path, component: Pattern }) {
-  const iframeRef = useRef(null);
-  const [height, setHeight] = useState(380);
-
-  const updateHeight = () => {
-    const iframeBody = iframeRef.current?.contentWindow?.document.body;
-    if (iframeBody) {
-      const bufferPx = category === 'Shells' ? 0 : 3;
-      setHeight(iframeBody.scrollHeight + bufferPx);
-    }
-  };
-
-
+function PatternView({ title, path, component: Pattern }) {
+  const [view, setView] = useState("preview");
 
   return (
     <VStack spacing={0} className="pattern-view">
@@ -36,14 +28,29 @@ function PatternView({ title, name, category, path, component: Pattern }) {
         {title}
       </Heading>
 
-      <Card className="preview-card">
-        <iframe
-          loading="lazy"
-          height={`${height}px`}
-          src={`/?mode=embed&category=${category}&pattern=${name}`}
-          title={title}
-        />
-              <PatternCode path={path} />
+      <HStack justify="right">
+        <ToggleGroupControl
+          className="tatva-view-toggle"
+          hideLabelFromVision
+          value={view}
+          onChange={(value) => setView(value)}
+        >
+          {["Preview", "Code"].map((label, index) => (
+            <ToggleGroupControlOption
+              key={index}
+              value={label.toLowerCase()}
+              label={label}
+              className={`tatva-toggle-button ${
+                view === label.toLowerCase() ? "active" : ""
+              }`}
+            />
+          ))}
+        </ToggleGroupControl>
+      </HStack>
+
+      {/* Single Card- toggle inner content */}
+      <Card className="variation-card">
+        {view === "preview" ? <Pattern /> : <PatternCode path={path} />}
       </Card>
     </VStack>
   );

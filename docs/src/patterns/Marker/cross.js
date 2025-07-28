@@ -1,32 +1,32 @@
-import { 
+import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
 
- } from "@wordpress/components";
+} from "@wordpress/components";
 import '../../../../src/index';
 
 function Cross() {
   return (
     <VStack
-      align="center" 
+      align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
+        {/* @code-start */}
         <tatva-marker type="cross">tatva</tatva-marker>
+        {/* @code-end */}
       </Heading>
-      </VStack>
+    </VStack>
   );
 }
 
-// @meta-start
 Cross.meta = {
   title: 'Cross',
   name: 'Cross',
   category: 'Marker',
   path: '/Marker/cross',
 };
-// @meta-end
 
 export default Cross;

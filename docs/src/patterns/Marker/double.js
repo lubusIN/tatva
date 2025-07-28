@@ -9,24 +9,24 @@ function Double() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
+        {/* @code-start */}
         <tatva-marker type="double">tatva</tatva-marker>
+        {/* @code-end */}
       </Heading>
     </VStack>
 
   );
 }
 
-// @meta-start
 Double.meta = {
   title: 'Double',
   name: 'Double',
   category: 'Marker',
   path: '/Marker/double',
 };
-// @meta-end
 
 export default Double;

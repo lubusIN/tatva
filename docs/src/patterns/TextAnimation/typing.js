@@ -9,25 +9,25 @@ function Typing() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={25}>
+        {/* @code-start */}
         <tatva-text-animation
           animation-type="typing"
           words='["Hello Lubus", "Welcome to Tatva"]' />
+        {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-// @meta-start
 Typing.meta = {
   title: 'Typing',
   name: 'Typing',
   category: 'TextAnimation',
   path: '/TextAnimation/typing',
 };
-// @meta-end
 
 export default Typing;

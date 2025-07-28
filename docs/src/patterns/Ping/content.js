@@ -6,21 +6,23 @@ function Content() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
-      <tatva-ping class="flex" color="green" size="1.4rem">New</tatva-ping>
+      {/* @code-start */}
+      <tatva-ping class="flex" color="green" size="1.4rem">
+        New
+      </tatva-ping>
+      {/* @code-end */}
     </VStack>
   );
 }
 
-// @meta-start
 Content.meta = {
   title: 'Content',
   name: 'Content',
   category: 'Ping',
   path: '/Ping/content',
 };
-// @meta-end
 
 export default Content;

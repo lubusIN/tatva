@@ -9,23 +9,23 @@ function Circle() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
+        {/* @code-start */}
         <tatva-marker type="circle">tatva</tatva-marker>
+        {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-// @meta-start
 Circle.meta = {
   title: 'Circle',
   name: 'Circle',
   category: 'Marker',
   path: '/Marker/circle',
 };
-// @meta-end
 
 export default Circle;

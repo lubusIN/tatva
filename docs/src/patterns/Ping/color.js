@@ -3,25 +3,25 @@ import { __experimentalVStack as VStack } from "@wordpress/components";
 
 function Color() {
   return (
-   <VStack
+    <VStack
       align="center" // horizontal
       style={{
-        height: '100vh',              
+        height: '100%',
         justifyContent: 'center',
       }}
     >
+      {/* @code-start */}
       <tatva-ping color="red"></tatva-ping>
+      {/* @code-end */}
     </VStack>
   );
 }
 
-// @meta-start
 Color.meta = {
   title: 'Color',
   name: 'Color',
   category: 'Ping',
   path: '/Ping/color',
 };
-// @meta-end
 
 export default Color;

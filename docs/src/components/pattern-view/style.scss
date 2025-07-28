@@ -1,20 +1,39 @@
-.pattern-view {
-  padding: 1rem;
+.tatva-view-toggle {
+    color: #535353;
+    font-size: .875rem;
+    font-weight: 500;
+    padding: 5px !important;
+    background-color: #f6f6f6 !important;
+    border: none !important;
+    border-radius: 6px !important;
 
-  .preview-card {
-    width: 100%;
-    height: auto;
-    background: #fff;
-    border-radius: 8px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    overflow: hidden;
-    margin-bottom: 0;
-
-    iframe {
-      width: 100%;
-      border: none;
-      display: block;
+    [role="presentation"] {
+        background-color: white;
+        transform: none !important;
     }
-  }
+
+    button[data-active-item] {
+        padding: 10px 15px;
+        fill: #5b5b5b;
+    }
+
+    &:focus-within {
+        box-shadow: none !important;
+        border: none;
+    }
+
+    .tatva-toggle-button {
+        border-radius: 6px !important;
+        font-weight: 600;
+
+        &.active {
+            color: black;
+            box-shadow: rgb(207, 207, 207) 0px 0px 3px;
+        }
+    }
+}
+
+.variation-card {
+  height: 400px;
+  width: 100%;
 }

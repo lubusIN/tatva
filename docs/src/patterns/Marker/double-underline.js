@@ -9,23 +9,23 @@ function DoubleUnderline() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
+        {/* @code-start */}
         <tatva-marker type="double-underline">tatva</tatva-marker>
+        {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-// @meta-start
 DoubleUnderline.meta = {
   title: 'Double Underline',
   name: 'DoubleUnderline',
   category: 'Marker',
   path: '/Marker/double-underline',
 };
-// @meta-end
 
 export default DoubleUnderline;

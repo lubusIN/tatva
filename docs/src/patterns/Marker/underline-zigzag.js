@@ -9,23 +9,23 @@ function UnderlineZigzag() {
     <VStack
       align="center"
       style={{
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
       }}>
       <Heading size={'45px'} align="center">
+        {/* @code-start */}
         <tatva-marker type="underline-zigzag">tatva</tatva-marker>
+        {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-// @meta-start
 UnderlineZigzag.meta = {
   title: 'Underline Zigzag',
   name: 'UnderlineZigzag',
   category: 'Marker',
   path: '/Marker/underline-zigzag',
 };
-// @meta-end
 
 export default UnderlineZigzag;

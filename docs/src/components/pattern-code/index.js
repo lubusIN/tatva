@@ -18,87 +18,67 @@ import { ContentLoader, CopyButton } from '../index';
  * Render Pattern Code
  */
 function PatternCode({ path, style }) {
-    const [isLoading, setIsLoading] = useState(false);
-    const [patternCode, setPatternCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [patternCode, setPatternCode] = useState('');
 
-    useEffect(() => {
-        setIsLoading(true);
-        fetchCode(path);
-    }, [])
+  useEffect(() => {
+    setIsLoading(true);
+    fetchCode(path);
+  }, [])
 
- const fetchCode = async (path) => {
+  const fetchCode = async (path) => {
     try {
-        const content = await import(
-            /* webpackPrefetch: true */
-            `!!raw-loader!/src/patterns${path}.js`
-        ).then((pattern) => pattern.default);
+      const content = await import(
+        /* webpackPrefetch: true */
+        `!!raw-loader!/src/patterns${path}.js`
+      ).then((pattern) => pattern.default);
 
-        // Remove @meta
-        const codeWithoutMeta = content.replace(
-            /^\s*\/\/ @meta-start[\s\S]*?\/\/ @meta-end\s*$/gm,
-            ''
-        );
+      // Match content inside JSX-style comment block
+      const codeBlockMatch = content.match(
+        /\{\s*\/\*\s*@code-start\s*\*\/\s*\}([\s\S]*?)\{\s*\/\*\s*@code-end\s*\*\/\s*\}/
+      );
 
-        const lines = codeWithoutMeta.split('\n');
-        let capturing = false;
-        let tagBlock = [];
+      const finalCode = codeBlockMatch
+        ? codeBlockMatch[1].trim()
+        : '// No @code block found';
 
-        for (let line of lines) {
-            if (!capturing && line.trim().startsWith('<tatva-')) {
-                capturing = true;
-            }
+      setPatternCode(finalCode);
 
-            if (capturing) {
-                tagBlock.push(line);
-                if (line.includes('/>') || line.includes('</tatva-')) {
-                    // Stop capturing when the tag ends
-                    break;
-                }
-            }
-        }
-        const finalCode = tagBlock.length
-            ? tagBlock.join('\n')
-            : '// No tatva-* tag found';
-        setPatternCode(finalCode.trim());
-        
     } catch (error) {
-        setPatternCode('// Error loading pattern code');
+      setPatternCode('// Error loading pattern code');
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-};
+  };
 
-    return (
-        <VStack
-          style={{
-            position: 'relative',
-            width: '100%',
-            overflowY: 'auto',
-            overflowX: 'auto',
-            ...style,
-          }}
-        >
-          {isLoading ? (
-            <ContentLoader />
-          ) : (
-            <>
-              <SyntaxHighlighter
-                language="jsx"
-                style={coldarkDark}
-                customStyle={{
-                  fontSize: '0.85rem',
-                  margin: 0,
-                }}
-                wrapLines={true}
-                wrapLongLines={true}
-              >
-                {patternCode}
-              </SyntaxHighlighter>
-              <CopyButton content={patternCode} />
-            </>
-          )}
-        </VStack>
-    );
+  return (
+    <VStack
+      style={{
+        position: 'relative',
+        width: '100%',
+        ...style,
+      }}
+    >
+      {isLoading ? (
+        <ContentLoader />
+      ) : (
+        <>
+          <SyntaxHighlighter
+            language="jsx"
+            style={coldarkDark}
+            customStyle={{
+              fontSize: '0.85rem',
+              textAlign: 'left',
+            }}
+            wrapLongLines={true}
+          >
+            {patternCode}
+          </SyntaxHighlighter>
+          <CopyButton content={patternCode} />
+        </>
+      )}
+    </VStack>
+  );
 }
 
 export default PatternCode;
