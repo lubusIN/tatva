@@ -2,9 +2,9 @@ import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
 } from "@wordpress/components";
-import '../../../../src/index';
+import '../../../elements';
 
-function Circle() {
+function UnderlineZigzag() {
   return (
     <VStack
       align="center"
@@ -14,18 +14,18 @@ function Circle() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="circle">tatva</tatva-marker>
+        <tatva-marker type="underline-zigzag">tatva</tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-Circle.meta = {
-  title: 'Circle',
-  name: 'Circle',
+UnderlineZigzag.meta = {
+  title: 'Underline Zigzag',
+  name: 'UnderlineZigzag',
   category: 'Marker',
-  path: '/Marker/circle',
+  path: '/Marker/underline-zigzag',
 };
 
-export default Circle;
+export default UnderlineZigzag;

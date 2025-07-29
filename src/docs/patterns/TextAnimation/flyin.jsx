@@ -2,9 +2,9 @@ import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack
 } from "@wordpress/components";
-import '../../../../src/index';
+import '../../../elements';
 
-function Typing() {
+function Flyin() {
   return (
     <VStack
       align="center"
@@ -15,19 +15,19 @@ function Typing() {
       <Heading size={25}>
         {/* @code-start */}
         <tatva-text-animation
-          animation-type="typing"
-          words='["Hello Lubus", "Welcome to Tatva"]' />
+          animation-type="flyin"
+          words="Hello Lubus !" />
         {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-Typing.meta = {
-  title: 'Typing',
-  name: 'Typing',
+Flyin.meta = {
+  title: 'Flyin',
+  name: 'Flyin',
   category: 'TextAnimation',
-  path: '/TextAnimation/typing',
+  path: '/TextAnimation/flyin',
 };
 
-export default Typing;
+export default Flyin;

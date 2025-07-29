@@ -1,24 +1,24 @@
-import '../../../../src/index';
+import '../../../elements';
 
-function Default() {
+function Arrow() {
   return (
     <div>
       {/* @code-start */}
       <tatva-image-compare
-        class="tatva-responsive-compare"
         before="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-4.jpg"
         after="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-3.jpg"
+        handle="arrow"
       ></tatva-image-compare>
       {/* @code-end */}
     </div>
   );
 }
 
-Default.meta = {
-  title: 'Default Handle',
-  name: 'Default',
+Arrow.meta = {
+  title: 'Arrow Handle',
+  name: 'Arrow',
   category: 'ImageCompare',
-  path: '/ImageCompare/default',
+  path: '/ImageCompare/arrow',
 };
 
-export default Default;
+export default Arrow;

@@ -1,11 +1,10 @@
 import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
-
 } from "@wordpress/components";
-import '../../../../src/index';
+import '../../../elements';
 
-function Cross() {
+function DoubleUnderline() {
   return (
     <VStack
       align="center"
@@ -15,18 +14,18 @@ function Cross() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="cross">tatva</tatva-marker>
+        <tatva-marker type="double-underline">tatva</tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>
   );
 }
 
-Cross.meta = {
-  title: 'Cross',
-  name: 'Cross',
+DoubleUnderline.meta = {
+  title: 'Double Underline',
+  name: 'DoubleUnderline',
   category: 'Marker',
-  path: '/Marker/cross',
+  path: '/Marker/double-underline',
 };
 
-export default Cross;
+export default DoubleUnderline;

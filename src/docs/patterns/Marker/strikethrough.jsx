@@ -2,9 +2,9 @@ import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
 } from "@wordpress/components";
-import '../../../../src/index';
+import '../../../elements';
 
-function DoubleUnderline() {
+function Strikethrough() {
   return (
     <VStack
       align="center"
@@ -14,18 +14,19 @@ function DoubleUnderline() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="double-underline">tatva</tatva-marker>
+        <tatva-marker type="strikethrough">tatva</tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>
+
   );
 }
 
-DoubleUnderline.meta = {
-  title: 'Double Underline',
-  name: 'DoubleUnderline',
+Strikethrough.meta = {
+  title: 'Strikethrough',
+  name: 'Strikethrough',
   category: 'Marker',
-  path: '/Marker/double-underline',
+  path: '/Marker/strikethrough',
 };
 
-export default DoubleUnderline;
+export default Strikethrough;

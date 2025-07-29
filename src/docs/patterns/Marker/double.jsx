@@ -2,9 +2,9 @@ import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
 } from "@wordpress/components";
-import '../../../../src/index';
+import '../../../elements';
 
-function Strike() {
+function Double() {
   return (
     <VStack
       align="center"
@@ -14,7 +14,7 @@ function Strike() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="strike">tatva</tatva-marker>
+        <tatva-marker type="double">tatva</tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>
@@ -22,11 +22,11 @@ function Strike() {
   );
 }
 
-Strike.meta = {
-  title: 'Strike',
-  name: 'Strike',
+Double.meta = {
+  title: 'Double',
+  name: 'Double',
   category: 'Marker',
-  path: '/Marker/strike',
+  path: '/Marker/double',
 };
 
-export default Strike;
+export default Double;

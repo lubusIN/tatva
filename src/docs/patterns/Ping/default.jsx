@@ -1,7 +1,7 @@
-import '../../../../src/index';
+import '../../../elements';
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
-function Content() {
+function Default() {
   return (
     <VStack
       align="center"
@@ -10,19 +10,17 @@ function Content() {
         justifyContent: 'center',
       }}>
       {/* @code-start */}
-      <tatva-ping class="flex" color="green" size="1.4rem">
-        New
-      </tatva-ping>
+      <tatva-ping></tatva-ping>
       {/* @code-end */}
     </VStack>
   );
 }
 
-Content.meta = {
-  title: 'Content',
-  name: 'Content',
+Default.meta = {
+  title: 'Default',
+  name: 'Default',
   category: 'Ping',
-  path: '/Ping/content',
+  path: '/Ping/default',
 };
 
-export default Content;
+export default Default;
