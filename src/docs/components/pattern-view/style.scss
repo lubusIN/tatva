@@ -17,9 +17,13 @@
         fill: #5b5b5b;
     }
 
+    &::before {
+        background: white !important;
+    }
+
     &:focus-within {
         box-shadow: none !important;
-        border: none;
+        border: none;   
     }
 
     .tatva-toggle-button {
