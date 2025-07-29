@@ -33,11 +33,7 @@
   },
   "homepage": "https://github.com/lubusIN/tatva#readme",
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "autoprefixer": "^10.2.5",
     "eslint": "^7.26.0",
-    "postcss": "^8.2.15",
-    "tailwindcss": "^4.1.11",
     "vite": "^7.0.5",
     "vite-plugin-static-copy": "^3.1.1"
   },
