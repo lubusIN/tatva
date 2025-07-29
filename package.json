@@ -15,7 +15,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -33,15 +34,26 @@
   },
   "homepage": "https://github.com/lubusIN/tatva#readme",
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "autoprefixer": "^10.2.5",
+    "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^7.26.0",
-    "postcss": "^8.2.15",
-    "tailwindcss": "^4.1.11",
     "vite": "^7.0.5",
     "vite-plugin-static-copy": "^3.1.1"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
+  },
+  "dependencies": {
+    "@wordpress/components": "^30.0.0",
+    "@wordpress/compose": "^7.27.0",
+    "@wordpress/icons": "^10.27.0",
+    "@wordpress/scripts": "^30.20.0",
+    "markdown": "^0.5.0",
+    "react": "^19.1.1",
+    "react-content-loader": "^7.1.1",
+    "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.7.1",
+    "react-syntax-highlighter": "^15.6.1",
+    "remark-gfm": "^4.0.1"
   }
 }
