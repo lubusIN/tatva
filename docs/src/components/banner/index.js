@@ -1,0 +1,62 @@
+/**
+ * External dependencies.
+ */
+import { Link } from "react-router-dom";
+
+/**
+ * WordPress dependencies.
+ */
+import {
+    Card,
+    Button,
+    CardBody,
+    __experimentalText as Text,
+    __experimentalHStack as HStack,
+    __experimentalVStack as VStack,
+    __experimentalHeading as Heading,
+} from "@wordpress/components";
+
+/**
+ * Internal dependencies.
+ */
+import './style.scss';
+
+/**
+ * Render Banner
+ */
+function Banner() {
+    return (
+        <Card className="tatva-hero-Section" isBorderless>
+            <CardBody className="tatva-hero-cont">
+                <VStack spacing={12} className='tatva-hero-card'>
+                    <VStack spacing={5}>
+                        <Text className='tatva-lubus' size={15} align="left" color="white">From the house of LUBUS</Text>
+                        <Heading size={40} align="left" color="white" lineHeight={1.3} weight={500}>
+                            Craft blazing fast UI with Tatva custom elements.
+
+                        </Heading>
+                        <Text size={16} align="left" color="white" lineHeight={1.5}>
+                            Welcome to the era of custom HTML elements with Tatva.
+                        </Text>
+                    </VStack>
+                    <HStack className='tatva-hero-cta' alignment="center" justify="left">
+                        <Link to="getting-started">
+                            <Button variant="primary" style={{ backgroundColor: 'crimson' }}>
+                                Getting started
+                            </Button>
+                        </Link>
+                        <Button
+                            variant="secondary"
+                            style={{ borderColor: '#ffffff' }}
+                            href='https://github.com/lubusIN/tatva/discussions'
+                        >
+                            Join discussion
+                        </Button>
+                    </HStack>
+                </VStack>
+            </CardBody>
+        </Card>
+    );
+}
+
+export default Banner;
