@@ -36,7 +36,7 @@ function Home() {
                             return (
                                 <CategoryCard
                                     key={`${index}-${path}`}
-                                    thumbnail={category}
+                                    thumbnail={category.meta.patterns?.[Object.keys(category.meta.patterns)[0]]}                
                                     title={title}
                                     path={path}
                                     patterns={patterns}

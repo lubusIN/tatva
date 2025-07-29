@@ -15,7 +15,7 @@ function Default() {
 }
 
 Default.meta = {
-  title: 'Default',
+  title: 'Default Handle',
   name: 'Default',
   category: 'ImageCompare',
   path: '/ImageCompare/default',

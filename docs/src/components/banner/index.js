@@ -30,7 +30,7 @@ function Banner() {
             <CardBody className="tatva-hero-cont">
                 <VStack spacing={12} className='tatva-hero-card'>
                     <VStack spacing={5}>
-                        <Text className='tatva-lubus' size={15} align="left" color="white">Custom elements from the house of lubus</Text>
+                        <Text className='tatva-lubus' size={15} align="left" color="white">From the house of LUBUS</Text>
                         <Heading size={40} align="left" color="white" lineHeight={1.3} weight={500}>
                             Craft blazing fast UI with Tatva custom elements.
 
@@ -41,7 +41,7 @@ function Banner() {
                     </VStack>
                     <HStack className='tatva-hero-cta' alignment="center" justify="left">
                         <Link to="getting-started">
-                            <Button variant="primary">
+                            <Button variant="primary" style={{ backgroundColor: 'crimson' }}>
                                 Getting started
                             </Button>
                         </Link>

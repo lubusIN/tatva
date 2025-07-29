@@ -56,6 +56,7 @@ function PatternCode({ path, style }) {
       style={{
         position: 'relative',
         width: '100%',
+        height: '100%',
         ...style,
       }}
     >
@@ -69,6 +70,8 @@ function PatternCode({ path, style }) {
             customStyle={{
               fontSize: '0.85rem',
               textAlign: 'left',
+              height: '100%',
+              margin: 0,
             }}
             wrapLongLines={true}
           >

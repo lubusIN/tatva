@@ -27,7 +27,7 @@ function CategoryCard({ thumbnail: Thumbnail, title, path }) {
             <Link className="tatva-card-link" to={path}>
                 <VStack>
                     <Card className="tatva-card-preview" size="large" isBorderless >
-                        <Thumbnail />
+                         <Thumbnail /> 
                     </Card>
                     <VStack spacing={0}>
                         <Heading

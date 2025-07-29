@@ -60,12 +60,12 @@ useEffect(() => {
                 </Link>
                 <HStack expanded={false} className={`tatva-header-button ${showButtons}`}>
                     <Link  to="getting-started">
-                        <Button variant="primary">
+                        <Button variant="primary" style={{ backgroundColor:'crimson' }}>
                             Getting started
                         </Button>
                     </Link>
                     <Button
-                        style={{ border: '1.5px solid #241717ff', color:'#241717ff'}}
+                        style={{ border: '1.5px solid #ffffff', color:'white'}}
                         href='https://github.com/lubusIN/tatva/discussions'
                     >
                         Join discussion

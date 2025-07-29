@@ -5,7 +5,6 @@ function Rectangle() {
     <div>
       {/* @code-start */}
       <tatva-image-compare
-        class="w-[400px]"
         before="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-4.jpg"
         after="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-3.jpg"
         handle="rectangle"
@@ -16,7 +15,7 @@ function Rectangle() {
 }
 
 Rectangle.meta = {
-  title: 'Rectangle',
+  title: 'Rectangle Handle',
   name: 'Rectangle',
   category: 'ImageCompare',
   path: '/ImageCompare/rectangle',

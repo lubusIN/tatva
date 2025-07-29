@@ -26,7 +26,7 @@ import PatternView from "@tatva/components/pattern-view";
 /**
  * Render Patterns Page
  */
-function Patterns({ title, patterns }) {
+function Patterns({ patterns }) {
 
     const categoryTitle = patterns?.[Object.keys(patterns)[0]]?.meta?.category ?? "Tatva UI";
 
@@ -40,12 +40,11 @@ function Patterns({ title, patterns }) {
                             <div style={{ width: '20px', height: '20px' }}>
                                 {chevronRight}
                             </div>
+                            {categoryTitle}
                         </span>
                     </div>
                 </Link>
             </HStack>
-
-            <Heading size="xl">{categoryTitle}</Heading>
 
             <Grid
                 alignment="bottom"
