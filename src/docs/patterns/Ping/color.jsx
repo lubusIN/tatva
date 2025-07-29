@@ -1,26 +1,27 @@
-import '../../../../src/index';
+import '../../../elements';
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
-function SizeColor() {
+function Color() {
   return (
     <VStack
-      align="center"
+      align="center" // horizontal
       style={{
         height: '100%',
         justifyContent: 'center',
-      }}>
+      }}
+    >
       {/* @code-start */}
-      <tatva-ping color="blue" size="1.2rem"></tatva-ping>
+      <tatva-ping color="red"></tatva-ping>
       {/* @code-end */}
     </VStack>
   );
 }
 
-SizeColor.meta = {
-  title: 'Size + Color',
-  name: 'SizeColor',
+Color.meta = {
+  title: 'Color',
+  name: 'Color',
   category: 'Ping',
-  path: '/Ping/size-color',
+  path: '/Ping/color',
 };
 
-export default SizeColor;
+export default Color;

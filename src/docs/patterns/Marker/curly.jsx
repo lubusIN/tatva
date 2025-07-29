@@ -2,7 +2,7 @@ import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
 } from "@wordpress/components";
-import '../../../../src/index';
+import '../../../elements';
 
 function Curly() {
   return (

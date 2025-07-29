@@ -1,8 +1,24 @@
+import path from 'path';
 import { defineConfig } from 'vite';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
+import react from '@vitejs/plugin-react';
 
-const config = {
-
-};
-
-export default defineConfig(config)
+export default defineConfig({
+  plugins: [
+    react(),
+  ],
+  resolve: {
+    alias: {
+      '@tatva': path.resolve(__dirname, 'src/docs'),
+    },
+  },
+  assetsInclude: ['**/*.md'],
+  optimizeDeps: {
+    include: [
+      '@wordpress/components',
+      '@wordpress/element',
+      '@wordpress/compose',
+      '@wordpress/icons',
+      '@wordpress/i18n',
+    ],
+  },
+});

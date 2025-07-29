@@ -1,4 +1,4 @@
-import '../../../../src/index';
+import '../../../elements';
 
 function Rectangle() {
   return (

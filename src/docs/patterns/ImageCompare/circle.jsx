@@ -1,24 +1,24 @@
-import '../../../../src/index';
+import '../../../elements';
 
-function Arrow() {
+function Circle() {
   return (
     <div>
       {/* @code-start */}
       <tatva-image-compare
         before="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-4.jpg"
         after="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-3.jpg"
-        handle="arrow"
+        handle="circle"
       ></tatva-image-compare>
       {/* @code-end */}
     </div>
   );
 }
 
-Arrow.meta = {
-  title: 'Arrow Handle',
-  name: 'Arrow',
+Circle.meta = {
+  title: 'Circle Handle',
+  name: 'Circle',
   category: 'ImageCompare',
-  path: '/ImageCompare/arrow',
+  path: '/ImageCompare/circle',
 };
 
-export default Arrow;
+export default Circle;
