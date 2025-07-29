@@ -1,55 +1,49 @@
-/**
- * External dependencies.
- */
 import { useEffect, useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism';
 import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-/**
- * WordPress dependencies.
- */
-import { __ } from '@wordpress/i18n';
-import { __experimentalVStack as VStack } from "@wordpress/components";
-/**
- * Internal dependencies.
- */
+import { __experimentalVStack as VStack } from '@wordpress/components';
 import { ContentLoader, CopyButton } from '../index';
 
-/**
- * Render Pattern Code
- */
 function PatternCode({ path, style }) {
   const [isLoading, setIsLoading] = useState(false);
   const [patternCode, setPatternCode] = useState('');
 
+  // ✅ Vite 5-compliant glob setup
+  const patternModules = import.meta.glob('/src/docs/patterns/**/*.jsx', {
+    query: '?raw',
+    import: 'default',
+  });
+
   useEffect(() => {
-    setIsLoading(true);
-    fetchCode(path);
-  }, [])
+    const fetchCode = async () => {
+      setIsLoading(true);
 
-  const fetchCode = async (path) => {
-    try {
-      const content = await import(
-        /* webpackPrefetch: true */
-        `!!raw-loader!/src/patterns${path}.js`
-      ).then((pattern) => pattern.default);
+      try {
+        const fullPath = `/src/docs/patterns${path}.jsx`;
 
-      // Match content inside JSX-style comment block
-      const codeBlockMatch = content.match(
-        /\{\s*\/\*\s*@code-start\s*\*\/\s*\}([\s\S]*?)\{\s*\/\*\s*@code-end\s*\*\/\s*\}/
-      );
+        const loader = patternModules[fullPath];
 
-      const finalCode = codeBlockMatch
-        ? codeBlockMatch[1].trim()
-        : '// No @code block found';
+        if (!loader) {
+          throw new Error(`No file found at: ${fullPath}`);
+        }
 
-      setPatternCode(finalCode);
+        const content = await loader();
 
-    } catch (error) {
-      setPatternCode('// Error loading pattern code');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        const match = content.match(
+          /\{\s*\/\*\s*@code-start\s*\*\/\s*\}([\s\S]*?)\{\s*\/\*\s*@code-end\s*\*\/\s*\}/
+        );
+
+        setPatternCode(match ? match[1].trim() : '// No @code block found');
+      } catch (err) {
+        console.error(err);
+        setPatternCode('// Error loading pattern code');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCode();
+  }, [path]);
 
   return (
     <VStack
@@ -73,7 +67,7 @@ function PatternCode({ path, style }) {
               height: '100%',
               margin: 0,
             }}
-            wrapLongLines={true}
+            wrapLongLines
           >
             {patternCode}
           </SyntaxHighlighter>

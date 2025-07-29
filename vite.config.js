@@ -15,7 +15,6 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       '@wordpress/components',
-      '@wordpress/element',
       '@wordpress/compose',
       '@wordpress/icons',
       '@wordpress/i18n',
