@@ -11,7 +11,7 @@ function SizeColor() {
       }}>
       {/* @code-start */}
       <tatva-ping 
-        color="blue" 
+        color="#3858e9" 
         size="1.2rem" 
       />
       {/* @code-end */}

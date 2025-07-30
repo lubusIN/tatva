@@ -11,7 +11,7 @@ function Color() {
       }}
     >
       {/* @code-start */}
-      <tatva-ping color="red" />
+      <tatva-ping color="#e14d43" />
       {/* @code-end */}
     </VStack>
   );

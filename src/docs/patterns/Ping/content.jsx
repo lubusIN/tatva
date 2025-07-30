@@ -12,7 +12,7 @@ function Content() {
       {/* @code-start */}
       <tatva-ping
         class="flex"
-        color="green"
+        color="#008710"
         size="1.4rem">
         New
       </tatva-ping>

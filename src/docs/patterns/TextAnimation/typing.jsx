@@ -17,8 +17,8 @@ function Typing() {
         <tatva-text-animation
           animation-type="typing"
           words='[
-            "Hello Lubus", 
-            "Welcome to Tatva"
+            "Hello tatva", 
+            "from lubus"
           ]'
         />
         {/* @code-end */}
