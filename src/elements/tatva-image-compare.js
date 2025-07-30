@@ -2,7 +2,7 @@
  * Custom Element: Image Compare
  */
 class TatvaImageCompare extends HTMLElement {
-    static get observedAttributes() { 
+    static get observedAttributes() {
         return [
             'handle',
             'hover',
@@ -10,14 +10,14 @@ class TatvaImageCompare extends HTMLElement {
             'after',
             'arrowLeft',
             'arrowRight'
-        ]; 
+        ];
     }
 
     // Lifecycle event: executed when component attribute changes
     attributeChangedCallback(name, oldValue, newValue) {
-        if( !oldValue ) return;
+        if (!oldValue) return;
         this.init();
-      }
+    }
 
     // Lifecycle event: executed when the component is inserted into the DOM
     connectedCallback() {
@@ -28,8 +28,8 @@ class TatvaImageCompare extends HTMLElement {
     renderElement() {
         const handleType = this.getAttribute('handle') ?? 'line'; // handle types: line, circle, rectangle, arrow
         const onHover = this.getAttribute('hover') ?? "false";
-        const before = this.getAttribute('before') ?? 'https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-3.jpg';
-        const after = this.getAttribute('after') ?? 'https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-4.jpg';
+        const before = this.getAttribute('before') ?? 'assets/before.png';
+        const after = this.getAttribute('after') ?? 'assets/after.png';
         const arrowLeft = this.getAttribute('arrowLeft') ?? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
             class="move_left">
             <path fill-rule="evenodd"
@@ -153,7 +153,7 @@ class TatvaImageCompare extends HTMLElement {
         `;
     }
 
-    init(){
+    init() {
         const template = this.renderElement();
         this.shadowRoot.replaceChildren(template.content.cloneNode(true));
 
@@ -174,10 +174,18 @@ class TatvaImageCompare extends HTMLElement {
 
         // Calculate and clip image in half for initial render
         const handleTypes = ["circle", "rectangle", "arrow"];
-        const width = this.beforeImg.getBoundingClientRect().width / 2;
         
-        this.beforeImg.style.clip = `rect(0px, ${width}px, auto, 0px)`;
-    
+        // Wait for the image to load before getting its width
+        this.beforeImg.onload = () => {
+            const width = this.beforeImg.getBoundingClientRect().width / 2;
+            this.beforeImg.style.clip = `rect(0px, ${width}px, auto, 0px)`;
+        };
+       
+        // If the image is already loaded (from cache), trigger onload manually
+        if (this.beforeImg.complete) {
+            this.beforeImg.onload();
+        }
+
         // Displaying handle based on type
         this.slideMover.style.display = handleTypes.includes(this.handleType) ? "flex" : "";
         this.handleType ? this.sliderHandle.classList.add(this.handleType) : "";
@@ -196,19 +204,19 @@ class TatvaImageCompare extends HTMLElement {
             this.sliderOverlay.addEventListener('mousemove', this.calculateSliderPosition);
         }
     }
-    
+
     updateSliderPosition(offsetX) {
         const max = Math.max(0, (Math.min(this.sliderOverlay.clientWidth, offsetX))); // Limiting slider movement within overlay
         this.sliderHandle.style.left = `${max}px`; // Updating slider handle position
         this.beforeImg.style.clip = `rect(0px, ${max}px, auto, 0px)`; // Clipping the before image based on slider position
     }
-    
-    calculateSliderPosition (e){
-        if(this.sliderOverlay) {
+
+    calculateSliderPosition(e) {
+        if (this.sliderOverlay) {
             this.updateSliderPosition(e.clientX - this.sliderOverlay.getBoundingClientRect().left);
         }
     }
-    
+
     moveSlider(e) {
         this.isDragging && this.calculateSliderPosition(e);
     }

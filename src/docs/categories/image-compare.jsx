@@ -15,8 +15,8 @@ import * as patterns from '../patterns';
 function ImageCompare() {
     return (
         <tatva-image-compare
-            before="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-4.jpg"
-            after="https://d-themes.com/wordpress/udesign/elements/wp-content/uploads/sites/3/2021/08/comparison-3.jpg"
+            before="assets/before.png"
+            after="assets/after.png"
         />
     );
 };
