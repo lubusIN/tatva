@@ -16,7 +16,7 @@ function Strike() {
         {/* @code-start */}
         <tatva-marker type="strike">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

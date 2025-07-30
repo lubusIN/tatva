@@ -16,7 +16,8 @@ function Flyin() {
         {/* @code-start */}
         <tatva-text-animation
           animation-type="flyin"
-          words="Hello Lubus !" />
+          words="Hello lubus !"
+        />
         {/* @code-end */}
       </Heading>
     </VStack>

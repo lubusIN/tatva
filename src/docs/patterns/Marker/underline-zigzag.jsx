@@ -16,7 +16,7 @@ function UnderlineZigzag() {
         {/* @code-start */}
         <tatva-marker type="underline-zigzag">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

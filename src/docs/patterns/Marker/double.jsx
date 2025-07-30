@@ -16,7 +16,7 @@ function Double() {
         {/* @code-start */}
         <tatva-marker type="double">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

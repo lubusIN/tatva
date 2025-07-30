@@ -10,7 +10,10 @@ function SizeColor() {
         justifyContent: 'center',
       }}>
       {/* @code-start */}
-      <tatva-ping color="blue" size="1.2rem"></tatva-ping>
+      <tatva-ping 
+        color="blue" 
+        size="1.2rem" 
+      />
       {/* @code-end */}
     </VStack>
   );

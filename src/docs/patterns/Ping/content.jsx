@@ -10,7 +10,10 @@ function Content() {
         justifyContent: 'center',
       }}>
       {/* @code-start */}
-      <tatva-ping class="flex" color="green" size="1.4rem">
+      <tatva-ping
+        class="flex"
+        color="green"
+        size="1.4rem">
         New
       </tatva-ping>
       {/* @code-end */}

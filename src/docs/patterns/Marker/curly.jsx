@@ -16,7 +16,7 @@ function Curly() {
         {/* @code-start */}
         <tatva-marker type="curly">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

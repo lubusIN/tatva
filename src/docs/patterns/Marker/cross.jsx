@@ -17,7 +17,7 @@ function Cross() {
         {/* @code-start */}
         <tatva-marker type="cross">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

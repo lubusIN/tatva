@@ -16,7 +16,7 @@ function Underline() {
         {/* @code-start */}
         <tatva-marker type="underline">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

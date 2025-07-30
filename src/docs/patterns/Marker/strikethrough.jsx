@@ -16,7 +16,7 @@ function Strikethrough() {
         {/* @code-start */}
         <tatva-marker type="strikethrough">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

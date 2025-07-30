@@ -10,7 +10,7 @@ function Default() {
         justifyContent: 'center',
       }}>
       {/* @code-start */}
-      <tatva-ping></tatva-ping>
+      <tatva-ping />
       {/* @code-end */}
     </VStack>
   );

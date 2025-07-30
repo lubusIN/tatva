@@ -16,7 +16,7 @@ function Circle() {
         {/* @code-start */}
         <tatva-marker type="circle">
           tatva
-          </tatva-marker>
+        </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

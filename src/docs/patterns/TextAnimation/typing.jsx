@@ -16,7 +16,11 @@ function Typing() {
         {/* @code-start */}
         <tatva-text-animation
           animation-type="typing"
-          words='["Hello Lubus", "Welcome to Tatva"]' />
+          words='[
+            "Hello Lubus", 
+            "Welcome to Tatva"
+          ]'
+        />
         {/* @code-end */}
       </Heading>
     </VStack>
