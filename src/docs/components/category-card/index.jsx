@@ -37,7 +37,7 @@ function CategoryCard({ thumbnail: Thumbnail, title, path }) {
                             level={3}
                             weight={500}
                         >
-                            {title}
+                            {title || <span>&nbsp;</span>}
                         </Heading>
                     </VStack>
                 </VStack>
