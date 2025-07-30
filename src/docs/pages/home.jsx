@@ -11,13 +11,12 @@ import {
  * Internal dependencies.
  */
 import { Banner, CategoryCard } from "@tatva/components";
-import * as categories from '@tatva/categories';
+import { categories } from '@tatva/categories';
 
 /**
  * Render Component Menu
  */
 function Home() {
-
     return (
         <>
             <Banner />
@@ -31,22 +30,18 @@ function Home() {
                     rowGap={25}
                 >
                     {
-                        Object.values(categories)
-                            .sort((a, b) => {
-                                // Move Coming Soon to the bottom
-                                if (a.meta.title === 'Coming Soon') return 1;
-                                if (b.meta.title === 'Coming Soon') return -1;
-                                return 0;
-                            }).map((category, index) => {
+                        categories.map((category, index) => {
+                                console.log(category);
+
                             const { title, path, patterns } = category.meta;
                             return (
                                 <CategoryCard
                                     key={`${index}-${path}`}
                                     thumbnail={
-                                    category.meta.patterns && Object.keys(category.meta.patterns).length > 0
-                                        ? category.meta.patterns[Object.keys(category.meta.patterns)[0]]
-                                        : category
-                                    }            
+                                        category.meta.patterns && Object.keys(category.meta.patterns).length > 0
+                                            ? category.meta.patterns[Object.keys(category.meta.patterns)[0]]
+                                            : category
+                                    }
                                     title={title}
                                     path={path}
                                     patterns={patterns}

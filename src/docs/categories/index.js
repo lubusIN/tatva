@@ -1,6 +1,18 @@
-export { default as Marker } from './marker';
-export { default as Ping } from './ping';
-export { default as ImageCompare } from './image-compare';
-export { default as TextAnimation } from './text-animation';
-export { default as Placeholder } from './placeholder';
-export { default as Placeholder2 } from './placeholder2';
+/**
+ * Get categories in fixed order.
+ */
+import Marker from './marker';
+import Ping from './ping';
+import ImageCompare from './image-compare';
+import TextAnimation from './text-animation';
+import Placeholder from './placeholder';
+import Placeholder2 from './placeholder2';
+
+export const categories = [
+    ImageCompare,
+    Marker,
+    Ping,
+    TextAnimation,
+    Placeholder,
+    Placeholder2,
+];
