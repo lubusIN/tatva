@@ -43,8 +43,9 @@ div.tatva-column {
     font-weight: 500;
 }
 
-.tatva-back-button .home:hover {
-    color: #3858e9;
+.tatva-back-button .home:hover,
+.components-button:hover:not(:disabled,[aria-disabled=true]) {
+    color: crimson;
 }
 
 .tatva-hero-cta {
