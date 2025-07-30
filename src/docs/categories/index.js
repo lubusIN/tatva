@@ -6,7 +6,7 @@ import Ping from './ping';
 import ImageCompare from './image-compare';
 import TextAnimation from './text-animation';
 import Placeholder from './placeholder';
-import Placeholder2 from './placeholder2';
+import { default as Placeholder2 } from './placeholder';
 
 export const categories = [
     ImageCompare,
