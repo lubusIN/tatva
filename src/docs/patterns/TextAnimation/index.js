@@ -1,2 +1,7 @@
-export { default as Typing} from './typing';
-export { default as Flyin} from './flyin';
+import Typing from './typing';
+import Flyin from './flyin';
+
+export const TextAnimation = [
+    Typing,
+    Flyin,
+];

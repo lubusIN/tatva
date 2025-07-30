@@ -31,8 +31,6 @@ function Home() {
                 >
                     {
                         categories.map((category, index) => {
-                                console.log(category);
-
                             const { title, path, patterns } = category.meta;
                             return (
                                 <CategoryCard

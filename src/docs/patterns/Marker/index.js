@@ -1,13 +1,24 @@
 /**
  * Components
  */
-export { default as Circle } from './circle';
-export { default as Curly } from './curly';
-export { default as Underline } from './underline';
-export { default as DoubleUnderline } from './double-underline';
-export { default as UnderlineZigzag } from './underline-zigzag';
-export { default as Strikethrough } from './strikethrough';
-export { default as Cross } from './cross';
-export { default as Strike } from './strike';
-export { default as Double } from './double';
+import Circle from './circle';
+import Curly from './curly';
+import Underline from './underline';
+import DoubleUnderline from './double-underline';
+import UnderlineZigzag from './underline-zigzag';
+import Strikethrough from './strikethrough';
+import Cross from './cross';
+import Strike from './strike';
+import Double from './double';
 
+export const Marker = [
+    Circle,
+    Curly,
+    Underline,
+    Double,
+    DoubleUnderline,
+    UnderlineZigzag,
+    Strikethrough,
+    Cross,
+    Strike,
+];

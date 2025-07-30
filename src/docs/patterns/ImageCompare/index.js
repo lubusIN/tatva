@@ -1,4 +1,11 @@
-export { default as Default } from './default';
-export { default as Circle } from './circle';
-export { default as Rectangle } from './rectangle';
-export { default as Arrow } from './arrow';
+import Default from './default';
+import Arrow from './arrow'; 
+import Circle from './circle';
+import Rectangle from './rectangle';
+
+export const ImageCompare = [
+    Default,
+    Arrow,
+    Circle,
+    Rectangle,
+];
