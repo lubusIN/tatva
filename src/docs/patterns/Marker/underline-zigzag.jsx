@@ -14,7 +14,9 @@ function UnderlineZigzag() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="underline-zigzag">tatva</tatva-marker>
+        <tatva-marker type="underline-zigzag">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

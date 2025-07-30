@@ -15,7 +15,9 @@ function Cross() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="cross">tatva</tatva-marker>
+        <tatva-marker type="cross">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

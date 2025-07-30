@@ -48,9 +48,9 @@ function Patterns({ patterns }) {
 
             <Grid
                 alignment="bottom"
-                columns={[1, 2]}
-                columnGap={30}
-                rowGap={25}>
+                columns={[1, 2, 3]}
+                columnGap={35}
+                rowGap={35}>
                 {Object.values(patterns).map((Pattern, index) => {
                     const { title, name, category, path } = Pattern.meta;
                     return (

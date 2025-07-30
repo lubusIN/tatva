@@ -14,7 +14,9 @@ function Strike() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="strike">tatva</tatva-marker>
+        <tatva-marker type="strike">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>
