@@ -1,5 +1,3 @@
-import '../../../elements';
-
 function Rectangle() {
   return (
     <div>

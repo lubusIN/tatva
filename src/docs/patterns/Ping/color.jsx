@@ -1,4 +1,3 @@
-import '../../../elements';
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
 function Color() {

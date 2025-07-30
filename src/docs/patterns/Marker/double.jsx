@@ -2,8 +2,6 @@ import {
   __experimentalHeading as Heading,
   __experimentalVStack as VStack,
 } from "@wordpress/components";
-import '../../../elements';
-
 function Double() {
   return (
     <VStack

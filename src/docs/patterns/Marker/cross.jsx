@@ -3,8 +3,6 @@ import {
   __experimentalVStack as VStack,
 
 } from "@wordpress/components";
-import '../../../elements';
-
 function Cross() {
   return (
     <VStack

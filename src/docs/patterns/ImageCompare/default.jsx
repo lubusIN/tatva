@@ -1,5 +1,3 @@
-import '../../../elements';
-
 function Default() {
   return (
     <div>
