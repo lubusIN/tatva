@@ -4,7 +4,7 @@
 class tatvaPing extends HTMLElement {
     // Lifecycle event: executed when the component is inserted into the DOM
     connectedCallback() {
-        const template = this.renderElement(); 
+        const template = this.renderElement();
         this.attachShadow({ mode: 'open' })
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
@@ -14,16 +14,18 @@ class tatvaPing extends HTMLElement {
         const color = this.getAttribute('color') ?? '#000';
 
         const template = document.createElement('template');
-        template.innerHTML =  `
+        template.innerHTML = `
             ${this.renderStyle(size, color)}
 
-            <div part="content">
-                <slot></slot>
+            <div class="tatva-ping">
+                <div part="content">
+                    <slot></slot>
+                </div>
+                <span class="wrapper" part="wrapper">
+                    <span class="spread" part="spread"></span>
+                    <span class="dot" part="dot"></span>
+                </span>
             </div>
-            <span class="wrapper" part="wrapper">
-                <span class="spread" part="spread"></span>
-                <span class="dot" part="dot"></span>
-            </span>    
         `;
 
         return template;
@@ -32,6 +34,13 @@ class tatvaPing extends HTMLElement {
     renderStyle(size, color) {
         return `
             <style>
+                .tatva-ping {
+                    display: inline-flex;
+                    align-items: center;
+                    flex-direction: row-reverse;
+                    gap: 10px;
+                }
+
                 .wrapper {
                     display: flex;
                     margin-left: 4px;
