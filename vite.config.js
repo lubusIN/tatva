@@ -23,4 +23,7 @@ export default defineConfig({
   build: {
     outDir: 'build'
   },
+  preview: {
+    open: true,
+  },
 });
