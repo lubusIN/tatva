@@ -14,7 +14,9 @@ function Strikethrough() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="strikethrough">tatva</tatva-marker>
+        <tatva-marker type="strikethrough">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

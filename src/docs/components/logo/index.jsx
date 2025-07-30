@@ -2,7 +2,7 @@
  * External dependencies.
  */
 import React from 'react';
-import TatvaLogo from '../../img/tatav.svg';
+import TatvaLogo from '../../img/tatva-logo.svg';
 
 /**
  * Render Logo
@@ -10,7 +10,7 @@ import TatvaLogo from '../../img/tatav.svg';
 function Logo() {
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <img src={TatvaLogo} alt="Tatva Logo" width="90" height="58"/>
+            <img src={TatvaLogo} alt="Tatva Logo" height="38"/>
         </div>
     );
 }

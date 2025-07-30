@@ -57,7 +57,7 @@ function PatternCode({ path, style }) {
       {isLoading ? (
         <ContentLoader />
       ) : (
-        <>
+      <>
           <SyntaxHighlighter
             language="jsx"
             style={coldarkDark}
@@ -66,12 +66,20 @@ function PatternCode({ path, style }) {
               textAlign: 'left',
               height: '100%',
               margin: 0,
+              padding: '1rem',
+              paddingRight: '2.5rem',
             }}
-            wrapLongLines
+            codeTagProps={{
+              style: {
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+              }
+            }}
+            wrapLongLines={true}
           >
             {patternCode}
           </SyntaxHighlighter>
-          <CopyButton content={patternCode} />
+          <CopyButton content={patternCode} />       
         </>
       )}
     </VStack>

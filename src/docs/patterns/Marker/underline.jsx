@@ -14,7 +14,9 @@ function Underline() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="underline">tatva</tatva-marker>
+        <tatva-marker type="underline">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

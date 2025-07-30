@@ -31,12 +31,22 @@ function Home() {
                     rowGap={25}
                 >
                     {
-                        Object.values(categories).map((category, index) => {
+                        Object.values(categories)
+                            .sort((a, b) => {
+                                // Move Coming Soon to the bottom
+                                if (a.meta.title === 'Coming Soon') return 1;
+                                if (b.meta.title === 'Coming Soon') return -1;
+                                return 0;
+                            }).map((category, index) => {
                             const { title, path, patterns } = category.meta;
                             return (
                                 <CategoryCard
                                     key={`${index}-${path}`}
-                                    thumbnail={category.meta.patterns?.[Object.keys(category.meta.patterns)[0]]}                
+                                    thumbnail={
+                                    category.meta.patterns && Object.keys(category.meta.patterns).length > 0
+                                        ? category.meta.patterns[Object.keys(category.meta.patterns)[0]]
+                                        : category
+                                    }            
                                     title={title}
                                     path={path}
                                     patterns={patterns}

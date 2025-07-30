@@ -14,7 +14,9 @@ function Circle() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="circle">tatva</tatva-marker>
+        <tatva-marker type="circle">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

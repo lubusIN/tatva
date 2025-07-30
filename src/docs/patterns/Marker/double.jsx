@@ -14,7 +14,9 @@ function Double() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="double">tatva</tatva-marker>
+        <tatva-marker type="double">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

@@ -22,9 +22,10 @@ import './style.scss'
  * Render Category Card 
  */
 function CategoryCard({ thumbnail: Thumbnail, title, path }) {
+    const Wrapper = path ? Link : 'div';
     return (
         <VStack className="tatva-preview">
-            <Link className="tatva-card-link" to={path}>
+            <Wrapper className="tatva-card-link" to={path}>
                 <VStack>
                     <Card className="tatva-card-preview" size="large" isBorderless >
                          <Thumbnail /> 
@@ -40,7 +41,7 @@ function CategoryCard({ thumbnail: Thumbnail, title, path }) {
                         </Heading>
                     </VStack>
                 </VStack>
-            </Link>
+            </Wrapper>
         </VStack>
     );
 }

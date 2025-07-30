@@ -14,7 +14,9 @@ function Curly() {
       }}>
       <Heading size={'45px'} align="center">
         {/* @code-start */}
-        <tatva-marker type="curly">tatva</tatva-marker>
+        <tatva-marker type="curly">
+          tatva
+          </tatva-marker>
         {/* @code-end */}
       </Heading>
     </VStack>

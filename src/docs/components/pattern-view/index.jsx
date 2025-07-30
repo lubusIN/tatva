@@ -52,7 +52,7 @@ function PatternView({ title, path, component: Pattern }) {
             </HStack>
 
             {/* Single Card- toggle inner content */}
-            <Card className="variation-card">
+            <Card className="variation-card" variant='dotted' >
                 {view === "preview" ? <Pattern /> : <PatternCode path={path} />}
             </Card>
         </VStack>

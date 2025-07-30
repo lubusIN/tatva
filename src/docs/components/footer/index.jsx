@@ -48,7 +48,9 @@ function Footer() {
                     <Text className='tatva-footer-bottom-left' color='white'>&copy; {Year} tatva. All Rights Reserved.</Text>
                     <HStack expanded={false} spacing={1} className='tatva-footer-bottom-right'>
                         <Text color='white'>Made in India</Text>
-                        <Flag />
+                          <div className="flag-wrapper">
+                                <Flag />
+                          </div>
                     </HStack>
                 </HStack>
             </CardBody>

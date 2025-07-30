@@ -10,11 +10,11 @@ import ReactContentLoader from "react-content-loader"
 
 function ContentLoader() {
   return (
-    <div style={{ backgroundColor: 'rgb(17, 27, 39)', padding: '60px', borderRadius: '5px' }}>
+    <div style={{ backgroundColor: 'rgb(17, 27, 39)', padding: '60px', borderRadius: '5px', height: '100%' }}>
       <ReactContentLoader
         speed={1}
-        width={340}
-        height={84}
+        width={'100%'}
+        height={'100%'}
         viewBox="0 0 340 84"
         backgroundColor="#f5f5f5"
         foregroundColor="#cccccc"
