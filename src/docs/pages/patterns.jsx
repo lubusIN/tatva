@@ -40,10 +40,10 @@ function Patterns({ patterns }) {
                             <div style={{ width: '20px', height: '20px' }}>
                                 {chevronRight}
                             </div>
-                            {categoryTitle}
                         </span>
                     </div>
                 </Link>
+                <span>{categoryTitle}</span>
             </HStack>
 
             <Grid
