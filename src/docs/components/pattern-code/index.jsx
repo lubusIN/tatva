@@ -4,6 +4,27 @@ import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { __experimentalVStack as VStack } from '@wordpress/components';
 import { ContentLoader, CopyButton } from '../index';
 
+function normalizeIndentation(code) {
+  const lines = code.split('\n');
+
+  // Remove empty lines from the start and end
+  while (lines.length && lines[0].trim() === '') lines.shift();
+  while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+
+  // Find the minimum number of leading spaces in non-empty lines
+  const indents = lines
+    .filter(line => line.trim() !== '')
+    .map(line => line.match(/^(\s*)/)[1].length);
+
+  const minIndent = Math.min(...indents);
+
+  // Remove the minimum indent from each line
+  const normalized = lines.map(line => line.slice(minIndent)).join('\n');
+
+  return normalized;
+}
+
+
 function PatternCode({ path, style }) {
   const [isLoading, setIsLoading] = useState(false);
   const [patternCode, setPatternCode] = useState('');
@@ -33,9 +54,8 @@ function PatternCode({ path, style }) {
           /\{\s*\/\*\s*@code-start\s*\*\/\s*\}([\s\S]*?)\{\s*\/\*\s*@code-end\s*\*\/\s*\}/
         );
 
-        setPatternCode(match ? match[1].trim() : '// No @code block found');
+        setPatternCode(match ? match[1] : '// No @code block found');
       } catch (err) {
-        console.error(err);
         setPatternCode('// Error loading pattern code');
       } finally {
         setIsLoading(false);
@@ -57,7 +77,7 @@ function PatternCode({ path, style }) {
       {isLoading ? (
         <ContentLoader />
       ) : (
-      <>
+        <>
           <SyntaxHighlighter
             language="jsx"
             style={coldarkDark}
@@ -77,9 +97,9 @@ function PatternCode({ path, style }) {
             }}
             wrapLongLines={true}
           >
-            {patternCode}
+            {normalizeIndentation(patternCode)}
           </SyntaxHighlighter>
-          <CopyButton content={patternCode} />       
+          <CopyButton content={patternCode} />
         </>
       )}
     </VStack>
