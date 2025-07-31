@@ -1,0 +1,44 @@
+/**
+ * External dependencies.
+ */
+import { Link } from "react-router-dom";
+import {
+    Card,
+    __experimentalVStack as VStack,
+    __experimentalHeading as Heading,
+} from "@wordpress/components";
+
+/**
+ * Internal dependencies.
+ */
+import './style.scss'
+
+/**
+ * Render Category Card 
+ */
+function CategoryCard({ thumbnail: Thumbnail, title, path }) {
+    const Wrapper = path ? Link : 'div';
+    return (
+        <VStack className="tatva-preview">
+            <Wrapper className="tatva-card-link" to={path}>
+                <VStack>
+                    <Card className="tatva-card-preview" size="large" isBorderless >
+                         <Thumbnail /> 
+                    </Card>
+                    <VStack spacing={0}>
+                        <Heading
+                            adjustLineHeightForInnerControls="small"
+                            align="left"
+                            level={3}
+                            weight={500}
+                        >
+                            {title || <span>&nbsp;</span>}
+                        </Heading>
+                    </VStack>
+                </VStack>
+            </Wrapper>
+        </VStack>
+    );
+}
+
+export default CategoryCard;

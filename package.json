@@ -3,12 +3,12 @@
   "type": "module",
   "version": "0.1.4",
   "description": "Tatva Web Components",
-  "main": "src/index.js",
+  "main": "src/elements/index.js",
   "exports": {
-    "./tatva-image-compare.js": "./src/tatva-image-compare.js",
-    "./tatva-marker.js": "./src/tatva-marker.js",
-    "./tatva-ping.js": "./src/tatva-ping.js",
-    "./tatva-text-amination.js": "./src/tatva-text-animation.js"
+    "./tatva-image-compare.js": "./src/elements/tatva-image-compare.js",
+    "./tatva-marker.js": "./src/elements/tatva-marker.js",
+    "./tatva-ping.js": "./src/elements/tatva-ping.js",
+    "./tatva-text-amination.js": "./src/elements/tatva-text-animation.js"
   },
   "files": [
     "src"
@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "watch": "vite build --watch",  
+    "watch": "vite build --watch",
     "preview": "vite preview"
   },
   "repository": {
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^7.26.0",
+    "sass-embedded": "^1.89.2",
     "vite": "^7.0.5",
     "vite-plugin-static-copy": "^3.1.1"
   },
@@ -47,7 +48,6 @@
     "@wordpress/components": "^30.0.0",
     "@wordpress/compose": "^7.27.0",
     "@wordpress/icons": "^10.27.0",
-    "@wordpress/scripts": "^30.20.0",
     "markdown": "^0.5.0",
     "react": "^19.1.1",
     "react-content-loader": "^7.1.1",

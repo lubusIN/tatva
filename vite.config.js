@@ -8,7 +8,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@tatva': path.resolve(__dirname, 'src/docs'),
+      '@tatva': path.resolve(__dirname, 'src/website'),
     },
   },
   assetsInclude: ['**/*.md'],
@@ -18,6 +18,11 @@ export default defineConfig({
       '@wordpress/compose',
       '@wordpress/icons',
       '@wordpress/i18n',
+      'react-syntax-highlighter',
+      'react-content-loader',
+      'react-markdown',
+      'remark-gfm',
+      'markdown',
     ],
   },
   build: {
