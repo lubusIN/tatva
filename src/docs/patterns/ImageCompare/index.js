@@ -3,7 +3,7 @@ import Arrow from './arrow';
 import Circle from './circle';
 import Rectangle from './rectangle';
 import Hover from './hover';
-import CustomArrow from './custom-arrow';
+import Custom from './custom';
 
 export const ImageCompare = [
     Default,
@@ -11,5 +11,5 @@ export const ImageCompare = [
     Circle,
     Rectangle,
     Hover,
-    CustomArrow
+    Custom
 ];

@@ -1,4 +1,4 @@
-function CustomArrow() {
+function Custom() {
   return (
     <div>
       {/* @code-start */}
@@ -19,11 +19,11 @@ function CustomArrow() {
   );
 }
 
-CustomArrow.meta = {
-  title: 'Custom Arrow Handle',
-  name: 'CustomArrow',
+Custom.meta = {
+  title: 'Custom Handle',
+  name: 'Custom',
   category: 'ImageCompare',
   path: '/ImageCompare/custom-arrow',
 };
 
-export default CustomArrow;
+export default Custom;

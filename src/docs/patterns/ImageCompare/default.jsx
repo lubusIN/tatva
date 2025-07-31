@@ -3,8 +3,8 @@ function Default() {
     <div>
       {/* @code-start */}
       <tatva-image-compare
-        before="assets/before.png"
-        after="assets/after.png"
+        before="assets/after.png"
+        after="assets/before.png"
       />
       {/* @code-end */}
     </div>
@@ -12,7 +12,7 @@ function Default() {
 }
 
 Default.meta = {
-  title: 'Default Handle',
+  title: 'Default',
   name: 'Default',
   category: 'ImageCompare',
   path: '/ImageCompare/default',

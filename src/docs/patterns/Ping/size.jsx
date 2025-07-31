@@ -1,6 +1,6 @@
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
-function SizeColor() {
+function Size() {
   return (
     <VStack
       align="center"
@@ -18,11 +18,11 @@ function SizeColor() {
   );
 }
 
-SizeColor.meta = {
-  title: 'Size + Color',
-  name: 'SizeColor',
+Size.meta = {
+  title: 'Size',
+  name: 'Size',
   category: 'Ping',
-  path: '/Ping/size-color',
+  path: '/Ping/size',
 };
 
-export default SizeColor;
+export default Size;
