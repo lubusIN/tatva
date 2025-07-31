@@ -17,7 +17,7 @@ import {
 /**
  * Internal dependencies.
  */
-import ExampleView from "src/website/components/example-view";
+import ExampleView from "@tatva/components/example-view";
 
 /**
  * Render Examples Page
@@ -28,7 +28,7 @@ function Examples({ examples }) {
 
     return (
         <VStack className="tatva-com-page" spacing={8}>
-            <HStack className="tatva-back-button" alignment="left" spacing={0}>
+            <HStack className="tatva-back-button" alignment="topLeft" spacing={0}>
                 <Link to="/" style={{ boxShadow: 'none', textDecoration: 'none' }}>
                     <div>
                         <span className="home" style={{ display: "flex" }}>
