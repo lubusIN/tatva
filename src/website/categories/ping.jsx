@@ -12,7 +12,7 @@ import {
 import * as examples from '../examples';
 
 /**
- * Render ActionPanels
+ * Render Ping
  */
 
 function Ping() {

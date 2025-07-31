@@ -9,7 +9,7 @@ import React from 'react'
 import * as examples from '../examples';
 
 /**
- * Render ActionPanels
+ * Render Image Compare
  */
 
 function ImageCompare() {

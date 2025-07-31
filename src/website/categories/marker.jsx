@@ -13,7 +13,7 @@ import {
 import * as examples from '../examples';
 
 /**
- * Render ActionPanels
+ * Render Marker
  */
 
 function Marker() {

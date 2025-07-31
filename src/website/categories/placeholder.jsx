@@ -4,7 +4,7 @@
 import React from 'react';
 
 /**
- * Render placeholder thumbnail
+ * Render placeholder
  */
 function Placeholder() {
   return (
