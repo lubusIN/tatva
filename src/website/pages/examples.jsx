@@ -22,7 +22,7 @@ import { ExampleView } from "@tatva/components";
  */
 function Examples({ examples }) {
 
-    const categoryTitle = examples?.[Object.keys(examples)[0]]?.meta?.category ?? "Tatva UI";
+    const categoryTitle = (examples?.[Object.keys(examples)[0]]?.meta?.category ?? "Tatva UI").replace(/([A-Z])/g,'$1').trim();
 
     return (
         <VStack className="tatva-com-page" spacing={8}>
