@@ -7,9 +7,9 @@ import remarkGfm from 'remark-gfm';
 /**
  * internal dependencies.
  */
-import gettingStarted from "@tatva/docs/getting-started.md"
+import gettingStarted from "@tatva/docs/getting-started.md?raw";
 
-function GettingStarted() {x
+function GettingStarted() {
   return (
     <div className="getting_started">
       <Markdown remarkPlugins={[remarkGfm]}>{gettingStarted}</Markdown>
