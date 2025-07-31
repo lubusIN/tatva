@@ -9,8 +9,8 @@ import TatvaLogo from '../../img/tatva-logo.svg';
  */
 function Logo() {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <img src={TatvaLogo} alt="Tatva Logo" height="38"/>
+        <div>
+            <img src={TatvaLogo} alt="Tatva Logo" height={38}/>
         </div>
     );
 }
