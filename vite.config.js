@@ -8,7 +8,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@tatva': path.resolve(__dirname, 'src/docs'),
+      '@tatva': path.resolve(__dirname, 'src/website'),
     },
   },
   assetsInclude: ['**/*.md'],

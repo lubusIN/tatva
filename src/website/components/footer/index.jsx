@@ -17,7 +17,7 @@ import {
  * Internal dependencies.
  */
 import './style.scss'
-import { Flag, Logo } from '@tatva/components';
+import { Flag, Logo } from 'src/website/components';
 
 const date = new Date();
 const Year = date.getFullYear();

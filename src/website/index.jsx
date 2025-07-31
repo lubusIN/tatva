@@ -10,7 +10,7 @@ import '@wordpress/components/build-style/style.css';
  * Internal dependencies.
  */
 import '@tatva/app.scss';
-import App from '@tatva/app';
+import App from 'src/website/app';
 
 const root = ReactDom.createRoot(document.getElementById('root'))
 

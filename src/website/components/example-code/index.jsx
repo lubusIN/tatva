@@ -9,7 +9,7 @@ import { __experimentalVStack as VStack } from '@wordpress/components';
 /**
  * Internal dependencies.
  */
-import { ContentLoader, CopyButton } from '@tatva/components';
+import { ContentLoader, CopyButton } from 'src/website/components';
 
 function normalizeIndentation(code) {
   const lines = code.split('\n');

@@ -10,8 +10,8 @@ import {
 /**
  * Internal dependencies.
  */
-import { Banner, CategoryCard } from "@tatva/components";
-import { categories } from '@tatva/categories';
+import { Banner, CategoryCard } from "src/website/components";
+import { categories } from 'src/website/categories';
 
 /**
  * Render Component Menu

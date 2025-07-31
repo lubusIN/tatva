@@ -7,9 +7,9 @@ import { Routes, Route } from "react-router-dom";
  * Internal dependencies.
  */
 import '../elements';
-import { categories } from '@tatva/categories';
-import { Home, Examples, GettingStarted } from '@tatva/pages'
-import { Footer, Header, ScrollToTop } from '@tatva/components';
+import { categories } from 'src/website/categories';
+import { Home, Examples, GettingStarted } from 'src/website/pages'
+import { Footer, Header, ScrollToTop } from 'src/website/components';
 
 /**
  * Render App

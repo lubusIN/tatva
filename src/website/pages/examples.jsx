@@ -17,7 +17,7 @@ import {
 /**
  * Internal dependencies.
  */
-import ExampleView from "@tatva/components/example-view";
+import ExampleView from "src/website/components/example-view";
 
 /**
  * Render Examples Page

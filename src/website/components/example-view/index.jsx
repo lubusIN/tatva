@@ -14,7 +14,7 @@ import {
 /**
  * Internal dependencies.
  */
-import { ExampleCode } from '@tatva/components';;
+import { ExampleCode } from 'src/website/components';;
 import './style.scss';
 
 function ExampleView({ title, path, component: Example }) {

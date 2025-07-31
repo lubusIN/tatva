@@ -3,12 +3,12 @@
   "type": "module",
   "version": "0.1.4",
   "description": "Tatva Web Components",
-  "main": "src/index.js",
+  "main": "src/elements/index.js",
   "exports": {
-    "./tatva-image-compare.js": "./src/tatva-image-compare.js",
-    "./tatva-marker.js": "./src/tatva-marker.js",
-    "./tatva-ping.js": "./src/tatva-ping.js",
-    "./tatva-text-amination.js": "./src/tatva-text-animation.js"
+    "./tatva-image-compare.js": "./src/elements/tatva-image-compare.js",
+    "./tatva-marker.js": "./src/elements/tatva-marker.js",
+    "./tatva-ping.js": "./src/elements/tatva-ping.js",
+    "./tatva-text-amination.js": "./src/elements/tatva-text-animation.js"
   },
   "files": [
     "src"

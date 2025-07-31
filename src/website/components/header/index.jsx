@@ -14,7 +14,7 @@ import {
  * Internal dependencies.
  */
 import './style.scss';
-import { Logo } from '@tatva/components';
+import { Logo } from 'src/website/components';
 
 /**
  * Render Header
