@@ -23,7 +23,7 @@ Custom.meta = {
   title: 'Custom Handle',
   name: 'Custom',
   category: 'ImageCompare',
-  path: '/ImageCompare/custom-arrow',
+  path: '/ImageCompare/custom',
 };
 
 export default Custom;
