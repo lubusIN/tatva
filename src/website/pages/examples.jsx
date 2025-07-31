@@ -9,8 +9,6 @@ import {
 import {
     __experimentalHStack as HStack,
     __experimentalVStack as VStack,
-    __experimentalText as Text,
-    __experimentalHeading as Heading,
     __experimentalGrid as Grid,
 } from "@wordpress/components";
 
