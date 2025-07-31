@@ -37,7 +37,7 @@ function ExampleCode({ path, style }) {
   const [exampleCode, setExampleCode] = useState('');
 
   // ✅ Vite 5-compliant glob setup
-  const exampleModules = import.meta.glob('/src/docs/examples/**/*.jsx', {
+  const exampleModules = import.meta.glob('/src/website/examples/**/*.jsx', {
     query: '?raw',
     import: 'default',
   });
@@ -47,7 +47,7 @@ function ExampleCode({ path, style }) {
       setIsLoading(true);
 
       try {
-        const fullPath = `/src/docs/examples${path}.jsx`;
+        const fullPath = `/src/website/examples${path}.jsx`;
 
         const loader = exampleModules[fullPath];
 
