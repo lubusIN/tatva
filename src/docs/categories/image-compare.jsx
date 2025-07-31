@@ -6,7 +6,7 @@ import React from 'react'
 /**
  * Internal dependencies.
  */
-import * as patterns from '../patterns';
+import * as examples from '../examples';
 
 /**
  * Render ActionPanels
@@ -24,7 +24,7 @@ function ImageCompare() {
 ImageCompare.meta = {
     title: 'Image Compare',
     path: '/image-compare',
-    patterns: patterns.ImageCompare,
+    examples: examples.ImageCompare,
 };
 
 export default ImageCompare;

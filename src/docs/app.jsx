@@ -8,7 +8,7 @@ import { Routes, Route } from "react-router-dom";
  */
 import '../elements';
 import { categories } from '@tatva/categories';
-import { Home, Patterns, GettingStarted } from '@tatva/pages'
+import { Home, Examples, GettingStarted } from '@tatva/pages'
 import { Footer, Header, ScrollToTop } from '@tatva/components';
 
 /**
@@ -23,11 +23,11 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} style={{ overflowX: 'visible' }} />
                     <Route path="/getting-started" element={<GettingStarted />} style={{ overflowX: 'visible' }} />
-                    {/* Render pattern category routes */}
+                    {/* Render elements category routes */}
                     {categories.map((category, index) => {
-                        const { title, path, patterns } = category.meta;
+                        const { title, path, examples } = category.meta;
                         return (
-                            <Route key={index} title={title} path={path} element={<Patterns patterns={patterns} />} />
+                            <Route key={index} title={title} path={path} element={<Examples examples={examples} />} />
                         )
                     })}
                 </Routes >

@@ -21,14 +21,14 @@ import {
 /**
  * Internal dependencies.
  */
-import PatternView from "@tatva/components/pattern-view";
+import ExampleView from "@tatva/components/example-view";
 
 /**
- * Render Patterns Page
+ * Render Examples Page
  */
-function Patterns({ patterns }) {
+function Examples({ examples }) {
 
-    const categoryTitle = patterns?.[Object.keys(patterns)[0]]?.meta?.category ?? "Tatva UI";
+    const categoryTitle = examples?.[Object.keys(examples)[0]]?.meta?.category ?? "Tatva UI";
 
     return (
         <VStack className="tatva-com-page" spacing={8}>
@@ -51,16 +51,16 @@ function Patterns({ patterns }) {
                 columns={[1, 2, 3]}
                 columnGap={35}
                 rowGap={35}>
-                {Object.values(patterns).map((Pattern, index) => {
-                    const { title, name, category, path } = Pattern.meta;
+                {Object.values(examples).map((Example, index) => {
+                    const { title, name, category, path } = Example.meta;
                     return (
                         <div key={index}>
-                            <PatternView
+                            <ExampleView
                                 title={title}
                                 name={name}
                                 category={category}
                                 path={path}
-                                component={Pattern}
+                                component={Example}
                             />
                         </div>
                     );
@@ -70,4 +70,4 @@ function Patterns({ patterns }) {
     );
 };
 
-export default Patterns;
+export default Examples;

@@ -10,7 +10,7 @@ import {
 /**
  * Internal dependencies.
  */
-import * as patterns from '../patterns/';
+import * as examples from '../examples';
 
 /**
  * Render ActionPanels
@@ -36,7 +36,7 @@ function Marker() {
 Marker.meta = {
     title: 'Marker',
     path: '/marker',
-    patterns: patterns.Marker,
+    examples: examples.Marker,
 };
 
 export default Marker;

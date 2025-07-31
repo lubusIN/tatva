@@ -25,12 +25,12 @@ function normalizeIndentation(code) {
 }
 
 
-function PatternCode({ path, style }) {
+function ExampleCode({ path, style }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [patternCode, setPatternCode] = useState('');
+  const [exampleCode, setExampleCode] = useState('');
 
   // ✅ Vite 5-compliant glob setup
-  const patternModules = import.meta.glob('/src/docs/patterns/**/*.jsx', {
+  const exampleModules = import.meta.glob('/src/docs/examples/**/*.jsx', {
     query: '?raw',
     import: 'default',
   });
@@ -40,9 +40,9 @@ function PatternCode({ path, style }) {
       setIsLoading(true);
 
       try {
-        const fullPath = `/src/docs/patterns${path}.jsx`;
+        const fullPath = `/src/docs/examples${path}.jsx`;
 
-        const loader = patternModules[fullPath];
+        const loader = exampleModules[fullPath];
 
         if (!loader) {
           throw new Error(`No file found at: ${fullPath}`);
@@ -54,9 +54,9 @@ function PatternCode({ path, style }) {
           /\{\s*\/\*\s*@code-start\s*\*\/\s*\}([\s\S]*?)\{\s*\/\*\s*@code-end\s*\*\/\s*\}/
         );
 
-        setPatternCode(match ? match[1] : '// No @code block found');
+        setExampleCode(match ? match[1] : '// No @code block found');
       } catch (err) {
-        setPatternCode('// Error loading pattern code');
+        setExampleCode('// Error loading example code');
       } finally {
         setIsLoading(false);
       }
@@ -97,13 +97,13 @@ function PatternCode({ path, style }) {
             }}
             wrapLongLines={true}
           >
-            {normalizeIndentation(patternCode)}
+            {normalizeIndentation(exampleCode)}
           </SyntaxHighlighter>
-          <CopyButton content={patternCode} />
+          <CopyButton content={exampleCode} />
         </>
       )}
     </VStack>
   );
 }
 
-export default PatternCode;
+export default ExampleCode;

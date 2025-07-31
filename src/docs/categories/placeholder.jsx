@@ -20,7 +20,7 @@ function Placeholder() {
 Placeholder.meta = {
   title: '',
   path: '',
-  patterns: {},
+  examples: {},
 };
 
 export default Placeholder;

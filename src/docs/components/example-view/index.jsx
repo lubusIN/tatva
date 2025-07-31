@@ -16,14 +16,14 @@ import {
 /**
  * Internal dependencies.
  */
-import { PatternCode } from "../index";
+import { ExampleCode } from "../index";
 import './style.scss';
 
-function PatternView({ title, path, component: Pattern }) {
+function ExampleView({ title, path, component: Example }) {
     const [view, setView] = useState("preview");
 
     return (
-        <VStack spacing={4} className="pattern-view">
+        <VStack spacing={4} className="example-view">
             <HStack>
                 <HStack>
                     <Heading className="head" level={4} weight={500}>
@@ -53,10 +53,10 @@ function PatternView({ title, path, component: Pattern }) {
 
             {/* Single Card- toggle inner content */}
             <Card className="variation-card" variant='dotted' >
-                {view === "preview" ? <Pattern /> : <PatternCode path={path} />}
+                {view === "preview" ? <Example /> : <ExampleCode path={path} />}
             </Card>
         </VStack>
     );
 }
 
-export default PatternView;
+export default ExampleView;

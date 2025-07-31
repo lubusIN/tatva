@@ -10,7 +10,7 @@ import {
 /**
  * Internal dependencies.
  */
-import * as patterns from '../patterns';
+import * as examples from '../examples';
 
 /**
  * Render ActionPanels
@@ -40,7 +40,7 @@ function TextAnimation() {
 TextAnimation.meta = {
     title: 'Text Animation',
     path: '/text-animation',
-    patterns: patterns.TextAnimation,
+    examples: examples.TextAnimation,
 };
 
 export default TextAnimation;

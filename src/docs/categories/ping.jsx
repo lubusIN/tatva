@@ -9,7 +9,7 @@ import {
 /**
  * Internal dependencies.
  */
-import * as patterns from '../patterns/';
+import * as examples from '../examples';
 
 /**
  * Render ActionPanels
@@ -38,7 +38,7 @@ function Ping() {
 Ping.meta = {
     title: 'Ping',
     path: '/ping',
-    patterns: patterns.Ping,
+    examples: examples.Ping,
 };
 
 export default Ping;

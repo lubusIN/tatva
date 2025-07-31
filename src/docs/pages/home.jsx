@@ -31,14 +31,13 @@ function Home() {
                 >
                     {
                         categories.map((category, index) => {
-                            const { title, path, patterns } = category.meta;
+                            const { title, path } = category.meta;
                             return (
                                 <CategoryCard
                                     key={`${index}-${path}`}
                                     thumbnail={category}
                                     title={title}
                                     path={path}
-                                    patterns={patterns}
                                 />
                             )
                         })
