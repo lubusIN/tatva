@@ -1,6 +1,6 @@
 div.tatva-preview {
     position: relative;
-    padding: 10px;
+    padding: 10px 0px;
 
     &:after {
         content: '';
@@ -33,4 +33,5 @@ div.tatva-card-preview {
     padding: 35px;
     display: flex;
     justify-content: center;
+    z-index: 1;
 }

@@ -17,6 +17,8 @@ function ImageCompare() {
         <tatva-image-compare
             before="assets/before.png"
             after="assets/after.png"
+            handle="circle"
+            hover="true"
         />
     );
 };
