@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "watch": "vite build --watch",  
+    "watch": "vite build --watch",
     "preview": "vite preview"
   },
   "repository": {
@@ -47,7 +47,6 @@
     "@wordpress/components": "^30.0.0",
     "@wordpress/compose": "^7.27.0",
     "@wordpress/icons": "^10.27.0",
-    "@wordpress/scripts": "^30.20.0",
     "markdown": "^0.5.0",
     "react": "^19.1.1",
     "react-content-loader": "^7.1.1",
