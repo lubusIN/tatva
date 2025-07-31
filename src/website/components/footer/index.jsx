@@ -27,7 +27,7 @@ const Year = date.getFullYear();
  */
 function Footer() {
     return (
-        <Card className="tatva-footer" size="large" isBorderless>
+        <Card className="tatva-footer" size="large" isBorderless isRounded={false}>
             <CardBody>
                 <VStack className="footer-content" alignment="center" spacing={4}>
                     <HStack expanded={false}>
