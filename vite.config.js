@@ -18,6 +18,11 @@ export default defineConfig({
       '@wordpress/compose',
       '@wordpress/icons',
       '@wordpress/i18n',
+      'react-syntax-highlighter',
+      'react-content-loader',
+      'react-markdown',
+      'remark-gfm',
+      'markdown',
     ],
   },
   build: {
