@@ -2,9 +2,6 @@
  * External dependencies.
  */
 import { useState } from "react";
-/**
- * WordPress dependencies.
- */
 import {
     Card,
     __experimentalVStack as VStack,
@@ -13,10 +10,11 @@ import {
     __experimentalToggleGroupControl as ToggleGroupControl,
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
+
 /**
  * Internal dependencies.
  */
-import { ExampleCode } from "../index";
+import { ExampleCode } from '@tatva/components';;
 import './style.scss';
 
 function ExampleView({ title, path, component: Example }) {

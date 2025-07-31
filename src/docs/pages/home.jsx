@@ -1,5 +1,5 @@
 /**
- * WordPress dependencies.
+ * External dependencies.
  */
 import {
     __experimentalGrid as Grid,

@@ -1,5 +1,5 @@
 /**
- * WordPress dependencies.
+ * External dependencies.
  */
 import { __ } from '@wordpress/i18n';
 import {
@@ -17,7 +17,7 @@ import {
  * Internal dependencies.
  */
 import './style.scss'
-import { Flag, Logo } from '../../components'
+import { Flag, Logo } from '@tatva/components';
 
 const date = new Date();
 const Year = date.getFullYear();

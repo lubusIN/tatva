@@ -2,14 +2,9 @@
  * External dependencies.
  */
 import { Link } from "react-router-dom";
-
-/**
- * WordPress dependencies.
- */
 import {
     Card,
     __experimentalVStack as VStack,
-    __experimentalText as Text,
     __experimentalHeading as Heading,
 } from "@wordpress/components";
 

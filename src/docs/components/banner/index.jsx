@@ -2,10 +2,6 @@
  * External dependencies.
  */
 import { Link } from "react-router-dom";
-
-/**
- * WordPress dependencies.
- */
 import {
     Card,
     Button,

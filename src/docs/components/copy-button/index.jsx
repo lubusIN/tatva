@@ -2,10 +2,6 @@
  * External dependencies.
  */
 import { useState } from 'react';
-
-/**
- * WordPress dependencies.
- */
 import { useCopyToClipboard } from '@wordpress/compose';
 import {
     check,

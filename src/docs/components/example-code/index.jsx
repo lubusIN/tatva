@@ -1,8 +1,15 @@
+/**
+ * External dependencies.
+ */
 import { useEffect, useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism';
 import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { __experimentalVStack as VStack } from '@wordpress/components';
-import { ContentLoader, CopyButton } from '../index';
+
+/**
+ * Internal dependencies.
+ */
+import { ContentLoader, CopyButton } from '@tatva/components';
 
 function normalizeIndentation(code) {
   const lines = code.split('\n');

@@ -1,8 +1,8 @@
 /**
  * External dependencies.
  */
-import React from "react"
-import ReactContentLoader from "react-content-loader"
+import React from "react";
+import ReactContentLoader from "react-content-loader";
 
 /***
  * Render Content Loader
