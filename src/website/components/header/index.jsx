@@ -8,7 +8,9 @@ import {
     Card,
     Button,
     __experimentalHStack as HStack,
+    Icon
 } from "@wordpress/components";
+import { FaGithub, FaBook } from "react-icons/fa";
 
 /**
  * Internal dependencies.
@@ -56,17 +58,19 @@ function Header() {
                     <Logo />
                 </Link>
                 <HStack expanded={false} className={`tatva-header-button ${showButtons}`}>
-                    <Link to="getting-started">
-                        <Button variant="primary" style={{ backgroundColor: 'crimson' }}>
-                            Getting started
+                        <Link to="getting-started">
+                            <Button style={{ gap: '8px' }}>
+                                <Icon icon={FaBook} />
+                                Documentation
+                            </Button>
+                        </Link>
+                        <Button
+                            style={{ gap: '8px' }}
+                            href='https://github.com/lubusIN/tatva/discussions'
+                        >
+                            <Icon icon={FaGithub} />
+                            Join discussion
                         </Button>
-                    </Link>
-                    <Button
-                        style={{ border: '1.5px solid #ffffff', color: 'white' }}
-                        href='https://github.com/lubusIN/tatva/discussions'
-                    >
-                        Join discussion
-                    </Button>
                 </HStack>
             </HStack>
         </Card>
