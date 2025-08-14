@@ -25,7 +25,7 @@ import './style.scss';
 function Banner() {
     return (
         <Card className="tatva-hero-Section" isBorderless>
-            <CardBody className="tatva-hero-cont">
+            <CardBody className="tatva-hero-cont" style={{padding: '0px'}}>
                 <VStack spacing={8} className='tatva-hero-card'>
                     <VStack spacing={5}>
                         <Text className='tatva-lubus' size={15} align="left" color="white">From the house of LUBUS</Text>
