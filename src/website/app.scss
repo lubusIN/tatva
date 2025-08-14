@@ -21,8 +21,8 @@ body {
 }
 
 .tatva-hero-cont {
-    margin: auto 0 auto 620px;
-    width: 50%; 
+    margin: auto;
+    width: 1200px;
 }
 .tatva-com-page,
 .tatva-lcont {
@@ -87,7 +87,8 @@ pre {
 
     .tatva-footer .components-card__body .footer-content,
     div.tatva-hero-cont {
-        width: 100% !important
+        width: 100% !important;
+        padding: 20px !important;
     }
 
     .tatva-variation-card {
