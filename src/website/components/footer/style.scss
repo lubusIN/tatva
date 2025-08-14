@@ -13,8 +13,30 @@
     }
 }
 
+.social-icons .components-button:hover{
+    transform: scale(1.2);
+}
+
 .footer_btn {
     color: aliceblue;
     border: 1px solid white;
     border-radius: 16px;
+    width:fit-content;
+}
+.footer_btn:hover{
+    background-color: #80808033 !important;
+
+    color: aliceblue !important;
+}
+
+@media (max-width: 820px) {
+  .tatva-footer .footer-content {
+    flex-direction: column-reverse !important;
+    align-items: center !important;
+    text-align: center;                
+    gap: 20px;                     
+  }
+  .footer-left{
+    align-items: center !important;
+  }
 }
