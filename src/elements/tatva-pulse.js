@@ -19,20 +19,36 @@ class TatvaPulse extends HTMLElement {
     }
 
     /**
+    * Constructor initializes the component
+    */
+    constructor() {
+        super();
+        this._isInitialized = false;
+        this.attachShadow({ mode: 'open' });
+    }
+
+    /**
      * Sets up shadow DOM and renders the initial component
      */
     connectedCallback() {
-        if (!this.shadowRoot) {
-            this.attachShadow({ mode: 'open' });
+        if (!this._isInitialized) {
+            this.render();
+            this._isInitialized = true;
         }
-        this.render();
+    }
+
+    /**
+     * Cleanup when element is removed from DOM
+     */
+    disconnectedCallback() {
+        this._isInitialized = false;
     }
 
     /**
      * Re-renders component when observed attributes change
      */
     attributeChangedCallback(attributeName, oldValue, newValue) {
-        if (oldValue !== newValue && this.shadowRoot) {
+        if (oldValue !== newValue && this.shadowRoot && this._isInitialized) {
             this.render();
         }
     }
