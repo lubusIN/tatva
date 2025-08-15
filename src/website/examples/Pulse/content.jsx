@@ -10,7 +10,6 @@ function Content() {
       }}>
       {/* @code-start */}
       <tatva-pulse
-        class="flex"
         color="#008710"
         size="1.4rem">
         New
