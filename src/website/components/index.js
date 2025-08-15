@@ -12,3 +12,4 @@ export { default as CategoryCard } from './category-card';
 export { default as ExampleView } from './example-view';
 export { default as ExampleCode } from './example-code';
 export { default as Flag } from './flag';
+export { default as LubusLogo } from './lubus-logo';
