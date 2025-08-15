@@ -3,7 +3,7 @@ import Color from './color';
 import Size from './size';
 import Content from './content';
 
-export const Ping = [
+export const Pulse = [
     Default,
     Color,
     Size,

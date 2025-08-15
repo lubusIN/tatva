@@ -9,12 +9,12 @@ function Content() {
         justifyContent: 'center',
       }}>
       {/* @code-start */}
-      <tatva-ping
+      <tatva-pulse
         class="flex"
         color="#008710"
         size="1.4rem">
         New
-      </tatva-ping>
+      </tatva-pulse>
       {/* @code-end */}
     </VStack>
   );
@@ -23,8 +23,8 @@ function Content() {
 Content.meta = {
   title: 'Content',
   name: 'Content',
-  category: 'Ping',
-  path: '/Ping/content',
+  category: 'Pulse',
+  path: '/Pulse/content',
 };
 
 export default Content;

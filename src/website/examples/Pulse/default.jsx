@@ -1,6 +1,6 @@
 import { __experimentalVStack as VStack } from "@wordpress/components";
 
-function Size() {
+function Default() {
   return (
     <VStack
       align="center"
@@ -9,20 +9,17 @@ function Size() {
         justifyContent: 'center',
       }}>
       {/* @code-start */}
-      <tatva-ping 
-        color="#3858e9" 
-        size="1.2rem" 
-      />
+      <tatva-pulse />
       {/* @code-end */}
     </VStack>
   );
 }
 
-Size.meta = {
-  title: 'Size',
-  name: 'Size',
-  category: 'Ping',
-  path: '/Ping/size',
+Default.meta = {
+  title: 'Default',
+  name: 'Default',
+  category: 'Pulse',
+  path: '/Pulse/default',
 };
 
-export default Size;
+export default Default;

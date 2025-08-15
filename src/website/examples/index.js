@@ -2,6 +2,6 @@
  * Components
  */
 export { Marker } from './Marker';
-export { Ping } from './Ping';
+export { Pulse } from './Pulse';
 export { TextAnimation } from './TextAnimation';
 export { ImageCompare } from './ImageCompare';

@@ -10,7 +10,7 @@ function Color() {
       }}
     >
       {/* @code-start */}
-      <tatva-ping color="#e14d43" />
+      <tatva-pulse color="#e14d43" />
       {/* @code-end */}
     </VStack>
   );
@@ -19,8 +19,8 @@ function Color() {
 Color.meta = {
   title: 'Color',
   name: 'Color',
-  category: 'Ping',
-  path: '/Ping/color',
+  category: 'Pulse',
+  path: '/Pulse/color',
 };
 
 export default Color;
