@@ -142,8 +142,8 @@ class TatvaPulse extends HTMLElement {
                     transform: translate(-50%, -50%);
                 }
 
-                :host([position="right"]) .pulse-container {
-                    flex-direction: row-reverse;
+                :host([position="left"]) .pulse-container {
+                    flex-direction: row;
                 }
                 
                 :host([position="superscript"]) .pulse-container {
