@@ -2,9 +2,10 @@ body {
     font-family: Inter, sans-serif;
     margin: 0;
 }
+
 .tatva_container {
     background-color: #FFFFFF;
-    width: 100%; 
+    width: 100%;
 }
 
 .tatva-hero-Section {
@@ -19,11 +20,21 @@ body {
     margin: auto 0 auto auto;
     width: 50%;
 }
+
 .tatva-com-page,
 .tatva-lcont {
     margin: 0 auto;
     max-width: 1200px;
     padding: 40px 20px;
+}
+
+.tatva-card-preview>div,
+.variation-card>div {
+    width: 100%;
+}
+
+.variation-card>div>div {
+    height: 100%;
 }
 
 div.tatva-column {
@@ -44,7 +55,7 @@ div.tatva-column {
 }
 
 .tatva-back-button .home:hover,
-.components-button:hover:not(:disabled,[aria-disabled=true]) {
+.components-button:hover:not(:disabled, [aria-disabled=true]) {
     color: crimson;
 }
 

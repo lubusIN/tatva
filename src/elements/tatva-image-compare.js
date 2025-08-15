@@ -3,7 +3,7 @@
  */
 class TatvaImageCompare extends HTMLElement {
     static get observedAttributes() {
-        return ['handle', 'hover', 'before', 'after', 'arrow-left', 'arrow-right'];
+        return ['handle', 'hover', 'hide-arrows'];
     }
 
     constructor() {
@@ -37,12 +37,7 @@ class TatvaImageCompare extends HTMLElement {
      * Called when element is added to DOM
      */
     connectedCallback() {
-        this.renderComponent();
-        this.cacheElementReferences();
-        this.configureHandleAppearance();
-        this.attachEventListeners();
-        this.initializeSliderPosition();
-        this.setupResizeObserver();
+        this.init();
     }
 
     /**
@@ -51,6 +46,7 @@ class TatvaImageCompare extends HTMLElement {
     disconnectedCallback() {
         this.removeEventListeners();
         this.cleanupResizeObserver();
+        this.removeSlotListeners();
     }
 
     /**
@@ -58,27 +54,36 @@ class TatvaImageCompare extends HTMLElement {
      */
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue === newValue || !this.isConnected) return;
+        this.init(); // Re-render component when attributes change
+    }
 
-        // Re-render component when attributes change
+    init() {
         this.renderComponent();
         this.cacheElementReferences();
         this.configureHandleAppearance();
         this.attachEventListeners();
         this.initializeSliderPosition();
+        this.setupResizeObserver();
+        this.setupSlotListeners?.();
     }
 
     /**
      * Renders the complete component HTML and CSS
      */
     renderComponent() {
-        const config = this.getComponentConfiguration();
+        const handleType = this.getAttribute('handle') || 'line';
+        const hoverEnabled = TatvaImageCompare.convertAttributeToBoolean(this.getAttribute('hover'));
 
         const template = document.createElement('template');
         template.innerHTML = `
             ${this.generateStyles()}
             <div class="image-compare">
-                <div class="image-container" data-handle-type="${config.handleType}" data-hover-enabled="${config.hoverEnabled}">
-                    <img class="before-image" alt="Before" src="${config.beforeImageSrc}" />
+                <div class="image-container" data-handle-type="${handleType}" data-hover-enabled="${hoverEnabled}">
+                     <div class="before-image-wrapper">
+                        <slot name="before-image">
+                            <img class="default-before-image" alt="Before" src="assets/before.png" />
+                        </slot>
+                    </div>
                     <div class="slider-overlay" 
                          role="slider" 
                          aria-label="Image compare slider" 
@@ -88,49 +93,28 @@ class TatvaImageCompare extends HTMLElement {
                          tabindex="0">
                         <div class="slider-handle">
                             <div class="handle-controls" aria-hidden="true">
-                                ${config.leftArrow}
-                                ${config.rightArrow}
+                                <slot name="arrow-left">
+                                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="arrow-left" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                                    </svg>
+                                </slot>
+                                <slot name="arrow-right">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="arrow-right" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd" />
+                                    </svg>
+                                </slot>
                             </div>
                         </div>
                     </div>
-                    <img class="after-image" alt="After" src="${config.afterImageSrc}" />
+                     <div class="after-image-wrapper">
+                        <slot name="after-image">
+                            <img class="default-after-image" alt="After" src="assets/after.png" />
+                        </slot>
+                    </div>
                 </div>
             </div>
         `;
-
         this.shadowRoot.replaceChildren(template.content.cloneNode(true));
-    }
-
-    /**
-     * Extracts component configuration from attributes
-     */
-    getComponentConfiguration() {
-        return {
-            handleType: this.getAttribute('handle') || 'line',
-            hoverEnabled: TatvaImageCompare.convertAttributeToBoolean(this.getAttribute('hover')),
-            beforeImageSrc: this.getAttribute('before') || 'assets/before.png',
-            afterImageSrc: this.getAttribute('after') || 'assets/after.png',
-            leftArrow: this.getAttribute('arrow-left') || this.getDefaultLeftArrow(),
-            rightArrow: this.getAttribute('arrow-right') || this.getDefaultRightArrow()
-        };
-    }
-
-    /**
-     * Returns default left arrow SVG
-     */
-    getDefaultLeftArrow() {
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="arrow-left" aria-hidden="true">
-            <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
-        </svg>`;
-    }
-
-    /**
-     * Returns default right arrow SVG
-     */
-    getDefaultRightArrow() {
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="arrow-right" aria-hidden="true">
-            <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd" />
-        </svg>`;
     }
 
     /**
@@ -141,6 +125,7 @@ class TatvaImageCompare extends HTMLElement {
             <style>
                 :host {
                     display: block;
+                    height: 100%;
                 }
 
                 .image-compare {
@@ -154,17 +139,32 @@ class TatvaImageCompare extends HTMLElement {
                     height: 100%;
                 }
 
-                .image-container img {
+                .before-image-wrapper,
+                .after-image-wrapper {
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .before-image-wrapper {
+                    z-index: 2;
+                    position: relative;
+                }
+
+                .after-image-wrapper {
+                    z-index: 1;
+                    position: absolute;
+                }
+
+                /* Style slotted images and default images */
+                ::slotted(img),
+                .default-before-image,
+                .default-after-image {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
                     background-color: #94a3b8;
                     display: block;
-                }
-
-                .before-image {
-                    position: absolute;
-                    inset: 0;
                 }
 
                 .slider-overlay {
@@ -246,10 +246,34 @@ class TatvaImageCompare extends HTMLElement {
                     border: none;
                 }
 
+                /* Hide arrows when hide-arrows attribute is present */
+                :host([hide-arrows="true"]) .arrow-left,
+                :host([hide-arrows="true"]) .arrow-right,
+                :host([hide-arrows="true"]) ::slotted([slot="arrow-left"]),
+                :host([hide-arrows="true"]) ::slotted([slot="arrow-right"]) {
+                    display: none !important;
+                }
+
                 .arrow-left,
                 .arrow-right {
                     width: 20px;
                     height: 20px;
+                }
+
+                .arrow-left,
+                .arrow-right,
+                ::slotted(.arrow-left),
+                ::slotted(.arrow-right) {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                /* Style slotted arrow content */
+                ::slotted([slot="arrow-left"]),
+                ::slotted([slot="arrow-right"]) {
+                    width: 20px;
+                    height: 20px;
+                    color: white;
                 }
             </style>
         `;
@@ -263,12 +287,45 @@ class TatvaImageCompare extends HTMLElement {
         this.sliderOverlay = this.shadowRoot.querySelector('.slider-overlay');
         this.sliderHandle = this.shadowRoot.querySelector('.slider-handle');
         this.handleControls = this.shadowRoot.querySelector('.handle-controls');
-        this.beforeImage = this.shadowRoot.querySelector('.before-image');
-        this.afterImage = this.shadowRoot.querySelector('.after-image');
+        this.beforeImageWrapper = this.shadowRoot.querySelector('.before-image-wrapper');
+        this.afterImageWrapper = this.shadowRoot.querySelector('.after-image-wrapper');
+
+        // Get slots
+        this.beforeImageSlot = this.shadowRoot.querySelector('slot[name="before-image"]');
+        this.afterImageSlot = this.shadowRoot.querySelector('slot[name="after-image"]');
 
         // Extract configuration from cached elements
         this.handleType = this.imageContainer.dataset.handleType;
         this.hoverEnabled = TatvaImageCompare.convertAttributeToBoolean(this.imageContainer.dataset.hoverEnabled);
+    }
+
+    /**
+     * Gets the actual image element from the before image slot
+     */
+    getBeforeImageElement() {
+        const slottedElements = this.beforeImageSlot.assignedElements();
+        if (slottedElements.length > 0) {
+            return slottedElements.find(el => el.tagName === 'IMG') || slottedElements[0];
+        }
+        return this.shadowRoot.querySelector('.default-before-image');
+    }
+
+    /**
+     * Sets up slot change listeners
+     */
+    setupSlotListeners() {
+        [this.beforeImageSlot, this.afterImageSlot].forEach(slot =>
+            slot?.addEventListener('slotchange', this.initializeSliderPosition)
+        );
+    }
+
+    /**
+     * Removes slot change listeners
+     */
+    removeSlotListeners() {
+        [this.beforeImageSlot, this.afterImageSlot].forEach(slot =>
+            slot?.removeEventListener('slotchange', this.initializeSliderPosition)
+        );
     }
 
     /**
@@ -322,19 +379,21 @@ class TatvaImageCompare extends HTMLElement {
             });
         }
 
-        if (this.beforeImage) {
-            this.beforeImage.removeEventListener('load', this.handleBeforeImageLoad);
-        }
+        // Remove image load listeners from both slotted and default images
+        this.getBeforeImageElement()?.removeEventListener('load', this.handleBeforeImageLoad);
     }
 
     /**
      * Sets up initial slider position when image loads
      */
     initializeSliderPosition() {
-        this.beforeImage.addEventListener('load', this.handleBeforeImageLoad);
+        const beforeImg = this.getBeforeImageElement();
+        if (!beforeImg) return;
+
+        beforeImg.addEventListener('load', this.handleBeforeImageLoad);
 
         // Handle case where image is already loaded
-        if (this.beforeImage.complete && this.beforeImage.naturalWidth > 0) {
+        if (beforeImg.complete && (beforeImg.naturalWidth > 0 || beforeImg.tagName !== 'IMG')) {
             this.handleBeforeImageLoad();
         }
     }
@@ -345,12 +404,10 @@ class TatvaImageCompare extends HTMLElement {
     setupResizeObserver() {
         this.resizeObserver = new ResizeObserver(() => {
             if (!this.sliderOverlay) return;
-
             const containerRect = this.sliderOverlay.getBoundingClientRect();
             const currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
             this.updateSliderPosition(currentLeft);
         });
-
         this.resizeObserver.observe(this.imageContainer);
     }
 
@@ -358,19 +415,17 @@ class TatvaImageCompare extends HTMLElement {
      * Cleans up resize observer
      */
     cleanupResizeObserver() {
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
-            this.resizeObserver = null;
-        }
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = null;
     }
 
     /**
      * Handles initial image load to set default position
      */
     handleBeforeImageLoad() {
-        const imageRect = this.beforeImage.getBoundingClientRect();
-        const centerPosition = imageRect.width / 2;
-        this.updateSliderPosition(centerPosition);
+        const beforeImg = this.getBeforeImageElement();
+        if (!beforeImg) return;
+        this.updateSliderPosition(beforeImg.getBoundingClientRect().width / 2);
     }
 
     /**
@@ -382,12 +437,8 @@ class TatvaImageCompare extends HTMLElement {
 
         // Capture pointer for smooth dragging
         this.sliderHandle.setPointerCapture(event.pointerId);
-
-        // Attach move and end event listeners
-        this.sliderOverlay.addEventListener('pointermove', this.handlePointerMove);
-        this.sliderOverlay.addEventListener('pointerup', this.handlePointerUp);
-        this.sliderOverlay.addEventListener('pointercancel', this.handlePointerUp);
-        this.sliderOverlay.addEventListener('pointerleave', this.handlePointerUp);
+        ['pointermove', 'pointerup', 'pointercancel', 'pointerleave']
+            .forEach(ev => this.sliderOverlay.addEventListener(ev, this[ev === 'pointermove' ? 'handlePointerMove' : 'handlePointerUp']));
     }
 
     /**
@@ -401,32 +452,26 @@ class TatvaImageCompare extends HTMLElement {
     /**
      * Handles pointer up events to end dragging
      */
-    handlePointerUp(event) {
+    handlePointerUp(e) {
         this.isDragging = false;
 
         // Release pointer capture
         try {
-            this.sliderHandle.releasePointerCapture(event.pointerId);
-        } catch (error) {
-            // Ignore capture release errors
-        }
+            this.sliderHandle.releasePointerCapture(e.pointerId);
+        } catch (error) { }
 
         // Remove move and end event listeners
-        this.sliderOverlay.removeEventListener('pointermove', this.handlePointerMove);
-        this.sliderOverlay.removeEventListener('pointerup', this.handlePointerUp);
-        this.sliderOverlay.removeEventListener('pointercancel', this.handlePointerUp);
-        this.sliderOverlay.removeEventListener('pointerleave', this.handlePointerUp);
+        ['pointermove', 'pointerup', 'pointercancel', 'pointerleave']
+            .forEach(ev => this.sliderOverlay.removeEventListener(ev, this[ev === 'pointermove' ? 'handlePointerMove' : 'handlePointerUp']));
     }
 
     /**
      * Handles click events on the overlay to jump to position
      */
-    handleOverlayClick(event) {
-        // Ignore clicks on the handle itself
-        if (event.target === this.sliderHandle || this.sliderHandle.contains(event.target)) {
-            return;
+    handleOverlayClick(e) {
+        if (e.target !== this.sliderHandle && !this.sliderHandle.contains(e.target)) {
+            this.calculatePositionFromEvent(e);
         }
-        this.calculatePositionFromEvent(event);
     }
 
     /**
@@ -440,47 +485,32 @@ class TatvaImageCompare extends HTMLElement {
     /**
      * Handles keyboard navigation (arrow keys)
      */
-    handleKeyboardNavigation(event) {
+    handleKeyboardNavigation(e) {
         const containerRect = this.sliderOverlay.getBoundingClientRect();
-        const stepSize = Math.max(1, Math.round(containerRect.width * 0.02)); // 2% step
+        const step = Math.max(1, Math.round(containerRect.width * 0.02)); // 2% step
         const currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
 
-        let newLeft = currentLeft;
+        const moves = {
+            ArrowLeft: () => currentLeft = Math.max(0, currentLeft - step),
+            ArrowRight: () => currentLeft = Math.min(containerRect.width, currentLeft + step),
+            Home: () => currentLeft = 0,
+            End: () => currentLeft = containerRect.width
+        };
 
-        switch (event.key) {
-            case 'ArrowLeft':
-                newLeft = Math.max(0, currentLeft - stepSize);
-                this.updateSliderPosition(newLeft);
-                event.preventDefault();
-                break;
-
-            case 'ArrowRight':
-                newLeft = Math.min(containerRect.width, currentLeft + stepSize);
-                this.updateSliderPosition(newLeft);
-                event.preventDefault();
-                break;
-
-            case 'Home':
-                this.updateSliderPosition(0);
-                event.preventDefault();
-                break;
-
-            case 'End':
-                this.updateSliderPosition(containerRect.width);
-                event.preventDefault();
-                break;
+        if (moves[e.key]) {
+            moves[e.key]();
+            this.updateSliderPosition(left);
+            e.preventDefault();
         }
     }
 
     /**
      * Calculates slider position from pointer/mouse event
      */
-    calculatePositionFromEvent(event) {
+    calculatePositionFromEvent(e) {
         if (!this.sliderOverlay) return;
-
         const containerRect = this.sliderOverlay.getBoundingClientRect();
-        const offsetX = event.clientX - containerRect.left;
-        this.updateSliderPosition(offsetX);
+        this.updateSliderPosition(e.clientX - containerRect.left);
     }
 
     /**
@@ -493,10 +523,9 @@ class TatvaImageCompare extends HTMLElement {
         // Position the slider handle
         this.sliderHandle.style.left = `${clampedPosition}px`;
 
-        // Clip the before image to reveal the after image
-        // Using inset() instead of deprecated clip: rect()
+        // Clip the before image wrapper to reveal the after image
         const rightInset = Math.max(0, containerRect.width - clampedPosition);
-        this.beforeImage.style.clipPath = `inset(0px ${rightInset}px 0px 0px)`;
+        this.beforeImageWrapper.style.clipPath = `inset(0px ${rightInset}px 0px 0px)`;
 
         // Update accessibility attributes
         const percentage = containerRect.width ? Math.round((clampedPosition / containerRect.width) * 100) : 50;
