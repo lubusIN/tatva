@@ -12,10 +12,10 @@ import {
 import * as examples from '../examples';
 
 /**
- * Render Ping
+ * Render Pulse
  */
 
-function Ping() {
+function Pulse() {
     return (
         <VStack
             align="center"
@@ -24,21 +24,21 @@ function Ping() {
                 justifyContent: 'center',
             }}>
             <Heading size={'45px'} align="center">
-                <tatva-ping
+                <tatva-pulse
                     class="flex"
                     color="crimson"
                     size="1.4rem">
                     tatva
-                </tatva-ping>
+                </tatva-pulse>
             </Heading>
         </VStack>
     );
 };
 
-Ping.meta = {
-    title: 'Ping',
-    path: '/ping',
-    examples: examples.Ping,
+Pulse.meta = {
+    title: 'Pulse',
+    path: '/pulse',
+    examples: examples.Pulse,
 };
 
-export default Ping;
+export default Pulse;
