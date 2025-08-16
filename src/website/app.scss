@@ -2,9 +2,10 @@ body {
     font-family: Inter, sans-serif;
     margin: 0;
 }
+
 .tatva_container {
     background-color: #FFFFFF;
-    width: 100%; 
+    width: 100%;
 }
 
 .tatva-hero-Section {
@@ -24,11 +25,21 @@ body {
     margin: auto;
     width: 1200px;
 }
+
 .tatva-com-page,
 .tatva-lcont {
     margin: 0 auto;
     max-width: 1200px;
     padding: 40px 20px;
+}
+
+.tatva-card-preview>div,
+.variation-card>div {
+    width: 100%;
+}
+
+.variation-card>div>div {
+    height: 100%;
 }
 
 div.tatva-column {
@@ -49,16 +60,21 @@ div.tatva-column {
 }
 
 .tatva-back-button .home:hover,
-.components-button:hover:not(:disabled,[aria-disabled=true]) {
+.components-button:hover:not(:disabled, [aria-disabled=true]) {
     color: #fff;
     background: #80808033;
     border-radius: 6px;
+
+    .components-button:hover:not(:disabled, [aria-disabled=true]) {
+        color: crimson;
+    }
 }
 
 .tatva-hero-cta {
     .components-button {
         color: white !important;
     }
+
     .components-button:hover {
         background: #80808033;
         border-radius: 6px;
@@ -80,6 +96,7 @@ pre {
 }
 
 @media only screen and (max-width:820px) {
+
     .tatva-com-page,
     .tatva-lcont,
     .getting_started {

@@ -3,8 +3,6 @@ function Circle() {
     <div>
       {/* @code-start */}
       <tatva-image-compare
-        before="assets/before.png"
-        after="assets/after.png"
         handle="circle"
       />
       {/* @code-end */}

@@ -15,11 +15,10 @@ import * as examples from '../examples';
 function ImageCompare() {
     return (
         <tatva-image-compare
-            before="assets/before.png"
-            after="assets/after.png"
             handle="circle"
             hover="true"
-        />
+        >
+        </tatva-image-compare>
     );
 };
 

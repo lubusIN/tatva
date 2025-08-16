@@ -3,8 +3,6 @@ function Arrow() {
     <div>
       {/* @code-start */}
       <tatva-image-compare
-        before="assets/before.png"
-        after="assets/after.png"
         handle="arrow"
       />
       {/* @code-end */}
