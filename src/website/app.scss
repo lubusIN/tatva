@@ -77,6 +77,14 @@ div.tatva-column {
     .components-button:hover:not(:disabled, [aria-disabled=true]) {
         color: crimson;
     }
+
+    color: crimson;
+}
+
+.components-button:hover:not(:disabled, [aria-disabled=true]) {
+    color: #fff;
+    background: #80808033;
+    border-radius: 6px;
 }
 
 .tatva-hero-cta {

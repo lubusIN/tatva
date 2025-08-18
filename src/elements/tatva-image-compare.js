@@ -77,38 +77,38 @@ class TatvaImageCompare extends HTMLElement {
         const template = document.createElement('template');
         template.innerHTML = `
             ${this.generateStyles()}
-            <div class="image-compare">
-                <div class="image-container" data-handle-type="${handleType}" data-hover-enabled="${hoverEnabled}">
-                     <div class="before-image-wrapper">
+            <div part="image-compare">
+                <div part="image-container" data-handle-type="${handleType}" data-hover-enabled="${hoverEnabled}">
+                     <div part="before-image-wrapper">
                         <slot name="before-image">
-                            <img class="default-before-image" alt="Before" src="assets/before.png" />
+                            <img part="default-before-image" alt="Before" src="assets/before.png" />
                         </slot>
                     </div>
-                    <div class="slider-overlay" 
+                    <div part="slider-overlay" 
                          role="slider" 
                          aria-label="Image compare slider" 
                          aria-valuemin="0" 
                          aria-valuemax="100" 
                          aria-valuenow="50"
                          tabindex="0">
-                        <div class="slider-handle">
-                            <div class="handle-controls" aria-hidden="true">
+                        <div part="slider-handle">
+                            <div part="handle-controls" aria-hidden="true">
                                 <slot name="arrow-left">
-                                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="arrow-left" aria-hidden="true">
+                                   <svg part="arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                         <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
                                     </svg>
                                 </slot>
                                 <slot name="arrow-right">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="arrow-right" aria-hidden="true">
+                                    <svg part="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                         <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd" />
                                     </svg>
                                 </slot>
                             </div>
                         </div>
                     </div>
-                     <div class="after-image-wrapper">
+                     <div part="after-image-wrapper">
                         <slot name="after-image">
-                            <img class="default-after-image" alt="After" src="assets/after.png" />
+                            <img part="default-after-image" alt="After" src="assets/after.png" />
                         </slot>
                     </div>
                 </div>
@@ -128,38 +128,38 @@ class TatvaImageCompare extends HTMLElement {
                     height: 100%;
                 }
 
-                .image-compare {
+                [part="image-compare"] {
                     width: 100%;
                     height: 100%;
                 }
 
-                .image-container {
+                [part="image-container"] {
                     position: relative;
                     overflow: hidden;
                     height: 100%;
                 }
 
-                .before-image-wrapper,
-                .after-image-wrapper {
+                [part="before-image-wrapper"],
+                [part="after-image-wrapper"] {
                     inset: 0;
                     width: 100%;
                     height: 100%;
                 }
 
-                .before-image-wrapper {
+                [part="before-image-wrapper"] {
                     z-index: 2;
                     position: relative;
                 }
 
-                .after-image-wrapper {
+                [part="after-image-wrapper"] {
                     z-index: 1;
                     position: absolute;
                 }
 
                 /* Style slotted images and default images */
                 ::slotted(img),
-                .default-before-image,
-                .default-after-image {
+                [part="default-before-image"],
+                [part="default-after-image"] {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
@@ -167,7 +167,7 @@ class TatvaImageCompare extends HTMLElement {
                     display: block;
                 }
 
-                .slider-overlay {
+                [part="slider-overlay"] {
                     width: 100%;
                     height: 100%;
                     position: absolute;
@@ -176,12 +176,12 @@ class TatvaImageCompare extends HTMLElement {
                     cursor: pointer;
                 }
 
-                .slider-overlay:focus-visible {
+                [part="slider-overlay"]:focus-visible {
                     outline: 2px solid #3b82f6;
                     outline-offset: 2px;
                 }
 
-                .slider-handle {
+                [part="slider-handle"] {
                     cursor: ew-resize;
                     width: 4px;
                     height: 100%;
@@ -194,8 +194,8 @@ class TatvaImageCompare extends HTMLElement {
                 }
 
                 /* Line handle style (default) */
-                .slider-handle.line::before,
-                .slider-handle.line::after {
+                [part="slider-handle"].line::before,
+                [part="slider-handle"].line::after {
                     content: '';
                     width: 20px;
                     height: 20px;
@@ -206,15 +206,15 @@ class TatvaImageCompare extends HTMLElement {
                     transform: translateX(-50%);
                 }
 
-                .slider-handle.line::before {
+                [part="slider-handle"].line::before {
                     top: -10px;
                 }
 
-                .slider-handle.line::after {
+                [part="slider-handle"].line::after {
                     bottom: -10px;
                 }
 
-                .handle-controls {
+                [part="handle-controls"] {
                     display: none;
                     width: 45px;
                     height: 45px;
@@ -230,38 +230,38 @@ class TatvaImageCompare extends HTMLElement {
                 }
 
                 /* Circle handle style */
-                .slider-handle.circle .handle-controls {
+                [part="slider-handle"].circle [part="handle-controls"] {
                     display: flex;
                     border-radius: 50%;
                 }
 
                 /* Rectangle handle style */
-                .slider-handle.rectangle .handle-controls {
+                [part="slider-handle"].rectangle [part="handle-controls"] {
                     display: flex;
                 }
 
                 /* Arrow handle style */
-                .slider-handle.arrow .handle-controls {
+                [part="slider-handle"].arrow [part="handle-controls"] {
                     display: flex;
                     border: none;
                 }
 
                 /* Hide arrows when hide-arrows attribute is present */
-                :host([hide-arrows="true"]) .arrow-left,
-                :host([hide-arrows="true"]) .arrow-right,
+                :host([hide-arrows="true"]) [part="arrow-left"],
+                :host([hide-arrows="true"]) [part="arrow-right"],
                 :host([hide-arrows="true"]) ::slotted([slot="arrow-left"]),
                 :host([hide-arrows="true"]) ::slotted([slot="arrow-right"]) {
                     display: none !important;
                 }
 
-                .arrow-left,
-                .arrow-right {
+                [part="arrow-left"],
+                [part="arrow-right"] {
                     width: 20px;
                     height: 20px;
                 }
 
-                .arrow-left,
-                .arrow-right,
+                [part="arrow-left"],
+                [part="arrow-right"],
                 ::slotted(.arrow-left),
                 ::slotted(.arrow-right) {
                     width: 20px;
@@ -283,12 +283,12 @@ class TatvaImageCompare extends HTMLElement {
      * Caches references to frequently used DOM elements
      */
     cacheElementReferences() {
-        this.imageContainer = this.shadowRoot.querySelector('.image-container');
-        this.sliderOverlay = this.shadowRoot.querySelector('.slider-overlay');
-        this.sliderHandle = this.shadowRoot.querySelector('.slider-handle');
-        this.handleControls = this.shadowRoot.querySelector('.handle-controls');
-        this.beforeImageWrapper = this.shadowRoot.querySelector('.before-image-wrapper');
-        this.afterImageWrapper = this.shadowRoot.querySelector('.after-image-wrapper');
+        this.imageContainer = this.shadowRoot.querySelector('[part="image-container"]');
+        this.sliderOverlay = this.shadowRoot.querySelector('[part="slider-overlay"]');
+        this.sliderHandle = this.shadowRoot.querySelector('[part="slider-handle"]');
+        this.handleControls = this.shadowRoot.querySelector('[part="handle-controls"]');
+        this.beforeImageWrapper = this.shadowRoot.querySelector('[part="before-image-wrapper"]');
+        this.afterImageWrapper = this.shadowRoot.querySelector('[part="after-image-wrapper"]');
 
         // Get slots
         this.beforeImageSlot = this.shadowRoot.querySelector('slot[name="before-image"]');
