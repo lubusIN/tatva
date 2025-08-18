@@ -18,7 +18,11 @@ import {
 import './style.scss'
 
 /**
- * Render Copy Button
+ * Renders a button that allows users to copy content to the clipboard.
+ * 
+ * @param {Object} props - The properties for the component.
+ * @param {string} props.content - The content to be copied to the clipboard.
+ * @returns {JSX.Element} - The rendered Copy Button component.
  */
 function CopyButton({ content }) {
     const [hasCopied, setHasCopied] = useState(false);

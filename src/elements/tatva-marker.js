@@ -2,8 +2,8 @@
  * tatva: marker
  */
 class tatvamarker extends HTMLElement {
-    static get observedAttributes() { 
-        return ['type']; 
+    static get observedAttributes() {
+        return ['type'];
     }
 
     connectedCallback() {
@@ -48,7 +48,7 @@ class tatvamarker extends HTMLElement {
             case "underline":
                 path = `<path d="M7.7,145.6C109,125,299.9,116.2,401,121.3c42.1,2.2,87.6,11.8,87.3,25.7"></path>`;
                 break;
-            
+
             case "double":
                 path = `<path d="M8.4,143.1c14.2-8,97.6-8.8,200.6-9.2c122.3-0.4,287.5,7.2,287.5,7.2"></path>
                         <path d="M8,19.4c72.3-5.3,162-7.8,216-7.8c54,0,136.2,0,267,7.8"></path>`;
@@ -77,7 +77,7 @@ class tatvamarker extends HTMLElement {
             case "strike":
                 path = `<path d="M13.5,15.5c131,13.7,289.3,55.5,475,125.5"></path>`;
                 break;
-        
+
             default:
                 path = `<path 
                             d="M325,18C228.7-8.3,118.5,8.3,78,21C22.4,38.4,4.6,54.6,5.6,77.6c1.4,32.4,52.2,54,142.6,63.7 c66.2,7.1,212.2,7.5, 273.5-8.3c64.4-16.6,104.3-57.6,33.8-98.2C386.7-4.9,179.4-1.4,126.3,20.7">
@@ -155,13 +155,13 @@ class tatvamarker extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-      if( !oldValue ) return;
+        if (!oldValue) return;
 
         const shadow = this.shadowRoot;
 
         const svg = shadow.querySelector('svg');
         const style = shadow.querySelector('style');
-        
+
         svg.innerHTML = this.renderPath(newValue);
         style.textContent = this.renderStyle();
     }

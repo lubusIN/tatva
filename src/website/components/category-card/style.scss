@@ -1,6 +1,7 @@
 div.tatva-preview {
     position: relative;
     padding: 10px 0px;
+    z-index: 1;
 
     &:after {
         content: '';
@@ -8,7 +9,7 @@ div.tatva-preview {
         position: absolute;
         width: 100%;
         height: 100%;
-        background: rgba(231, 238, 250, .286);
+        background: #fbf9facd;
         z-index: 0;
         padding: 0px 10px;
         pointer-events: none;
@@ -24,14 +25,23 @@ div.tatva-preview {
 
 .tatva-card-link {
     text-decoration: none;
+    z-index: 1;
 }
 
 div.tatva-card-preview {
     background: #72545a17;
     border-radius: 15px;
     height: 200px;
-    padding: 35px;
+    padding: 25px;
     display: flex;
     justify-content: center;
     z-index: 1;
+
+    div {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-size: 2em;
+        font-weight: 600;
+    }
 }

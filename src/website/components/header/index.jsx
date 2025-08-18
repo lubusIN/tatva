@@ -16,7 +16,7 @@ import { FaGithub, FaBook } from "react-icons/fa";
  * Internal dependencies.
  */
 import './style.scss';
-import { Logo } from '@tatva/components';
+import { TatvaLogo } from '@tatva/components';
 
 /**
  * Render Header
@@ -55,22 +55,22 @@ function Header() {
         <Card className={headerClass} isBorderless>
             <HStack className="header_cont">
                 <Link to={"/"} className='tatva-site-logo'>
-                    <Logo />
+                    <TatvaLogo />
                 </Link>
                 <HStack expanded={false} className={`tatva-header-button ${showButtons}`}>
-                        <Link to="getting-started">
-                            <Button style={{ gap: '8px' }}>
-                                <Icon icon={FaBook} />
-                                Documentation
-                            </Button>
-                        </Link>
-                        <Button
-                            style={{ gap: '8px' }}
-                            href='https://github.com/lubusIN/tatva/discussions'
-                        >
-                            <Icon icon={FaGithub} />
-                            Join discussion
+                    <Link to="getting-started">
+                        <Button style={{ gap: '8px' }}>
+                            <Icon icon={FaBook} />
+                            Documentation
                         </Button>
+                    </Link>
+                    <Button
+                        style={{ gap: '8px' }}
+                        href='https://github.com/lubusIN/tatva/discussions'
+                    >
+                        <Icon icon={FaGithub} />
+                        Join discussion
+                    </Button>
                 </HStack>
             </HStack>
         </Card>

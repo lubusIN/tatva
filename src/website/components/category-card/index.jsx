@@ -4,6 +4,7 @@
 import { Link } from "react-router-dom";
 import {
     Card,
+    __experimentalText as Text,
     __experimentalVStack as VStack,
     __experimentalHeading as Heading,
 } from "@wordpress/components";
@@ -15,15 +16,21 @@ import './style.scss'
 
 /**
  * Render Category Card 
+ * 
+ * @param {Object} props - The properties for the component.
+ * @param {JSX.Element} props.thumbnail - The thumbnail component to display.
+ * @param {string} props.title - The title of the category.
+ * @param {string} props.path - The path to navigate to when the card is clicked.
+ * @returns {JSX.Element} - The rendered Category Card component.
  */
-function CategoryCard({ thumbnail: Thumbnail, title, path }) {
+function CategoryCard({ thumbnail: Thumbnail, title, path, count }) {
     const Wrapper = path ? Link : 'div';
     return (
         <VStack className="tatva-preview">
             <Wrapper className="tatva-card-link" to={path}>
                 <VStack>
                     <Card className="tatva-card-preview" size="large" isBorderless >
-                         <Thumbnail /> 
+                        <Thumbnail />
                     </Card>
                     <VStack spacing={0}>
                         <Heading
@@ -34,6 +41,7 @@ function CategoryCard({ thumbnail: Thumbnail, title, path }) {
                         >
                             {title || <span>&nbsp;</span>}
                         </Heading>
+                        <Text color="gray" size={14}>{`${count} components`}</Text>
                     </VStack>
                 </VStack>
             </Wrapper>

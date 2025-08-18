@@ -4,9 +4,9 @@
 import React from 'react';
 
 /**
- * Render Logo
+ * Render Tatva Logo
  */
-function Logo() {
+function TatvaLogo() {
     return (
         <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -71,4 +71,4 @@ function Logo() {
     );
 }
 
-export default Logo;
+export default TatvaLogo;

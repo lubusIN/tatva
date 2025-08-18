@@ -7,7 +7,6 @@ import ReactContentLoader from "react-content-loader";
 /***
  * Render Content Loader
  */
-
 function ContentLoader() {
   return (
     <div style={{ backgroundColor: 'rgb(17, 27, 39)', padding: '60px', borderRadius: '5px', height: '100%' }}>

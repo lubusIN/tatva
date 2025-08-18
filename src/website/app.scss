@@ -52,11 +52,20 @@ div.tatva-column {
     padding: 6px !important
 }
 
-.tatva-back-button span,
-.tatva-back-button button {
-    color: #535353;
-    font-size: .875rem;
-    font-weight: 500;
+.tatva-back-button {
+
+    button,
+    span,
+    a {
+        color: #535353;
+        font-size: .875rem;
+        font-weight: 500;
+    }
+
+    a {
+        box-shadow: none;
+        text-decoration: none;
+    }
 }
 
 .tatva-back-button .home:hover,
@@ -117,4 +126,8 @@ pre {
     .tatva-variation-card {
         padding: 35px 20px;
     }
+}
+
+tatva-image-compare {
+    width: 100%;
 }

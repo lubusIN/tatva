@@ -17,41 +17,38 @@ import {
 import { ExampleCode } from '@tatva/components';;
 import './style.scss';
 
-function ExampleView({ title, path, component: Example }) {
+function ExampleView({ title, component: Example, rawComponent }) {
     const [view, setView] = useState("preview");
 
     return (
         <VStack spacing={4} className="example-view">
             <HStack>
-                <HStack>
-                    <Heading className="head" level={4} weight={500}>
-                        {title}
-                    </Heading>
-                </HStack>
-            
-                <HStack justify="right">
-                    <ToggleGroupControl
-                        className="tatva-view-toggle"
-                        hideLabelFromVision
-                        value={view}
-                        onChange={(value) => setView(value)}
-                    >
-                        {["Preview", "Code"].map((label, index) => (
-                            <ToggleGroupControlOption
-                                key={index}
-                                value={label.toLowerCase()}
-                                label={label}
-                                className={`tatva-toggle-button ${view === label.toLowerCase() ? "active" : ""
-                                    }`}
-                            />
-                        ))}
-                    </ToggleGroupControl>
-                </HStack>
+                <Heading className="head" level={4} weight={500}>
+                    {title}
+                </Heading>
+
+                <ToggleGroupControl
+                    className="tatva-view-toggle"
+                    __nextHasNoMarginBottom
+                    hideLabelFromVision
+                    value={view}
+                    onChange={(value) => setView(value)}
+                >
+                    {["Preview", "Code"].map((label, index) => (
+                        <ToggleGroupControlOption
+                            key={index}
+                            value={label.toLowerCase()}
+                            label={label}
+                            className={`tatva-toggle-button ${view === label.toLowerCase() ? "active" : ""
+                                }`}
+                        />
+                    ))}
+                </ToggleGroupControl>
             </HStack>
 
             {/* Single Card- toggle inner content */}
             <Card className="variation-card" variant='dotted' >
-                {view === "preview" ? <Example /> : <ExampleCode path={path} />}
+                {view === "preview" ? <Example /> : <ExampleCode rawComponent={rawComponent} />}
             </Card>
         </VStack>
     );
