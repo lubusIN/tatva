@@ -1,5 +1,5 @@
 /**
- * TatvaPulse - A custom web component with flexible positioning and styling
+ * TatvaPulse - A lightweight, reusable web component for rendering an animated pulse effect. Supports optional text and full customization of size, color, and animation speed.
  */
 class TatvaPulse extends HTMLElement {
     static get DEFAULT_CONFIG() {
