@@ -50,9 +50,7 @@ div.tatva-column {
 
 .tatva-back-button .home:hover,
 .components-button:hover:not(:disabled,[aria-disabled=true]) {
-    color: #fff;
-    background: #80808033;
-    border-radius: 6px;
+    color: crimson;
 }
 
 .tatva-hero-cta {
@@ -61,7 +59,7 @@ div.tatva-column {
     }
     .components-button:hover {
         background: #80808033;
-        border-radius: 6px;
+        border-radius: 4px;
     }
 }
 

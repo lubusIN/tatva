@@ -32,7 +32,7 @@ function Footer() {
                     {/* Left Content */}
                     <VStack spacing={3} className="footer-left">
                         <Heading level={2} weight={600} size={24} style={{ color: 'white', margin: 0 }}>
-                            Open-source DNA,Product-driven thinking
+                            Open-source DNA, Product-driven thinking
                         </Heading>
                         <Text size={14} weight={400} lineHeight={1.6} color="#A0A0A0" style={{ maxWidth: '600px' }}>
                             We build and deliver scalable solutions shaped by years of hands-on product and <br/>
@@ -55,20 +55,20 @@ function Footer() {
                         </VStack> 
                         {/* Social Links with Icons */}
                         <HStack className="social-icons" spacing={4}>
-                            <Button variant='link' href="https://www.facebook.com/lubusonline/" target="_blank">
-                                <FaFacebook size={22} color="white" />
-                            </Button>
                             <Button variant='link' href="https://github.com/lubusin" target="_blank">
                                 <FaGithub size={22} color="white" />
+                            </Button>
+                            <Button variant='link' href="https://x.com/lubusIN" target="_blank">
+                                <FaXTwitter size={22} color="white" />
                             </Button>
                             <Button variant='link' href="https://www.linkedin.com/company/lubus/" target="_blank">
                                 <FaLinkedin size={22} color="white" />
                             </Button>
+                            <Button variant='link' href="https://www.facebook.com/lubusonline/" target="_blank">
+                                <FaFacebook size={22} color="white" />
+                            </Button>
                             <Button variant='link' href="https://www.instagram.com/lubusin/" target="_blank">
                                 <FaInstagram size={22} color="white" />
-                            </Button>
-                            <Button variant='link' href="https://x.com/lubusIN" target="_blank">
-                                <FaXTwitter size={22} color="white" />
                             </Button>
                         </HStack>
                     </VStack>
