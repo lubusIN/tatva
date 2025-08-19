@@ -41,7 +41,7 @@ function CategoryCard({ thumbnail: Thumbnail, title, path, count }) {
                         >
                             {title || <span>&nbsp;</span>}
                         </Heading>
-                        <Text color="gray" size={14}>{`${count} components`}</Text>
+                        <Text color="gray" size={14}>{`${count} examples`}</Text>
                     </VStack>
                 </VStack>
             </Wrapper>
