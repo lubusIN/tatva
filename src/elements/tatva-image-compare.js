@@ -2,14 +2,24 @@
  * TatvaImageCompare - A custom web component for comparing two images with an interactive slider
  */
 class TatvaImageCompare extends HTMLElement {
+    static get DEFAULT_CONFIG() {
+        return {
+            handle: 'line',
+            hover: false,
+            hideArrows: false,
+        };
+    }
+
     static get observedAttributes() {
         return ['handle', 'hover', 'hide-arrows'];
     }
 
+    /**
+     * Constructor initializes the component
+     */
     constructor() {
         super();
-
-        // Create shadow DOM for encapsulation
+        this._isInitialized = false;
         this.attachShadow({ mode: 'open' });
 
         // Initialize component state
@@ -24,6 +34,7 @@ class TatvaImageCompare extends HTMLElement {
         this.handleOverlayHover = this.handleOverlayHover.bind(this);
         this.handleBeforeImageLoad = this.handleBeforeImageLoad.bind(this);
         this.handleKeyboardNavigation = this.handleKeyboardNavigation.bind(this);
+        this.initializeSliderPosition = this.initializeSliderPosition.bind(this);
     }
 
     /**
@@ -34,29 +45,38 @@ class TatvaImageCompare extends HTMLElement {
     }
 
     /**
-     * Called when element is added to DOM
+     * Sets up shadow DOM and renders the initial component
      */
     connectedCallback() {
-        this.init();
+        if (!this._isInitialized) {
+            this.init();
+            this._isInitialized = true;
+        }
     }
 
     /**
-     * Called when element is removed from DOM
+     * Cleanup when element is removed from DOM
      */
     disconnectedCallback() {
+        this._isInitialized = false;
         this.removeEventListeners();
         this.cleanupResizeObserver();
         this.removeSlotListeners();
     }
 
     /**
-     * Called when observed attributes change
-     */
+    * Re-renders component when observed attributes change
+    */
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue === newValue || !this.isConnected) return;
-        this.init(); // Re-render component when attributes change
+        if (this._isInitialized) {
+            this.init(); // Re-render component when attributes change
+        }
     }
 
+    /**
+     * Initialization method
+     */
     init() {
         this.renderComponent();
         this.cacheElementReferences();
@@ -64,61 +84,42 @@ class TatvaImageCompare extends HTMLElement {
         this.attachEventListeners();
         this.initializeSliderPosition();
         this.setupResizeObserver();
-        this.setupSlotListeners?.();
+        this.setupSlotListeners();
     }
 
     /**
      * Renders the complete component HTML and CSS
      */
     renderComponent() {
-        const handleType = this.getAttribute('handle') || 'line';
-        const hoverEnabled = TatvaImageCompare.convertAttributeToBoolean(this.getAttribute('hover'));
-
+        const config = this.getComponentConfig();
         const template = document.createElement('template');
+
         template.innerHTML = `
             ${this.generateStyles()}
-            <div part="image-compare">
-                <div part="image-container" data-handle-type="${handleType}" data-hover-enabled="${hoverEnabled}">
-                     <div part="before-image-wrapper">
-                        <slot name="before-image">
-                            <img part="default-before-image" alt="Before" src="assets/before.png" />
-                        </slot>
-                    </div>
-                    <div part="slider-overlay" 
-                         role="slider" 
-                         aria-label="Image compare slider" 
-                         aria-valuemin="0" 
-                         aria-valuemax="100" 
-                         aria-valuenow="50"
-                         tabindex="0">
-                        <div part="slider-handle">
-                            <div part="handle-controls" aria-hidden="true">
-                                <slot name="arrow-left">
-                                   <svg part="arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
-                                    </svg>
-                                </slot>
-                                <slot name="arrow-right">
-                                    <svg part="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd" />
-                                    </svg>
-                                </slot>
-                            </div>
-                        </div>
-                    </div>
-                     <div part="after-image-wrapper">
-                        <slot name="after-image">
-                            <img part="default-after-image" alt="After" src="assets/after.png" />
-                        </slot>
-                    </div>
-                </div>
-            </div>
+            ${this.generateMarkup(config)}
         `;
-        this.shadowRoot.replaceChildren(template.content.cloneNode(true));
+
+        this.shadowRoot.innerHTML = '';
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
     /**
-     * Generates component CSS styles
+     * Gets component configuration from attributes with fallback to defaults
+     * @returns {Object} Configuration object with all settings
+     */
+    getComponentConfig() {
+        const defaults = TatvaImageCompare.DEFAULT_CONFIG;
+
+        return {
+            handle: this.getAttribute('handle') || defaults.handle,
+            hover: TatvaImageCompare.convertAttributeToBoolean(this.getAttribute('hover')) || defaults.hover,
+            hideArrows: TatvaImageCompare.convertAttributeToBoolean(this.getAttribute('hide-arrows')) || defaults.hideArrows,
+        };
+    }
+
+    /**
+     * Generates the CSS styles for the component
+     * @returns {string} Complete CSS styles wrapped in <style> tags
      */
     generateStyles() {
         return `
@@ -280,6 +281,52 @@ class TatvaImageCompare extends HTMLElement {
     }
 
     /**
+     * Generates the HTML markup structure
+     * @param {Object} config - Component configuration object
+     * @returns {string} Complete HTML structure
+     */
+    generateMarkup(config) {
+        return `
+            <div part="image-compare">
+                <div part="image-container" data-handle-type="${config.handle}" data-hover-enabled="${config.hover}">
+                     <div part="before-image-wrapper">
+                        <slot name="before-image">
+                            <img part="default-before-image" alt="Before" src="assets/before.png" />
+                        </slot>
+                    </div>
+                    <div part="slider-overlay" 
+                         role="slider" 
+                         aria-label="Image compare slider" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100" 
+                         aria-valuenow="50"
+                         tabindex="0">
+                        <div part="slider-handle">
+                            <div part="handle-controls" aria-hidden="true">
+                                <slot name="arrow-left">
+                                   <svg part="arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                                    </svg>
+                                </slot>
+                                <slot name="arrow-right">
+                                    <svg part="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd" />
+                                    </svg>
+                                </slot>
+                            </div>
+                        </div>
+                    </div>
+                     <div part="after-image-wrapper">
+                        <slot name="after-image">
+                            <img part="default-after-image" alt="After" src="assets/after.png" />
+                        </slot>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    /**
      * Caches references to frequently used DOM elements
      */
     cacheElementReferences() {
@@ -307,25 +354,29 @@ class TatvaImageCompare extends HTMLElement {
         if (slottedElements.length > 0) {
             return slottedElements.find(el => el.tagName === 'IMG') || slottedElements[0];
         }
-        return this.shadowRoot.querySelector('.default-before-image');
+        return this.shadowRoot.querySelector('[part="default-before-image"]');
     }
 
     /**
      * Sets up slot change listeners
      */
     setupSlotListeners() {
-        [this.beforeImageSlot, this.afterImageSlot].forEach(slot =>
-            slot?.addEventListener('slotchange', this.initializeSliderPosition)
-        );
+        [this.beforeImageSlot, this.afterImageSlot].forEach(slot => {
+            if (slot) {
+                slot.addEventListener('slotchange', this.initializeSliderPosition);
+            }
+        });
     }
 
     /**
      * Removes slot change listeners
      */
     removeSlotListeners() {
-        [this.beforeImageSlot, this.afterImageSlot].forEach(slot =>
-            slot?.removeEventListener('slotchange', this.initializeSliderPosition)
-        );
+        [this.beforeImageSlot, this.afterImageSlot].forEach(slot => {
+            if (slot) {
+                slot.removeEventListener('slotchange', this.initializeSliderPosition);
+            }
+        });
     }
 
     /**
@@ -380,7 +431,10 @@ class TatvaImageCompare extends HTMLElement {
         }
 
         // Remove image load listeners from both slotted and default images
-        this.getBeforeImageElement()?.removeEventListener('load', this.handleBeforeImageLoad);
+        const beforeImg = this.getBeforeImageElement();
+        if (beforeImg) {
+            beforeImg.removeEventListener('load', this.handleBeforeImageLoad);
+        }
     }
 
     /**
@@ -415,8 +469,10 @@ class TatvaImageCompare extends HTMLElement {
      * Cleans up resize observer
      */
     cleanupResizeObserver() {
-        this.resizeObserver?.disconnect();
-        this.resizeObserver = null;
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+            this.resizeObserver = null;
+        }
     }
 
     /**
@@ -458,7 +514,9 @@ class TatvaImageCompare extends HTMLElement {
         // Release pointer capture
         try {
             this.sliderHandle.releasePointerCapture(e.pointerId);
-        } catch (error) { }
+        } catch (error) {
+            // Ignore errors when releasing pointer capture
+        }
 
         // Remove move and end event listeners
         ['pointermove', 'pointerup', 'pointercancel', 'pointerleave']
@@ -488,18 +546,18 @@ class TatvaImageCompare extends HTMLElement {
     handleKeyboardNavigation(e) {
         const containerRect = this.sliderOverlay.getBoundingClientRect();
         const step = Math.max(1, Math.round(containerRect.width * 0.02)); // 2% step
-        const currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
+        let currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
 
         const moves = {
-            ArrowLeft: () => currentLeft = Math.max(0, currentLeft - step),
-            ArrowRight: () => currentLeft = Math.min(containerRect.width, currentLeft + step),
-            Home: () => currentLeft = 0,
-            End: () => currentLeft = containerRect.width
+            ArrowLeft: () => { currentLeft = Math.max(0, currentLeft - step); },
+            ArrowRight: () => { currentLeft = Math.min(containerRect.width, currentLeft + step); },
+            Home: () => { currentLeft = 0; },
+            End: () => { currentLeft = containerRect.width; }
         };
 
         if (moves[e.key]) {
             moves[e.key]();
-            this.updateSliderPosition(left);
+            this.updateSliderPosition(currentLeft);
             e.preventDefault();
         }
     }
