@@ -1,7 +1,7 @@
 /**
  * External dependencies.
  */
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { __ } from '@wordpress/i18n';
 import {
     Icon,
@@ -25,8 +25,8 @@ import { ExampleView } from "@tatva/components";
  * @returns {JSX.Element} Rendered examples page.
  */
 function Examples({ examples }) {
-    const location = useLocation();
-    const path = location.pathname.split("/").filter(Boolean).pop();
+
+    const category = examples.find(example => example.category)?.category || __('Examples', 'tatva');
 
     return (
         <VStack className="tatva-com-page" spacing={8}>
@@ -35,7 +35,7 @@ function Examples({ examples }) {
                     Home
                 </Link>
                 <Icon icon={GoChevronRight} size={18} />
-                <span>{path}</span>
+                <span>{category}</span>
             </HStack>
             <Grid
                 alignment="bottom"
