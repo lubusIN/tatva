@@ -24,7 +24,11 @@ function ExampleCode({ rawComponent }) {
     return;
   }
 
-  const htmlCode = renderToString(rawComponent());
+  let htmlCode = renderToString(rawComponent());
+  const componentStart = htmlCode.indexOf('<tatva-image-compare');
+  if (componentStart !== -1) {
+    htmlCode = htmlCode.substring(componentStart);
+  }
   const formatted = vkbeautify.xml(htmlCode, 2);
 
   return (
