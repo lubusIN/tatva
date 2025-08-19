@@ -1,16 +1,18 @@
-.tatva-lubus{
+.tatva-lubus {
     background-color: rgba(78, 78, 78, 0.38);
     padding: 7px 12px;
     border-radius: 20px;
     max-width: fit-content;
 }
 
-.tatva-hero-card{
-    width: 50%;
+.tatva-hero-cont {
+    margin: auto;
+    width: 1200px;
 }
 
-@media only screen and (max-width:360px) {
-    .tatva-hero-card{
-        width: 100%;
-    }
+.tatva-hero-Section {
+    background-color: #1F1F1F;
+    padding: 20px;
+    height: 350px;
+    place-content: center;
 }

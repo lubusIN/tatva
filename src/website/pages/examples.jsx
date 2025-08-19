@@ -4,14 +4,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { __ } from '@wordpress/i18n';
 import {
-    chevronRight,
-} from "@wordpress/icons";
-import {
     Icon,
     __experimentalHStack as HStack,
     __experimentalVStack as VStack,
     __experimentalGrid as Grid,
 } from "@wordpress/components";
+import { GoChevronRight } from "react-icons/go";
 
 /**
  * Internal dependencies.
@@ -36,7 +34,7 @@ function Examples({ examples }) {
                 <Link to="/">
                     Home
                 </Link>
-                <Icon icon={chevronRight} size={20} />
+                <Icon icon={GoChevronRight} size={18} />
                 <span>{path}</span>
             </HStack>
             <Grid

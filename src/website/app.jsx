@@ -9,7 +9,7 @@ import { useEffect } from "react";
  */
 import '../elements';
 import { getDefaultCategories } from '@tatva/examples';
-import { Home, Examples, GettingStarted } from '@tatva/pages'
+import { Home, Examples } from '@tatva/pages'
 import { Footer, Header } from '@tatva/components';
 
 /**
@@ -28,8 +28,7 @@ function App() {
             <Header />
 
             <Routes>
-                <Route path="/" element={<Home />} style={{ overflowX: 'visible' }} />
-                <Route path="/getting-started" element={<GettingStarted />} style={{ overflowX: 'visible' }} />
+                <Route path="/" element={<Home />} />
                 {/* Render elements category routes */}
                 {categories.map((category, index) => {
                     const { path, variants } = category.meta;

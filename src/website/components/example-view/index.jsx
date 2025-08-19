@@ -30,6 +30,7 @@ function ExampleView({ title, component: Example, rawComponent }) {
                 <ToggleGroupControl
                     className="tatva-view-toggle"
                     __nextHasNoMarginBottom
+                    __next40pxDefaultSize
                     hideLabelFromVision
                     value={view}
                     onChange={(value) => setView(value)}
@@ -47,7 +48,7 @@ function ExampleView({ title, component: Example, rawComponent }) {
             </HStack>
 
             {/* Single Card- toggle inner content */}
-            <Card className="variation-card" variant='dotted' >
+            <Card className={`${view} variation-card`} variant='dotted' >
                 {view === "preview" ? <Example /> : <ExampleCode rawComponent={rawComponent} />}
             </Card>
         </VStack>

@@ -3,10 +3,7 @@
  */
 import { useState } from 'react';
 import { useCopyToClipboard } from '@wordpress/compose';
-import {
-    check,
-    copy,
-} from "@wordpress/icons";
+import { GoCopy, GoCheck } from "react-icons/go";
 import {
     Popover,
     Button,
@@ -37,7 +34,7 @@ function CopyButton({ content }) {
     return (
         <Button
             className='tatva-copy'
-            icon={hasCopied ? check : copy}
+            icon={hasCopied ? GoCheck : GoCopy}
             onClick={handleCopyClick}
             ref={useCopyToClipboard(content)}
         >

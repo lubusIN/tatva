@@ -4,6 +4,7 @@
 import { renderToString } from 'react-dom/server';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism';
 import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import vkbeautify from 'vkbeautify';
 
 /**
  * Internal dependencies.
@@ -20,10 +21,11 @@ import { CopyButton } from '@tatva/components';
 function ExampleCode({ rawComponent }) {
 
   if (!rawComponent) {
-    return <div>No component provided</div>;
+    return;
   }
 
   const htmlCode = renderToString(rawComponent());
+  const formatted = vkbeautify.xml(htmlCode, 2);
 
   return (
     <>
@@ -46,9 +48,9 @@ function ExampleCode({ rawComponent }) {
         }}
         wrapLongLines={true}
       >
-        {htmlCode}
+        {formatted}
       </SyntaxHighlighter>
-      <CopyButton content={htmlCode} />
+      <CopyButton content={formatted} />
     </>
   );
 }

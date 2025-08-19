@@ -11,7 +11,6 @@ function TatvaLogo() {
         <svg
             xmlns='http://www.w3.org/2000/svg'
             xmlnsXlink='http://www.w3.org/1999/xlink'
-            style={{ maxHeight: "500px" }}
             version='1.2'
             viewBox='0 47.538 284.985 79.002'
             height="38"

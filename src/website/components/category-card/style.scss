@@ -30,18 +30,14 @@ div.tatva-preview {
 
 div.tatva-card-preview {
     background: #72545a17;
-    border-radius: 15px;
+    border-radius: 16px;
     height: 200px;
     padding: 25px;
     display: flex;
     justify-content: center;
     z-index: 1;
 
-    div {
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        font-size: 2em;
-        font-weight: 600;
+    tatva-image-compare::part(image-container) {
+        border-radius: 8px;
     }
 }
