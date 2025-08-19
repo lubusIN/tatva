@@ -2,7 +2,7 @@
  * Get categories in fixed order.
  */
 import Marker from './marker';
-import Ping from './ping';
+import Pulse from './pulse';
 import ImageCompare from './image-compare';
 import TextAnimation from './text-animation';
 import Placeholder from './placeholder';
@@ -11,7 +11,7 @@ import { default as Placeholder2 } from './placeholder';
 export const categories = [
     ImageCompare,
     Marker,
-    Ping,
+    Pulse,
     TextAnimation,
     Placeholder,
     Placeholder2,
