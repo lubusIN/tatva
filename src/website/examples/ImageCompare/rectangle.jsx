@@ -3,8 +3,6 @@ function Rectangle() {
     <div>
       {/* @code-start */}
       <tatva-image-compare
-        before="assets/before.png"
-        after="assets/after.png"
         handle="rectangle"
       />
       {/* @code-end */}

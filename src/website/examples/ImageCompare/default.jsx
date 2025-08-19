@@ -2,10 +2,7 @@ function Default() {
   return (
     <div>
       {/* @code-start */}
-      <tatva-image-compare
-        before="assets/after.png"
-        after="assets/before.png"
-      />
+      <tatva-image-compare />
       {/* @code-end */}
     </div>
   );
