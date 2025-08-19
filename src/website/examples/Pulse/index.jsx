@@ -28,6 +28,22 @@ const pulseVariantConfigs = [
                 Tatva
             </tatva-pulse>
         )
+    },
+    {
+        title: 'Superscript',
+        component: () => (
+            <tatva-pulse color="#fdc700" size="1rem" position="superscript" gap="0px" superscript-offset="-5px">
+                Tatva
+            </tatva-pulse>
+        )
+    },
+    {
+        title: 'Background',
+        component: () => (
+            <tatva-pulse color="#615fff" size="2rem" position="background">
+                Tatva
+            </tatva-pulse>
+        )
     }
 ];
 
