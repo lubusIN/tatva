@@ -1,7 +1,7 @@
 .tatva-footer {
     background-color: #1f1f1f !important;
 
-    .components-card__body {
+    .tatva_container.components-card__body {
         &:first-child {
             padding: 60px 3vw;
         }
@@ -11,6 +11,11 @@
             width: 90%;
         }
     }
+}
+
+.tatva_container .footer-content {
+    width: 1200px;
+    margin: auto;
 }
 
 .social-icons .components-button:hover{
@@ -24,9 +29,9 @@
     width:fit-content;
 }
 .footer_btn:hover{
-    background-color: #80808033 !important;
-
     color: aliceblue !important;
+    border-radius: 16px !important;
+    background: #80808033;
 }
 
 @media (max-width: 820px) {
