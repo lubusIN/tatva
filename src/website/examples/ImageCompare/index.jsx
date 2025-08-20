@@ -16,7 +16,11 @@ const imageCompareVariantConfigs = [
     },
     {
         title: 'Circle Handle',
-        component: () => <tatva-image-compare handle="circle" />
+        component: () => 
+            <tatva-image-compare handle="circle">
+                <img slot='after-image' src='./assets/after-img.png' />
+                <img slot='before-image' src='./assets/before-img.png'/>
+            </tatva-image-compare>
     },
     {
         title: 'Rectangle Handle',
