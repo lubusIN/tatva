@@ -488,7 +488,7 @@ class TatvaImageCompare extends HTMLElement {
     handleKeyboardNavigation(e) {
         const containerRect = this.sliderOverlay.getBoundingClientRect();
         const step = Math.max(1, Math.round(containerRect.width * 0.02)); // 2% step
-        const currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
+        let currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
 
         const moves = {
             ArrowLeft: () => currentLeft = Math.max(0, currentLeft - step),
@@ -499,7 +499,7 @@ class TatvaImageCompare extends HTMLElement {
 
         if (moves[e.key]) {
             moves[e.key]();
-            this.updateSliderPosition(left);
+            this.updateSliderPosition(currentLeft);
             e.preventDefault();
         }
     }

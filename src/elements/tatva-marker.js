@@ -107,7 +107,7 @@ class TatvaMarker extends HTMLElement {
         const defaults = TatvaMarker.DEFAULT_CONFIG;
 
         return {
-            type: this.getAttribute('type') || defaults.type, // ADDED THIS LINE
+            type: this.getAttribute('type') || defaults.type,
             color: this.getAttribute('color') || defaults.color,
             animation: this.getAttribute('animation') || defaults.animation,
             animationDuration: this.getAttribute('animation-duration') || defaults.animationDuration,
@@ -118,7 +118,7 @@ class TatvaMarker extends HTMLElement {
     /**
      * Generates the CSS styles for the component
      * @param {Object} config - Component configuration object
-     * @returns {string} Complete CSS styles wrapped in <style> tags
+     * @returns {string} Complete CSS styles (without style tag)
      */
     generateStyles(config) {
         let css = `

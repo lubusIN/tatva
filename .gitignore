@@ -34,3 +34,6 @@ next-env.d.ts
 # build
 **/build
 **/dist
+
+# storybook-static
+**/storybook-static

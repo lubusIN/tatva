@@ -17,7 +17,9 @@
     "dev": "vite",
     "build": "vite build",
     "watch": "vite build --watch",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "repository": {
     "type": "git",
@@ -35,10 +37,14 @@
   },
   "homepage": "https://github.com/lubusIN/tatva#readme",
   "devDependencies": {
+    "@storybook/addon-essentials": "8.4.6",
+    "@storybook/web-components-vite": "8.4.6",
     "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^7.26.0",
+    "lit": "^3.3.1",
     "sass-embedded": "^1.89.2",
-    "vite": "^7.0.5",
+    "storybook": "8.4.6",
+    "vite": "5.4.10",
     "vite-plugin-static-copy": "^3.1.1"
   },
   "optionalDependencies": {
