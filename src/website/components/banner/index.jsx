@@ -22,8 +22,11 @@ function Banner() {
                 <VStack spacing={5}>
                     <Text className='tatva-lubus' size={15} align="left" color="white">From the house of LUBUS</Text>
                     <Heading size={40} align="left" color="white" lineHeight={1.3} weight={500}>
-                        Craft blazing fast UI with Tatva custom elements.
+                        Bring Your Web to Life.
                     </Heading>
+                    <Text size={16} align="left" color="#A4A4A4" lineHeight={1.5} style={{ maxWidth: '500px' }}>
+                        A lightweight library of custom elements ready to drop into your project with simple tags.
+                    </Text>
                 </VStack>
             </VStack>
         </div>

@@ -1,5 +1,5 @@
 /**
- * TatvaPulse - A custom web component with flexible positioning and styling
+ * TatvaPulse - A lightweight, reusable web component for rendering an animated pulse effect. Supports optional text and full customization of size, color, and animation speed.
  */
 class TatvaPulse extends HTMLElement {
     static get DEFAULT_CONFIG() {
@@ -8,7 +8,7 @@ class TatvaPulse extends HTMLElement {
             color: '#000000',
             animationDuration: '1s',
             gap: '10px',
-            position: 'right',
+            position: 'left',
             superscriptOffset: '-0.5em',
         };
     }
@@ -149,7 +149,7 @@ class TatvaPulse extends HTMLElement {
                     transform: translate(-50%, -50%);
                 }
 
-                :host([position="left"]) .pulse-container {
+                :host([position="right"]) .pulse-container {
                     flex-direction: row;
                 }
                 
@@ -200,7 +200,7 @@ class TatvaPulse extends HTMLElement {
                 <div class="content-wrapper" part="content">
                     <slot></slot>
                 </div>
-                <div class="pulse-wrapper" part="wrapper">
+                <div class="pulse-wrapper" part="ping">
                     <div class="pulse-spread" part="spread"></div>
                     <div class="pulse-dot" part="dot"></div>
                 </div>
