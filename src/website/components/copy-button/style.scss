@@ -1,11 +1,14 @@
 .tatva-copy {
     box-shadow: none !important;
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 10px;
 
     svg {
         fill: white !important;
-        padding-bottom: 30px;
     }
+}
+
+.copied-pop .components-popover__content {
+    padding: 6px !important
 }

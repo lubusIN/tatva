@@ -13,7 +13,7 @@ function LubusLogo() {
             id="Layer_2"
             data-name="Layer 2"
             viewBox="0 0 695.05 187.18"
-            width={125}
+            width={100}
             height={35}
         >
             <defs>

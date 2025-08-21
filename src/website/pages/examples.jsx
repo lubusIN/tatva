@@ -4,13 +4,12 @@
 import { Link } from "react-router-dom";
 import { __ } from '@wordpress/i18n';
 import {
-    chevronRight,
-} from "@wordpress/icons";
-import {
+    Icon,
     __experimentalHStack as HStack,
     __experimentalVStack as VStack,
     __experimentalGrid as Grid,
 } from "@wordpress/components";
+import { GoChevronRight } from "react-icons/go";
 
 /**
  * Internal dependencies.
@@ -19,44 +18,40 @@ import { ExampleView } from "@tatva/components";
 
 /**
  * Render Examples Page
+ * This component renders a page displaying a list of example components.
+ * 
+ * @param {Object} props - Component properties.
+ * @param {Array} props.examples - List of example components to render.
+ * @returns {JSX.Element} Rendered examples page.
  */
 function Examples({ examples }) {
 
-    const categoryTitle = (examples?.[Object.keys(examples)[0]]?.meta?.category ?? "Tatva UI").replace(/([A-Z])/g, ' $1').trim();
-    
+    const category = examples.find(example => example.category)?.category || __('Examples', 'tatva');
+
     return (
         <VStack className="tatva-com-page" spacing={8}>
             <HStack className="tatva-back-button" alignment="topLeft" spacing={0}>
-                <Link to="/" style={{ boxShadow: 'none', textDecoration: 'none' }}>
-                    <div>
-                        <span className="home" style={{ display: "flex" }}>
-                            Home
-                            <div style={{ width: '20px', height: '20px' }}>
-                                {chevronRight}
-                            </div>
-                        </span>
-                    </div>
+                <Link to="/">
+                    Home
                 </Link>
-                <span>{categoryTitle}</span>
+                <Icon icon={GoChevronRight} size={18} />
+                <span>{category}</span>
             </HStack>
-
             <Grid
                 alignment="bottom"
                 columns={[1, 2, 3]}
                 columnGap={35}
                 rowGap={35}>
                 {Object.values(examples).map((Example, index) => {
-                    const { title, name, category, path } = Example.meta;
+                    const { title, category, component, rawComponent } = Example;
                     return (
-                        <div key={index}>
-                            <ExampleView
-                                title={title}
-                                name={name}
-                                category={category}
-                                path={path}
-                                component={Example}
-                            />
-                        </div>
+                        <ExampleView
+                            key={index}
+                            title={title}
+                            category={category}
+                            component={component}
+                            rawComponent={rawComponent}
+                        />
                     );
                 })}
             </Grid>

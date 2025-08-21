@@ -11,12 +11,14 @@ import {
  * Internal dependencies.
  */
 import { Banner, CategoryCard } from "@tatva/components";
-import { categories } from '@tatva/categories';
+import { getDefaultCategories } from '@tatva/examples';
 
 /**
  * Render Component Menu
  */
 function Home() {
+    const categories = getDefaultCategories();
+
     return (
         <>
             <Banner />
@@ -31,13 +33,14 @@ function Home() {
                 >
                     {
                         categories.map((category, index) => {
-                            const { title, path } = category.meta;
+                            const { path, variants } = category.meta;
                             return (
                                 <CategoryCard
-                                    key={`${index}-${path}`}
+                                    key={index}
                                     thumbnail={category}
-                                    title={title}
+                                    title={category.meta.category}
                                     path={path}
+                                    count={variants.length}
                                 />
                             )
                         })

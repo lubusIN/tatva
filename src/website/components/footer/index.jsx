@@ -3,8 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import {
-    Card,
-    CardBody,
     Button,
     __experimentalHeading as Heading,
     __experimentalHStack as HStack,
@@ -14,67 +12,52 @@ import {
 import { Link } from 'react-router-dom';
 import { FaLinkedin, FaGithub, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { RiCalendarScheduleLine } from "react-icons/ri";
 
 /**
  * Internal dependencies.
  */
 import './style.scss'
-import { LubusLogo } from '..';
+import { LubusLogo } from '@tatva/components';
 
 /**
  * Render Footer
  */
 function Footer() {
     return (
-        <Card className="tatva-footer" size="large" isBorderless isRounded={false}>
-            <CardBody>
-                <HStack className="footer-content" justify="space-between" alignment='flex-start' spacing={4} direction='row-reverse'>
-                    {/* Left Content */}
-                    <VStack spacing={3} className="footer-left">
-                        <Heading level={2} weight={600} size={24} style={{ color: 'white', margin: 0 }}>
-                            Open-source DNA, Product-driven thinking
-                        </Heading>
-                        <Text size={14} weight={400} lineHeight={1.6} color="#A0A0A0" style={{ maxWidth: '600px' }}>
-                            We build and deliver scalable solutions shaped by years of hands-on product and <br/>
-                            open-source experience. We’re passionate about driving positive business impact.
+        <footer className="tatva-footer">
+            <VStack className="footer-content" spacing={0}>
+                <VStack alignment="center" spacing={4}>
+                    <Heading level={2} align='center' weight={600} size={45} color='white' style={{ margin: 0 }}>
+                        Open-source DNA,
+                        <br />
+                        <Text level={2} weight={600} size={45} color='#5D5D5D' style={{ margin: 0 }}>
+                            Product-driven thinking
                         </Text>
-                        <Button className='footer_btn' href='https://cal.com/lubus'>
-                            Schedule a Call
-                        </Button>
-                    </VStack>
-
-                    {/* Right Content */}
-                    <VStack spacing={4} justify="flex-end">
-                       <VStack spacing={2}>
-                            <Link className="footer-logo" to={'https://lubus.in/'} target="_blank">
-                                <LubusLogo/> 
-                            </Link>
-                            <Text size={16} weight={400} color="#A0A0A0">
-                                Friendly Solutions
-                            </Text>
-                        </VStack> 
-                        {/* Social Links with Icons */}
-                        <HStack className="social-icons" spacing={4}>
-                            <Button variant='link' href="https://github.com/lubusin" target="_blank">
-                                <FaGithub size={22} color="white" />
-                            </Button>
-                            <Button variant='link' href="https://x.com/lubusIN" target="_blank">
-                                <FaXTwitter size={22} color="white" />
-                            </Button>
-                            <Button variant='link' href="https://www.linkedin.com/company/lubus/" target="_blank">
-                                <FaLinkedin size={22} color="white" />
-                            </Button>
-                            <Button variant='link' href="https://www.facebook.com/lubusonline/" target="_blank">
-                                <FaFacebook size={22} color="white" />
-                            </Button>
-                            <Button variant='link' href="https://www.instagram.com/lubusin/" target="_blank">
-                                <FaInstagram size={22} color="white" />
-                            </Button>
-                        </HStack>
-                    </VStack>
+                    </Heading>
+                    <Text size={16} align="center" weight={400} lineHeight={1.5} color='#A4A4A4' style={{ maxWidth: '600px' }}>
+                        We build and deliver scalable solutions shaped by years of hands-on product and
+                        open-source experience. We’re passionate about driving positive business impact.
+                    </Text>
+                    <Button className='footer_btn' href='https://cal.com/lubus' icon={RiCalendarScheduleLine}>
+                        Schedule a Call
+                    </Button>
+                </VStack>
+                <HStack className={'footer_bottom'} justify='space-between'>
+                    <Link className="footer-logo" to={'https://lubus.in/'} target="_blank">
+                        <LubusLogo />
+                    </Link>
+                    <Text className={'copyright'} color='#A4A4A4'>Copyright © 2025 LUBUS. All rights reserved</Text>
+                    <HStack className="social-icons" spacing={0} expanded={false}>
+                        <Button icon={FaGithub} iconSize={18} variant='link' href="https://github.com/lubusin" target="_blank" />
+                        <Button icon={FaXTwitter} iconSize={18} variant='link' href="https://x.com/lubusIN" target="_blank" />
+                        <Button icon={FaLinkedin} iconSize={18} variant='link' href="https://www.linkedin.com/company/lubus/" target="_blank" />
+                        <Button icon={FaFacebook} iconSize={18} variant='link' href="https://www.facebook.com/lubusonline/" target="_blank" />
+                        <Button icon={FaInstagram} iconSize={18} variant='link' href="https://www.instagram.com/lubusin/" target="_blank" />
+                    </HStack>
                 </HStack>
-            </CardBody>
-        </Card>
+            </VStack>
+        </footer>
     );
 };
 

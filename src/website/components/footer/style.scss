@@ -1,47 +1,59 @@
 .tatva-footer {
-    background-color: #1f1f1f !important;
+    background-color: black !important;
+    padding: 40px 20px 0px;
 
-    .tatva_container.components-card__body {
-        &:first-child {
-            padding: 60px 3vw;
-        }
+    .footer-content {
+        margin: auto;
+        width: 1200px;
+        flex-direction: column;
+    }
 
-        .footer-content {
-            margin: auto;
-            width: 90%;
+    .footer_bottom {
+        padding: 10px 0px;
+        margin-top: 40px;
+        border-top: 1px solid #dcdcdc30;
+
+        svg {
+            fill: white
         }
     }
 }
 
-.tatva_container .footer-content {
-    width: 1200px;
-    margin: auto;
-}
-
-.social-icons .components-button:hover{
+.social-icons .components-button:hover {
     transform: scale(1.2);
 }
 
 .footer_btn {
-    color: aliceblue;
-    border: 1px solid white;
-    border-radius: 16px;
-    width:fit-content;
+    background-color: crimson;
+    color: white;
+    border-radius: 4px;
+    font-weight: 400;
+    padding: 10px 18px !important;
 }
-.footer_btn:hover{
+
+.footer_btn:hover {
     color: aliceblue !important;
-    border-radius: 16px !important;
     background: #80808033;
 }
 
+.copyright {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 @media (max-width: 820px) {
-  .tatva-footer .footer-content {
-    flex-direction: column-reverse !important;
-    align-items: center !important;
-    text-align: center;                
-    gap: 20px;                     
-  }
-  .footer-left{
-    align-items: center !important;
-  }
+    .tatva-footer .footer-content {
+        text-align: center;
+    }
+
+    .footer_bottom {
+        flex-direction: column !important;
+
+        .copyright {
+            position: relative;
+            left: 0;
+            transform: none;
+        }
+    }
 }

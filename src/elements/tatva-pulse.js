@@ -13,14 +13,13 @@ class TatvaPulse extends HTMLElement {
         };
     }
 
-    // Define observed attributes for reactivity
     static get observedAttributes() {
         return ['size', 'color', 'position', 'gap', 'superscript-offset'];
     }
 
     /**
-    * Constructor initializes the component
-    */
+     * Constructor initializes the component
+     */
     constructor() {
         super();
         this._isInitialized = false;
@@ -32,7 +31,7 @@ class TatvaPulse extends HTMLElement {
      */
     connectedCallback() {
         if (!this._isInitialized) {
-            this.render();
+            this.renderComponent();
             this._isInitialized = true;
         }
     }
@@ -49,24 +48,14 @@ class TatvaPulse extends HTMLElement {
      */
     attributeChangedCallback(attributeName, oldValue, newValue) {
         if (oldValue !== newValue && this.shadowRoot && this._isInitialized) {
-            this.render();
+            this.renderComponent();
         }
     }
 
     /**
-     * Main render method - creates and applies the complete component template
+     * Renders the complete component HTML and CSS
      */
-    render() {
-        const template = this.createTemplate();
-        this.shadowRoot.innerHTML = '';
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-
-    /**
-     * Creates the complete HTML template with styles and structure
-     * @returns {HTMLTemplateElement} The populated template element
-     */
-    createTemplate() {
+    renderComponent() {
         const config = this.getComponentConfig();
         const template = document.createElement('template');
 
@@ -75,7 +64,9 @@ class TatvaPulse extends HTMLElement {
             ${this.generateMarkup()}
         `;
 
-        return template;
+        this.shadowRoot.innerHTML = '';
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+
     }
 
     /**
@@ -96,7 +87,7 @@ class TatvaPulse extends HTMLElement {
     }
 
     /**
-     * Generates the CSS styles for the component based on position
+     * Generates the CSS styles for the component
      * @param {Object} config - Component configuration object
      * @returns {string} Complete CSS styles wrapped in <style> tags
      */
@@ -200,7 +191,7 @@ class TatvaPulse extends HTMLElement {
     }
 
     /**
-     * Generates the HTML markup structure based on position
+     * Generates the HTML markup structure
      * @returns {string} Complete HTML structure
      */
     generateMarkup() {
