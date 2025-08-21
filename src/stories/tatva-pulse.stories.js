@@ -1,12 +1,17 @@
 import '../elements/tatva-pulse.js';
 
+// Main story configuration for the Pulse component
 export default {
   title: 'Examples/Pulse',
   component: 'tatva-pulse',
+  // Automatically generate documentation for this component
   tags: ['autodocs'],
+  // Component documentation and metadata
   parameters: {
+    // Expand all controls by default for better visibility
     controls: { expanded: true },
     docs: {
+      // Show source code in documentation
       canvas: { sourceState: 'shown' },
       description: {
         component:
@@ -14,6 +19,7 @@ export default {
       },
     },
   },
+  // Controls configuration for the Storybook controls panel
   argTypes: {
     size: {
       control: 'text',
@@ -47,6 +53,7 @@ export default {
       table: { type: { summary: 'string' } },
     },
   },
+  // Default values for the component attributes
   args: {
     size: '0.75rem',
     color: '#ff0000',
@@ -71,6 +78,7 @@ const Template = ({ slot, ...args }) => {
   return el;
 };
 
+// Default story variant - shows the component with default settings
 export const Default = Template.bind({});
 
 export const Right = Template.bind({});

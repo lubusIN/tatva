@@ -8,7 +8,7 @@
     "./tatva-image-compare.js": "./src/elements/tatva-image-compare.js",
     "./tatva-marker.js": "./src/elements/tatva-marker.js",
     "./tatva-pulse.js": "./src/elements/tatva-pulse.js",
-    "./tatva-text-amination.js": "./src/elements/tatva-text-animation.js"
+    "./tatva-text-animation.js": "./src/elements/tatva-text-animation.js"
   },
   "files": [
     "src"

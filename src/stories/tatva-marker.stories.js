@@ -1,9 +1,12 @@
 import '../elements/tatva-marker.js';
 
+// Main story configuration for the Marker component
 export default {
   title: 'Examples/Marker',
   component: 'tatva-marker',
+  // Automatically generate documentation for this component
   tags: ['autodocs'],
+  // Component documentation and metadata
   parameters: {
     docs: {
       description: {
@@ -12,7 +15,9 @@ export default {
       },
     },
   },
+  // Controls configuration for the Storybook controls panel
   argTypes: {
+    // Marker style type control - allows users to choose different visual styles
     type: {
       control: 'select',
       options: [
@@ -51,6 +56,7 @@ export default {
       table: { type: { summary: 'string' } },
     },
   },
+  // Default values for the component attributes
   args: {
     type: 'circle',
     color: '#ff0000',
@@ -63,6 +69,9 @@ export default {
 
 const Template = ({ slot, ...args }) => {
   const el = document.createElement('tatva-marker');
+  
+  // Apply all provided arguments as attributes to the element
+  // This handles boolean attributes (set empty string for true) and other values
   Object.entries(args).forEach(([key, value]) => {
     if (value === undefined || value === null || value === false) return;
     if (value === true) {
@@ -75,6 +84,7 @@ const Template = ({ slot, ...args }) => {
   return el;
 };
 
+// Default story variant - shows the component with default settings
 export const Default = Template.bind({});
 
 export const Curly = Template.bind({});
