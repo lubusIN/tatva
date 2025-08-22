@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && build-storybook && mv storybook-static dist/storybook",
+    "build": "vite build && build-storybook && mv storybook-static build/storybook",
     "watch": "vite build --watch",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
