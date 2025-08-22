@@ -172,10 +172,10 @@ class TatvaTextAnimation extends HTMLElement {
                     display: flex;
                     flex-wrap: wrap;
                     align-items: center;
-                    font-size: 1.5em;
-                    font-weight: 600;
+                    font-size: 2rem;
+                    font-weight: 800;
                     line-height: initial;
-                    color: var(--tatva-text-color, black);
+                    color: var(--tatva-text-color, white);
                     padding: 0px 5px;
                 }
                 
@@ -189,7 +189,7 @@ class TatvaTextAnimation extends HTMLElement {
                 .textcontainer .char.letter-fade {
                     transform: scale(1);
                     opacity: 0;
-                    transition: opacity 0.6s ease;
+                    transition: opacity 5s ease;
                 }
 
                 .textcontainer .char.letter-fade.show {
