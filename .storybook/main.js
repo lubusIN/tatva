@@ -22,9 +22,5 @@ export default {
   // Documentation configuration
   docs: {
     autodocs: true, // Automatically generate documentation for components
-  },
-  viteFinal: async (config) => {
-    config.base = "/storybook/"; // 👈 this is critical
-    return config;
-  },
+  }
 }; 
