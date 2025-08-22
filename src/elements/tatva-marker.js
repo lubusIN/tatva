@@ -196,9 +196,10 @@ class TatvaMarker extends HTMLElement {
     }
 }
 
+// Expose class globally for external access
 window.TatvaMarker = TatvaMarker;
 
-// Register Element
+// Register the custom element
 if (!window.customElements.get('tatva-marker')) {
     window.customElements.define('tatva-marker', TatvaMarker);
 }
