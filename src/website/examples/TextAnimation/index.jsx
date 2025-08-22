@@ -13,7 +13,7 @@ const textAnimationVariantConfigs = [
         path: '/text-animation',
         component: () => (
             <tatva-text-animation
-                animation-type="typing"
+                type="typing"
                 words='[
             "Hello tatva", 
             "from lubus"
@@ -25,8 +25,17 @@ const textAnimationVariantConfigs = [
         title: 'Flyin',
         component: () => (
             <tatva-text-animation
-                animation-type="flyin"
+                type="flyin"
                 words="Hello lubus !"
+            />
+        )
+    },
+    {
+        title: 'Fade',
+        component: () => (
+            <tatva-text-animation
+                type="fade"
+                words="Hello Tatva !"
             />
         )
     },
