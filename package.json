@@ -15,11 +15,9 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "storybook build && mv storybook-static build",
     "watch": "vite build --watch",
-    "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build": "storybook build"
   },
   "repository": {
     "type": "git",
