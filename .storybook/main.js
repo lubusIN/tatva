@@ -5,10 +5,8 @@ export default {
   ],
 
   // Addons configuration - plugins that extend Storybook functionality
-  addons: [
-    '@storybook/addon-essentials', // Core addons like controls, actions, etc.
-    '@storybook/addon-docs',       // Enhanced documentation features
-  ],
+  addons: [// Enhanced documentation features
+  '@storybook/addon-docs'],
 
   // Framework configuration - specifies the build system
   framework: {
@@ -17,10 +15,10 @@ export default {
   },
 
   // Static directories - files that should be served as-is
-  staticDirs: ['../public'], // public directory for assets
+  // public directory for assets
+  staticDirs: ['../public'],
 
-  // Documentation configuration
-  docs: {
-    autodocs: true, // Automatically generate documentation for components
+  core: {
+    disableWhatsNewNotifications: true
   }
 }; 

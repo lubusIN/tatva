@@ -1,7 +1,7 @@
 // This file customizes the Storybook UI and sidebar behavior
-import { addons } from '@storybook/manager-api';
-import { create } from '@storybook/theming/create';
-import { STORY_RENDERED, DOCS_RENDERED, STORY_CHANGED } from '@storybook/core-events';
+import { addons } from 'storybook/manager-api';
+import { create } from 'storybook/theming/create';
+import { STORY_RENDERED, DOCS_RENDERED, STORY_CHANGED } from 'storybook/internal/core-events';
 
 // Use an existing logo from your components folder (exported asset path)
 // For simplicity, we'll reuse the public favicon.svg as a placeholder logo.
