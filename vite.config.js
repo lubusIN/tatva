@@ -10,19 +10,6 @@ export default defineConfig({
       '@tatva': path.resolve(__dirname, 'src/website'),
     },
   },
-  assetsInclude: ['**/*.md'],
-  optimizeDeps: {
-    include: [
-      '@wordpress/components',
-      '@wordpress/compose',
-      '@wordpress/i18n',
-      'react-syntax-highlighter',
-      'vkbeautify',
-      'react-markdown',
-      'remark-gfm',
-      'markdown',
-    ],
-  },
   build: {
     outDir: 'build',
   },
