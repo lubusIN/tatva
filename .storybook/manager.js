@@ -12,6 +12,31 @@ const theme = create({
   brandUrl: 'https://github.com/lubusIN/tatva', // Brand URL for links
   brandImage: '/tatva-logo.svg', // Brand logo image
   brandTarget: '_self', // Open brand links in same tab
+
+  //
+  colorPrimary: '#3A10E5',
+  colorSecondary: '#585C6D',
+ 
+  // UI
+  appBg: '#F5F4EC',
+  appContentBg: '#F5F4EC',
+  appPreviewBg: '#F5F4EC',
+  appBorderRadius: 4,
+ 
+  // Text colors
+  textColor: '#10162F',
+  textInverseColor: '#F5F4EC',
+ 
+  // Toolbar default and active colors
+  barTextColor: '#9E9E9E',
+  barSelectedColor: '#585C6D',
+  barHoverColor: '#585C6D',
+  barBg: '#F5F4EC',
+ 
+  // Form colors
+  inputBg: '#F5F4EC',
+  inputTextColor: '#10162F',
+  inputBorderRadius: 2,
 });
 
 // Apply the custom theme to Storybook
@@ -34,7 +59,7 @@ try {
 
   // Get the Storybook addon channel for event communication
   const channel = addons.getChannel();
-  
+
   // Function to set navigation visibility based on story ID
   const setNavVisibilityById = (id) => {
     const storyId = typeof id === 'string' ? id : '';
