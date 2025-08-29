@@ -1,0 +1,9 @@
+/** @format */
+
+.sidebar-header img {
+  width: 100px !important; /* set your width */
+}
+
+.sidebar-item:hover:not([data-selected="true"]) {
+  background-color: #b7efc5 !important;
+}
