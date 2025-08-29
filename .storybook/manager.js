@@ -3,40 +3,35 @@ import { addons } from 'storybook/manager-api';
 import { create } from 'storybook/theming/create';
 import { STORY_RENDERED, DOCS_RENDERED, STORY_CHANGED } from 'storybook/internal/core-events';
 
+import '../public/css/manager.css';
+
 // Use an existing logo from your components folder (exported asset path)
 // For simplicity, we'll reuse the public favicon.svg as a placeholder logo.
 // If you have a specific logo asset, place it in public/ and update the URL below.
 const theme = create({
   base: 'light', // Light theme base
+  fontBase: '"Open Sans", sans-serif',
+  fontCode: 'monospace',
   brandTitle: 'Tatva Components', // Brand title shown in the UI
   brandUrl: 'https://github.com/lubusIN/tatva', // Brand URL for links
   brandImage: '/tatva-logo.svg', // Brand logo image
   brandTarget: '_self', // Open brand links in same tab
 
   //
-  colorPrimary: '#3A10E5',
-  colorSecondary: '#585C6D',
- 
+  colorPrimary: '#3E8B5F',
+  colorSecondary: '#0E2D14',
+
   // UI
-  appBg: '#F5F4EC',
-  appContentBg: '#F5F4EC',
-  appPreviewBg: '#F5F4EC',
+  appBg: '#F1FFFA',
   appBorderRadius: 4,
- 
+
   // Text colors
-  textColor: '#10162F',
-  textInverseColor: '#F5F4EC',
- 
+  textColor: '#0E2D14',
+
   // Toolbar default and active colors
-  barTextColor: '#9E9E9E',
-  barSelectedColor: '#585C6D',
-  barHoverColor: '#585C6D',
-  barBg: '#F5F4EC',
- 
-  // Form colors
-  inputBg: '#F5F4EC',
-  inputTextColor: '#10162F',
-  inputBorderRadius: 2,
+  barTextColor: '#0E2D14',
+  barSelectedColor: '#3E8B5F',
+  barHoverColor: '#3E8B5F',
 });
 
 // Apply the custom theme to Storybook
