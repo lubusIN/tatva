@@ -209,10 +209,10 @@ class TatvaPulse extends HTMLElement {
     }
 }
 
-// Export class for potential module usage
+// Expose class globally for external access
 window.TatvaPulse = TatvaPulse;
 
-// Register the custom element if not already registered
+// Register the custom element
 if (!window.customElements.get('tatva-pulse')) {
     window.customElements.define('tatva-pulse', TatvaPulse);
 }

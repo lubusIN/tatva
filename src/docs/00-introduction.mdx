@@ -1,0 +1,72 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Introduction" parameters={{ layout: 'fullscreen', options: { showPanel: false, showToolbar: true }, docs: { toc: false } }} />
+
+# Tatva Web Components
+
+A modern collection of framework-agnostic Web Components designed for composability, accessibility, and ease of use.
+
+## Introduction
+
+Tatva provides a set of reusable Custom Elements you can drop into any project. Components are self-contained, style-safe via Shadow DOM, and expose a clean attribute-based API.
+
+- Framework-agnostic (works with React, Vue, Svelte, plain JS)
+- Encapsulated styles (Shadow DOM)
+- Accessible defaults and keyboard support where applicable
+
+## Installation
+
+Install via npm:
+
+```bash
+npm install @lubusin/tatva
+```
+
+Load all components at once:
+
+```js
+// main.js
+import '@lubusin/tatva/src/elements/index.js';
+```
+
+Or load a single component:
+
+```js
+import '@lubusin/tatva/src/elements/tatva-marker.js';
+```
+
+CDN (for quick demos):
+
+```html
+<script type="module" src="https://unpkg.com/@lubusin/tatva/dist/index.js"></script>
+```
+
+## Overview
+
+- Source for components lives in `src/elements/`
+- Register them once by importing `src/elements/index.js`
+- Use attributes to configure; slots are supported for inline content where noted
+
+Example (Marker):
+
+```html
+<tatva-marker type="underline" color="#dc143c" animation animation-duration="5s">
+  Highlighted text
+</tatva-marker>
+```
+
+## Getting Started
+
+1. Install the package and register the elements in your app entry.
+2. Pick a component and add it to your markup.
+3. Adjust attributes to suit your use case.
+
+Example (Pulse with superscript):
+
+```html
+<tatva-pulse position="superscript" size="0.75rem" color="#1e90ff" gap="8px" superscript-offset="-0.5em">
+  Pro
+</tatva-pulse>
+```
+
+Tip: In frameworks like React, prefer attribute strings over camelCase props for Custom Elements, and listen to native DOM events if exposed.
