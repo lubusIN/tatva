@@ -175,7 +175,7 @@ class TatvaTextAnimation extends HTMLElement {
                     font-size: 2rem;
                     font-weight: 800;
                     line-height: initial;
-                    color: var(--tatva-text-color, white);
+                    color: var(--tatva-text-color, #000);
                     padding: 0px 5px;
                 }
                 
