@@ -169,6 +169,7 @@ class TatvaTextAnimation extends HTMLElement {
             <style>
                 .textcontainer {
                     margin: auto;
+                    width: max-content;
                     display: flex;
                     flex-wrap: wrap;
                     align-items: center;
