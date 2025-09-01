@@ -24,7 +24,7 @@ export const parameters = {
       // Define the order of stories in the sidebar
       order: [
         'Docs',           // Documentation section first
-        ['Introduction'],  // Introduction page
+        ['Welcome', 'Introduction'],  // Introduction page
         'Examples',       // Examples section
         [
           'Marker',       // Marker component stories

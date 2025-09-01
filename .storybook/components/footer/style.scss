@@ -1,0 +1,65 @@
+.tatva-footer {
+    background-color: #0E2D14 !important;
+    padding: 40px 20px 0px;
+
+    .footer-content {
+        margin: auto;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .footer_bottom {
+        padding: 10px 0px;
+        margin-top: 40px;
+        border-top: 1px solid #dcdcdc30;
+
+        svg {
+            fill: #A4A4A4
+        }
+    }
+}
+
+.social-icons .components-button:hover {
+    transform: scale(1.2);
+
+    svg {
+        fill: white !important;
+    }
+}
+
+.footer_btn {
+    display: flex;
+    background-color: crimson;
+    color: white !important;
+    border-radius: 4px;
+    font-weight: 400;
+    padding: 10px 18px !important;
+    gap: 8px;
+}
+
+.footer_btn:hover {
+    color: white !important;
+    background: #80808033;
+}
+
+.copyright {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 820px) {
+    .tatva-footer .footer-content {
+        text-align: center;
+    }
+
+    .footer_bottom {
+        flex-direction: column !important;
+
+        .copyright {
+            position: relative;
+            left: 0;
+            transform: none;
+        }
+    }
+}

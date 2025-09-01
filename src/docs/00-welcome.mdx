@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import React from 'react';
+import CategorieSection from '../../.storybook/components/CategorieSection.jsx';
+import Banner from '../../.storybook/components/banner';
+import Footer from '../../.storybook/components/footer';
+
+<Meta title="Docs/Welcome" parameters={{ layout: 'fullscreen', options: { showPanel: false, showToolbar: true }}}
+/>
+
+{/* Inject style only for this doc */}
+<style>{`
+  #storybook-docs .sbdocs {
+   padding: 0; 
+   }
+  #storybook-docs .sbdocs.sbdocs-content {
+    max-width: 100% !important;
+  }
+`}</style>
+
+
+<Banner />
+
+<CategorieSection />
+
+<Footer />
