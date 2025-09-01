@@ -20,6 +20,7 @@ export default {
       control: 'select',
       options: ['typing', 'flyin', 'fade'],
       description: 'Animation mode',
+      table: { type: { summary: 'enum' }, defaultValue: { summary: 'typing' } },
     },
     words: {
       control: 'text',
@@ -28,6 +29,7 @@ export default {
     speed: {
       control: { type: 'range', min: 50, max: 1000, step: 25 },
       description: 'Animation speed (ms)',
+      table: { type: { summary: 'number' }, defaultValue: { summary: 50 } },
     },
   },
   args: {
