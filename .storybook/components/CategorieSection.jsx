@@ -26,7 +26,7 @@ const categories = [
     title: 'Pulse', 
     count: getStoryCount(pulseStories), 
     path: `/?path=/docs/examples-pulse--docs`,
-    thumbnail: () => <tatva-pulse size="0.75rem" color="#1e90ff" gap="8px" superscript-offset="-0.5em">Pro</tatva-pulse>,
+    thumbnail: () => <tatva-pulse size="0.75rem" color="#FEEA00" gap="8px" superscript-offset="-0.5em">Pro</tatva-pulse>,
   },
   { 
     title: 'Text Animation', 
@@ -43,8 +43,8 @@ const categories = [
 ];
 
 const CategorieSection = () => (
-  <div style={{padding: '20px'}}>
-            <h2 style={{ fontSize: 20, borderBottom: 'none' }}>Web Components</h2>
+  <div style={{padding: '20px 60px'}}>
+            {/* <h2 style={{ fontSize: 20, borderBottom: 'none' }}>Web Components</h2> */}
             <Grid alignment="bottom"
                 spacing={5}
                 columns={[1, 2, 3]}

@@ -1,6 +1,6 @@
 .tatva-footer {
     background-color: #0E2D14 !important;
-    padding: 40px 20px 0px;
+    padding: 20px 60px 0;
 
     .footer-content {
         margin: auto;
@@ -9,7 +9,6 @@
     }
 
     .footer_bottom {
-        padding: 10px 0px;
         margin-top: 40px;
         border-top: 1px solid #dcdcdc30;
 
@@ -29,11 +28,11 @@
 
 .footer_btn {
     display: flex;
-    background-color: crimson;
-    color: white !important;
+    background-color: #FEEA00;
+    color: #0E2D14 !important;
     border-radius: 4px;
-    font-weight: 400;
-    padding: 10px 18px !important;
+    font-weight: 600 !important;
+    padding: 8px 15px !important;
     gap: 8px;
 }
 

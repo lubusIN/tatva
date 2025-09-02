@@ -27,14 +27,14 @@ function Footer() {
         <footer className="tatva-footer">
             <VStack className="footer-content" spacing={0}>
                 <VStack alignment="center" spacing={4}>
-                    <Heading level={2} align='center' color='#ffffff !important' weight={600} size={45} style={{ margin: 0, borderBottom: 'none'}}>
+                    <Heading level={2} align='center' color='#ffffff !important' weight={600} style={{ margin: 0, fontSize: '45px', borderBottom: 'none', padding: 0 }}>
                         Open-source DNA,
                         <br />
-                        <Text level={2} weight={600} size={45} color='#5D5D5D' style={{ margin: 0 }}>
+                        <Text level={2} weight={600} color='#DCFCE6' style={{ margin: 0, fontSize: '45px', borderBottom: 'none'}}>
                             Product-driven thinking
                         </Text>
                     </Heading>
-                    <Text size={16} align="center" weight={400} lineHeight={1.5} color='#A4A4A4' style={{ maxWidth: '600px' }}>
+                    <Text size={16} align="center" lineHeight={1.5} color='#ffffff' style={{ maxWidth: '600px' }}>
                         We build and deliver scalable solutions shaped by years of hands-on product and
                         open-source experience. We’re passionate about driving positive business impact.
                     </Text>

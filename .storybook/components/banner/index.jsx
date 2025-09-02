@@ -20,24 +20,20 @@ import './style.scss';
 function Banner() {
     return (
         <div className="tatva-hero-Section">
-            <VStack spacing={8} className='tatva-hero-card'>
+            <VStack spacing={8}  alignment="center" className='tatva-hero-card'>
                 <VStack className='tatva-hero-cont' spacing={5}>
-                    <Text className='tatva-lubus' size={15} align="left" color="white">From the house of LUBUS</Text>
-                    <Heading size={40} align="left" color="white !important" lineHeight={1.3} weight={500} style={{ borderBottom: 'none' }}>
+                    <Text className='tatva-lubus' color="white">From the house of LUBUS</Text>
+                    <Heading className='head_title' size={40} align="center" color="white !important" lineHeight={1.3} weight={600} >
                         Bring Your Web to Life.
                     </Heading>
-                    <Text size={16} align="left" color="#A4A4A4" lineHeight={1.5} style={{ maxWidth: '500px' }}>
+                    <Text size={16} align="center" color="#DCFCE6" lineHeight={1.5} style={{ maxWidth: '500px' }}>
                         A lightweight library of custom elements ready to drop into your project with simple tags.
                     </Text>
-                    <HStack justify="left" className={`tatva-header-button`}>
-                    <Button icon={FaBook} iconSize={18} style={{ gap: '8px', display: 'flex' }} href="https://github.com/lubusIN/tatva/wiki">
+                    <HStack justify="center" align='center' className={`tatva-header-button`}>
+                    <Button icon={FaBook} iconSize={18}  href="https://github.com/lubusIN/tatva/wiki">
                         Documentation
                     </Button>
-                    <Button
-                        icon={FaGithub} iconSize={18}
-                        style={{ gap: '8px', display: 'flex' }}
-                        href='https://github.com/lubusIN/tatva/discussions'
-                    >
+                    <Button icon={FaGithub} iconSize={18} href='https://github.com/lubusIN/tatva/discussions'>
                         Join discussion
                     </Button>
                 </HStack>

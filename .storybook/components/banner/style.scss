@@ -1,8 +1,17 @@
 .tatva-lubus {
     background-color: rgba(78, 78, 78, 0.38);
-    padding: 7px 12px;
+    padding: 5px 8px;
     border-radius: 20px;
     max-width: fit-content;
+    align-self: center;
+    font-size: 12px !important;
+}
+
+.head_title{
+    font-size: 45px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
 }
 
 .tatva-hero-Section {
@@ -14,7 +23,10 @@
 .tatva-header-button {
     .components-button {
         color: white !important;
-        padding: 20px 15px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
 
         &:hover:not(:disabled, [aria-disabled=true]) {
             color: #fff;
