@@ -20,13 +20,13 @@ const categories = [
     title: 'Marker',
     count: getStoryCount(markerStories),
     path: `/?path=/docs/examples-marker--docs`,
-    thumbnail: () => <tatva-marker type="underline" color="#dc143c">Highlighted</tatva-marker>,
+    thumbnail: () => <tatva-marker type="underline" color="#dc143c" style={{ fontSize: '32px', fontWeight: '800' }}>Highlighted</tatva-marker>,
   },
   { 
     title: 'Pulse', 
     count: getStoryCount(pulseStories), 
     path: `/?path=/docs/examples-pulse--docs`,
-    thumbnail: () => <tatva-pulse size="0.75rem" color="#FEEA00" gap="8px" superscript-offset="-0.5em">Pro</tatva-pulse>,
+    thumbnail: () => <tatva-pulse size="1.75rem" color="#dc143c" gap="8px" superscript-offset="-0.5em" style={{ fontSize: '32px', fontWeight: '800' }}>Pro</tatva-pulse>,
   },
   { 
     title: 'Text Animation', 
@@ -38,13 +38,12 @@ const categories = [
     title: 'Image Compare', 
     count: getStoryCount(imageCompareStories), 
     path: `/?path=/docs/examples-image-compare--docs`,
-    thumbnail: () => <tatva-image-compare handle="line" > <img slot="before-image" src="assets/before.png" alt="Before" /><img slot="after-image" src="assets/after.png" alt="After" /></tatva-image-compare>,
+    thumbnail: () => <tatva-image-compare handle="line" hover='true'> <img slot="before-image" src="assets/before.png" alt="Before" /><img slot="after-image" src="assets/after.png" alt="After" /></tatva-image-compare>,
   },
 ];
 
 const CategorieSection = () => (
-  <div style={{padding: '20px 60px'}}>
-            {/* <h2 style={{ fontSize: 20, borderBottom: 'none' }}>Web Components</h2> */}
+  <div style={{padding: '20px 10px', maxWidth: '1200px', margin: '0 auto'}}>
             <Grid alignment="bottom"
                 spacing={5}
                 columns={[1, 2, 3]}
