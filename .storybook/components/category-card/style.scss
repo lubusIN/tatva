@@ -38,7 +38,9 @@ div.tatva-card-preview {
     z-index: 1;
 
     div {
-        align-content: center !important;
+        align-content: center !important;   
+        text-align: center !important;
+        width: 100%;
     }
 
     tatva-image-compare::part(image-container) {

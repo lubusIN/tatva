@@ -3,12 +3,13 @@
     padding: 20px 60px 0;
 
     .footer-content {
-        margin: auto;
-        width: 100%;
         flex-direction: column;
+        align-items: center;
     }
 
     .footer_bottom {
+        max-width: 1200px;
+        padding: 10px 0;
         margin-top: 40px;
         border-top: 1px solid #dcdcdc30;
 
@@ -42,6 +43,7 @@
 }
 
 .copyright {
+    font-size: 13px !important;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
