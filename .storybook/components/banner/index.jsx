@@ -21,7 +21,7 @@ function Banner() {
     return (
         <div className="tatva-hero-Section">
             <VStack spacing={8}  alignment="center" className='tatva-hero-card'>
-                <VStack className='tatva-hero-cont' spacing={5}>
+                <VStack className='tatva-hero-cont' spacing={4}>
                     <Text className='tatva-lubus' color="white">From the house of LUBUS</Text>
                     <Heading className='head_title' size={40} align="center" color="white !important" lineHeight={1.3} weight={600} >
                         Bring Your Web to Life.
