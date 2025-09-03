@@ -8,6 +8,7 @@ export default {
   tags: ['autodocs'],
   // Component documentation and metadata
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component:

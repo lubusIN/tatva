@@ -9,6 +9,7 @@ export default {
   component: 'tatva-text-animation',
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: 'Text animation component with typing, fly-in, and fade modes.',
