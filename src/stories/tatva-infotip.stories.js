@@ -8,6 +8,7 @@ export default {
     component: 'tatva-infotip',
     tags: ['autodocs'],
     parameters: {
+        layout: 'centered',
         docs: {
             description: {
                 component: 'Interactive tooltip component with customizable icons, positioning, and styling.',
