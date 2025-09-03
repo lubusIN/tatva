@@ -22,41 +22,50 @@ export default {
         underline: {
             control: 'boolean',
             description: 'Show dotted underline on trigger text',
+            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
         },
         'icon-enabled': {
             control: 'boolean',
             description: 'Enable/disable icon display',
+            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } },
         },
         'icon-position': {
             control: 'inline-radio',
             options: ['left', 'right'],
             description: 'Position of icon relative to text',
+            table: { type: { summary: 'left | right' }, defaultValue: { summary: 'left' } },
         },
         'icon-type': {
             control: 'select',
             options: ['info', 'help', 'caution', 'error', 'notAllowed', 'starEmpty'],
             description: 'Type of icon to display',
+            table: { type: { summary: 'enum' }, defaultValue: { summary: 'info' } },
         },
         'icon-color': {
             control: 'color',
             description: 'Color of the icon',
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000000' } },
         },
         offset: {
             control: { type: 'number' },
             description: 'Distance between trigger and tooltip (px)',
+            table: { type: { summary: 'number' }, defaultValue: { summary: '6' } },
         },
         'overlay-placement': {
             control: 'select',
             options: ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end'],
             description: 'Preferred placement of tooltip',
+            table: { type: { summary: 'enum' }, defaultValue: { summary: 'top' } },
         },
         'overlay-text-color': {
             control: 'color',
             description: 'Text color in tooltip',
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#ffffff' } },
         },
         'overlay-background-color': {
             control: 'color',
             description: 'Background color of tooltip',
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000000' } },
         },
     },
     args: {
@@ -92,9 +101,7 @@ const Template = (args) => {
     return el;
 };
 
-export const Default = {
-    render: Template,
-};
+export const Default = Template.bind({});
 
 export const InfoIcon = {
     render: Template,
