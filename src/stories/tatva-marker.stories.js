@@ -82,8 +82,6 @@ const Template = ({ slot, ...args }) => {
     }
   });
   el.textContent = slot;
-  el.style.fontSize = '32px';
-  el.style.fontWeight = '600';
   return el;
 };
 
