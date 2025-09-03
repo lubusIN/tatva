@@ -8,3 +8,9 @@
 .docs-story > div > div {
   font-family: var(--sb-font-sans);
 }
+
+.sb-show-main tatva-marker,
+.sb-show-main tatva-pulse {
+  font-size: 32px;
+  font-weight: 700;
+}
