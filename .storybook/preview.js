@@ -1,5 +1,5 @@
 import '../src/elements/index.js';
-
+import '../public/css/preview.css';
 // Global parameters that apply to all stories
 export const parameters = {
   // Actions configuration - automatically creates action handlers for props starting with 'on'

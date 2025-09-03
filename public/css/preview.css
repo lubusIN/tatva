@@ -1,0 +1,10 @@
+/* Global preview styles for stories */
+:root {
+  --sb-font-sans: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* @stories example font change */
+.sb-show-main,
+.docs-story > div > div {
+  font-family: var(--sb-font-sans);
+}

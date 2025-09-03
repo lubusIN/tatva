@@ -8,6 +8,7 @@ export default {
   tags: ['autodocs'],
   // Component documentation and metadata
   parameters: {
+    layout: 'centered',
     // Expand all controls by default for better visibility
     controls: { expanded: true },
     docs: {
@@ -59,7 +60,6 @@ export default {
     color: '#ff0000',
     gap: '10px',
     position: 'left',
-    'superscript-offset': '-0.5em',
     slot: 'New',
   },
 };
@@ -75,6 +75,8 @@ const Template = ({ slot, ...args }) => {
     }
   });
   el.textContent = slot;
+  el.style.fontSize = '32px';
+  el.style.fontWeight = '600';
   return el;
 };
 
@@ -82,10 +84,10 @@ const Template = ({ slot, ...args }) => {
 export const Default = Template.bind({});
 
 export const Right = Template.bind({});
-Right.args = { position: 'right', slot: 'Sale' };
+Right.args = { color: '#34c759', position: 'right', slot: 'Sale' };
 
 export const Superscript = Template.bind({});
-Superscript.args = { position: 'superscript', slot: 'Pro' };
+Superscript.args = { position: 'superscript', slot: 'Pro', color: '#ff9f0a', 'superscript-offset': '-0.5em' };
 
 export const Background = Template.bind({});
-Background.args = { position: 'background', slot: 'Badge' }; 
+Background.args = { position: 'background', slot: 'Badge', color: '#007aff' }; 

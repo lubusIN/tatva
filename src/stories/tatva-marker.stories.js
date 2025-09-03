@@ -8,6 +8,7 @@ export default {
   tags: ['autodocs'],
   // Component documentation and metadata
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component:
@@ -63,7 +64,7 @@ export default {
     animation: true,
     'animation-duration': '5s',
     'animation-function': 'ease-in',
-    slot: 'Highlighted text',
+    slot: 'Marker',
   },
 };
 
@@ -81,6 +82,8 @@ const Template = ({ slot, ...args }) => {
     }
   });
   el.textContent = slot;
+  el.style.fontSize = '32px';
+  el.style.fontWeight = '600';
   return el;
 };
 
@@ -88,13 +91,13 @@ const Template = ({ slot, ...args }) => {
 export const Default = Template.bind({});
 
 export const Curly = Template.bind({});
-Curly.args = { type: 'curly', slot: 'Curly underline' };
+Curly.args = { type: 'curly', slot: 'Curly Underline' };
 
 export const Underline = Template.bind({});
-Underline.args = { type: 'underline', slot: 'Plain underline' };
+Underline.args = { type: 'underline', slot: 'Plain Underline' };
 
 export const DoubleUnderline = Template.bind({});
-DoubleUnderline.args = { type: 'double-underline', slot: 'Double underline' };
+DoubleUnderline.args = { type: 'double-underline', slot: 'Double Underline' };
 
 export const Strikethrough = Template.bind({});
-Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough text' }; 
+Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' }; 
