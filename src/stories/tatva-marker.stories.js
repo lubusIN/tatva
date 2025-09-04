@@ -42,6 +42,22 @@ export default {
       description: 'Text content to be highlighted by the marker.',
       table: { type: { summary: 'string' } },
     },
+    'animation-duration': {
+      control: 'text',
+      description: 'Duration of the marker animation (e.g., 5s).',
+      table: { type: { summary: 'string' }, defaultValue: { summary: '5s' } },
+      if: { arg: 'animation', truthy: true },
+    },
+    'animation-function': {
+      control: 'select',
+      options: ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out',
+        'steps(3, start)',
+        'steps(5, end)',
+      ],
+      description: 'Timing function used by the animation.',
+      table: { type: { summary: 'enum' }, defaultValue: { summary: 'ease-in' } },
+      if: { arg: 'animation', truthy: true },
+    },
   },
   // Default values for the component attributes
   args: {
@@ -91,12 +107,3 @@ CustomAnimation.args = {
   'animation-duration': '3s',
   'animation-function': 'ease-out',
 };
-CustomAnimation.argTypes = {
-  'animation-function': {
-    control: 'select',
-    options: ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out',
-      'steps(3, start)',
-      'steps(5, end)',
-    ],
-  }
-}
