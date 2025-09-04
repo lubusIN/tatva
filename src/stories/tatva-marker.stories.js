@@ -37,20 +37,6 @@ export default {
       description: 'Enable drawing animation for the marker path.',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } },
     },
-    'animation-duration': {
-      control: 'text',
-      description: 'Duration of the marker animation (e.g., 5s).',
-      table: { type: { summary: 'string' }, defaultValue: { summary: '5s' } },
-    },
-    'animation-function': {
-      control: 'select',
-      options: ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out',
-        'steps(3, start)',
-        'steps(5, end)',
-      ],
-      description: 'Timing function used by the animation.',
-      table: { type: { summary: 'enum' }, defaultValue: { summary: 'ease-in' } },
-    },
     slot: {
       control: 'text',
       description: 'Text content to be highlighted by the marker.',
@@ -62,21 +48,19 @@ export default {
     type: 'circle',
     color: '#ff0000',
     animation: true,
-    'animation-duration': '5s',
-    'animation-function': 'ease-in',
     slot: 'Marker',
   },
 };
 
 const Template = ({ slot, ...args }) => {
   const el = document.createElement('tatva-marker');
-  
+
   // Apply all provided arguments as attributes to the element
   // This handles boolean attributes (set empty string for true) and other values
   Object.entries(args).forEach(([key, value]) => {
-    if (value === undefined || value === null || value === false) return;
+    if (value === undefined || value === null) return;
     if (value === true) {
-      el.setAttribute(key, '');
+      el.setAttribute(key, value);
     } else {
       el.setAttribute(key, String(value));
     }
@@ -98,4 +82,21 @@ export const DoubleUnderline = Template.bind({});
 DoubleUnderline.args = { type: 'double-underline', slot: 'Double Underline' };
 
 export const Strikethrough = Template.bind({});
-Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' }; 
+Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' };
+
+export const CustomAnimation = Template.bind({});
+CustomAnimation.args = {
+  slot: 'Custom Animation',
+  animation: 'true',
+  'animation-duration': '3s',
+  'animation-function': 'ease-out',
+};
+CustomAnimation.argTypes = {
+  'animation-function': {
+    control: 'select',
+    options: ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out',
+      'steps(3, start)',
+      'steps(5, end)',
+    ],
+  }
+}
