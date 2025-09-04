@@ -97,12 +97,17 @@ const Template = (args) => {
     });
 
     // Add some default slot content
-    el.textContent = args.slotContent || 'Hover or focus for info';
+    el.textContent = args.slotContent || '';
 
     return el;
 };
 
-export const Default = Template.bind({});
+export const Default = {
+    render: Template,
+    args: {
+        slotContent: 'Hover or focus for info',
+    },
+}
 
 export const InfoIcon = {
     render: Template,
@@ -128,11 +133,7 @@ export const HelpIcon = {
 };
 
 export const IconOnly = {
-    render: (args) => {
-        const el = Template(args);
-        el.textContent = ''; // Remove text content
-        return el;
-    },
+    render: Template,
     args: {
         content: 'This is an icon-only tooltip for minimal UI elements.',
         'icon-type': 'info',
