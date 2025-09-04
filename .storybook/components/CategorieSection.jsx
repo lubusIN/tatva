@@ -10,6 +10,7 @@ import * as markerStories from '../../src/stories/tatva-marker.stories.js';
 import * as pulseStories from '../../src/stories/tatva-pulse.stories.js';
 import * as textAnimationStories from '../../src/stories/tatva-text-animation.stories.js';
 import * as imageCompareStories from '../../src/stories/tatva-image-compare.stories.js';
+import * as infoTipStories from '../../src/stories/tatva-infotip.stories.js';
 
 // Helper function to get story count (excluding default export)
 const getStoryCount = (stories) => Object.keys(stories).filter(key => key !== 'default').length - 1;
@@ -39,6 +40,12 @@ const categories = [
     count: getStoryCount(imageCompareStories), 
     path: `/?path=/docs/examples-image-compare--docs`,
     thumbnail: () => <tatva-image-compare handle="line" hover='true'> <img slot="before-image" src="assets/before.png" alt="Before" /><img slot="after-image" src="assets/after.png" alt="After" /></tatva-image-compare>,
+  },
+  { 
+    title: 'Info Tip', 
+    count: getStoryCount(infoTipStories), 
+    path: `/?path=/docs/examples-infotip--docs`,
+    thumbnail: () => <tatva-infotip content="This is helpful information that appears in the tooltip" underline="false" icon-enabled="true" icon-position="left" icon-type="info" icon-color="#000000" offset="6" overlay-placement="top" overlay-text-color="#ffffff" overlay-background-color="#000000">Hover or focus for info</tatva-infotip>
   },
 ];
 
