@@ -14,3 +14,10 @@
   font-size: 32px;
   font-weight: 700;
 }
+
+.sb-show-main tatva-infotip {
+  display: block;
+  width: 400px;
+  margin: 20px;
+  text-align: center;
+}

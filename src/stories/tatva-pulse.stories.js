@@ -43,11 +43,6 @@ export default {
       description: 'Placement of the pulse relative to the content.',
       table: { type: { summary: 'enum' }, defaultValue: { summary: 'left' } },
     },
-    'superscript-offset': {
-      control: 'text',
-      description: 'Vertical offset used in superscript mode.',
-      table: { type: { summary: 'string' }, defaultValue: { summary: '-0.5em' } },
-    },
     slot: {
       control: 'text',
       description: 'Content alongside which the pulse is displayed.',
@@ -86,6 +81,13 @@ Right.args = { color: '#34c759', position: 'right', slot: 'Sale' };
 
 export const Superscript = Template.bind({});
 Superscript.args = { position: 'superscript', slot: 'Pro', color: '#ff9f0a', 'superscript-offset': '-0.5em' };
+Superscript.argTypes = {
+  'superscript-offset': {
+    control: 'text',
+    description: 'Vertical offset used in superscript mode.',
+    table: { type: { summary: 'string' }, defaultValue: { summary: '-0.5em' } },
+  },
+};
 
 export const Background = Template.bind({});
-Background.args = { position: 'background', slot: 'Badge', color: '#007aff' }; 
+Background.args = { position: 'background', slot: 'Badge', color: '#007aff' };
