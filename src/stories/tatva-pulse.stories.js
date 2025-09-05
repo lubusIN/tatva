@@ -30,7 +30,7 @@ export default {
     color: {
       control: { type: 'color' },
       description: 'Color of the pulse dot and ripple.',
-      table: { type: { summary: 'Color' }, defaultValue: { summary: '#ff0000' } },
+      table: { type: { summary: 'Color' }, defaultValue: { summary: '#000000' } },
     },
     gap: {
       control: 'text',
@@ -55,20 +55,22 @@ export default {
       table: { type: { summary: 'string' } },
     },
   },
-  // Default values for the component attributes
-  args: {
-    size: '0.75rem',
-    color: '#ff0000',
-    gap: '10px',
-    position: 'left',
-    slot: 'New',
-  },
 };
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues = {
+  size: '0.75rem',
+  color: '#000000',
+  gap: '10px',
+  position: 'left',
+  'superscript-offset': '-0.5em',
+}
 
 const Template = ({ slot, ...args }) => {
   const el = document.createElement('tatva-pulse');
   Object.entries(args).forEach(([key, value]) => {
     if (value === undefined || value === null || value === false) return;
+    if (DefaultValues[key] === value) return;
     if (value === true) {
       el.setAttribute(key, '');
     } else {
@@ -81,6 +83,7 @@ const Template = ({ slot, ...args }) => {
 
 // Default story variant - shows the component with default settings
 export const Default = Template.bind({});
+Default.args = { slot: 'New', color: '#ff0000' };
 
 export const Right = Template.bind({});
 Right.args = { color: '#34c759', position: 'right', slot: 'Sale' };
@@ -89,4 +92,4 @@ export const Superscript = Template.bind({});
 Superscript.args = { position: 'superscript', slot: 'Pro', color: '#ff9f0a', 'superscript-offset': '-0.5em' };
 
 export const Background = Template.bind({});
-Background.args = { position: 'background', slot: 'Badge', color: '#007aff' };
+Background.args = { position: 'background', slot: 'Badge', color: '#007aff', size: '1.5rem' };

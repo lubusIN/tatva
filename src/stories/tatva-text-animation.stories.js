@@ -10,6 +10,7 @@ export default {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    controls: { expanded: true },
     docs: {
       description: {
         component: 'Text animation component with typing, fly-in, and fade modes.',
@@ -30,15 +31,18 @@ export default {
     speed: {
       control: { type: 'range', min: 50, max: 1000, step: 25 },
       description: 'Animation speed (ms)',
-      table: { type: { summary: 'number' }, defaultValue: { summary: 50 } },
+      table: { type: { summary: 'number' }, defaultValue: { summary: 100 } },
     },
   },
-  args: {
-    type: 'typing',
-    words: '["Hello Lubus", "Welcome to Tatva"]',
-    speed: 150,
-  },
 };
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues = {
+  type: 'typing',
+  words: '["Hello Lubus", "From Tatva"]',
+  speed: 100,
+};
+
 
 /**
  * Template function to create tatva-text-animation component instances
@@ -53,6 +57,7 @@ const Template = (args) => {
 
   Object.entries(args).forEach(([key, value]) => {
     if (value == null || value === false) return;
+    if (DefaultValues[key] === value) return;
     el.setAttribute(key, value === true ? '' : String(value));
   });
 
@@ -62,6 +67,11 @@ const Template = (args) => {
 
 export const Typing = {
   render: Template,
+  args: {
+    type: 'typing',
+    words: '["Hello Lubus", "Welcome to Tatva"]',
+    speed: 150,
+  },
 };
 
 export const FlyIn = {

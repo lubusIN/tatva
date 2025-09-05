@@ -9,6 +9,7 @@ export default {
   // Component documentation and metadata
   parameters: {
     layout: 'centered',
+    controls: { expanded: true },
     docs: {
       description: {
         component:
@@ -61,11 +62,17 @@ export default {
   },
   // Default values for the component attributes
   args: {
-    type: 'circle',
-    color: '#ff0000',
     animation: true,
-    slot: 'Marker',
   },
+};
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues = {
+  type: 'circle',
+  color: '#ff0000',
+  animation: true,
+  'animation-duration': '5s',
+  'animation-function': 'ease-in'
 };
 
 const Template = ({ slot, ...args }) => {
@@ -75,6 +82,7 @@ const Template = ({ slot, ...args }) => {
   // This handles boolean attributes (set empty string for true) and other values
   Object.entries(args).forEach(([key, value]) => {
     if (value === undefined || value === null) return;
+    if (DefaultValues[key] === value) return;
     if (value === true) {
       el.setAttribute(key, value);
     } else {
@@ -87,6 +95,7 @@ const Template = ({ slot, ...args }) => {
 
 // Default story variant - shows the component with default settings
 export const Default = Template.bind({});
+Default.args = { slot: 'Marker' };
 
 export const Curly = Template.bind({});
 Curly.args = { type: 'curly', slot: 'Curly Underline' };
@@ -103,7 +112,6 @@ Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' };
 export const CustomAnimation = Template.bind({});
 CustomAnimation.args = {
   slot: 'Custom Animation',
-  animation: 'true',
   'animation-duration': '3s',
   'animation-function': 'ease-out',
 };

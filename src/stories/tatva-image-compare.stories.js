@@ -9,6 +9,7 @@ export default {
   // Component documentation and metadata
   parameters: {
     layout: 'centered',
+    controls: { expanded: true },
     docs: {
       description: {
         component:
@@ -34,13 +35,14 @@ export default {
       table: { type: { summary: 'boolean' }, defaultValue: { summary: false } },
     },
   },
-  // Default values for the component attributes
-  args: {
-    handle: 'line',
-    hover: false,
-    'hide-arrows': false,
-  },
 };
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues = {
+            handle: 'line',
+            hover: false,
+            'hide-arrows': false,
+        }
 
 const Template = (args) => {
   // Create the custom element instance
@@ -50,6 +52,7 @@ const Template = (args) => {
   // This handles boolean attributes (set empty string for true) and other values
     Object.entries(args).forEach(([key, value]) => {
         if (value == null) return;
+        if (DefaultValues[key] === value) return; // Skip setting default values
         el.setAttribute(key, String(value));
     });
   // Create the "before" image element that will be slotted into the component

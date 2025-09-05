@@ -9,6 +9,7 @@ export default {
     tags: ['autodocs'],
     parameters: {
         layout: 'centered',
+        controls: { expanded: true },
         docs: {
             description: {
                 component: 'Interactive tooltip component with customizable icons, positioning, and styling.',
@@ -28,7 +29,7 @@ export default {
         'icon-enabled': {
             control: 'boolean',
             description: 'Enable/disable icon display',
-            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } },
+            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
         },
         'icon-position': {
             control: 'inline-radio',
@@ -45,7 +46,7 @@ export default {
         'icon-color': {
             control: 'color',
             description: 'Color of the icon',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000000' } },
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
         },
         offset: {
             control: { type: 'number' },
@@ -61,27 +62,33 @@ export default {
         'overlay-text-color': {
             control: 'color',
             description: 'Text color in tooltip',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#ffffff' } },
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#fff' } },
         },
         'overlay-background-color': {
             control: 'color',
             description: 'Background color of tooltip',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000000' } },
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
         },
     },
     args: {
-        content: 'This is helpful information that appears in the tooltip',
+        'icon-enabled' : true,
         underline: false,
-        'icon-enabled': true,
-        'icon-position': 'left',
-        'icon-type': 'info',
-        'icon-color': '#000000',
-        offset: 6,
-        'overlay-placement': 'top',
-        'overlay-text-color': '#ffffff',
-        'overlay-background-color': '#000000',
-    },
+    }
 };
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues ={
+            content: 'Hello world',
+            underline: false,
+            'icon-enabled': false,
+            'icon-position': 'left',
+            'icon-type': 'info',
+            offset: '6',
+            'overlay-placement': 'top',
+            'icon-color': "#000",
+            'overlay-text-color': "#fff",
+            'overlay-background-color': "#000"
+        }
 
 /**
  * Template function to create tatva-infotip component instances
@@ -93,6 +100,7 @@ const Template = (args) => {
 
     Object.entries(args).forEach(([key, value]) => {
         if (value == null) return;
+        if (DefaultValues[key] === value) return;
         el.setAttribute(key, String(value));
     });
 
@@ -105,6 +113,7 @@ const Template = (args) => {
 export const Default = {
     render: Template,
     args: {
+        content: 'This is helpful information that appears in the tooltip',
         slotContent: 'Hover or focus for info',
     },
 }

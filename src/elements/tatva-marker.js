@@ -54,6 +54,9 @@ class TatvaMarker extends HTMLElement {
     * Converts attribute values to boolean
     */
     static convertAttributeToBoolean(value) {
+        if (value === null || value === undefined) {
+            return null; // Return null so the ?? operator can use the default
+        }
         return value === '' || value === 'true' || value === true;
     }
 
