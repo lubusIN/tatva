@@ -1,67 +1,82 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Docs/Introduction" parameters={{ layout: 'fullscreen', options: { showPanel: false, showToolbar: true }, docs: { toc: false } }} />
+<Meta  
+  title="Docs/Getting Started" 
+  parameters={{ 
+    layout: 'fullscreen', 
+    options: { 
+        showPanel: false, 
+        showToolbar: true 
+      }, 
+    docs: { 
+        toc: false 
+      } 
+  }} 
+  />
 
-# Tatva Web Components
+# Tatva
 
-A modern collection of framework-agnostic Web Components designed for composability, accessibility, and ease of use.
+A collection of framework-agnostic Web Components designed for composability, accessibility, and ease of use.
 
-## Introduction
+## Overview
 
 Tatva provides a set of reusable Custom Elements you can drop into any project. Components are self-contained, style-safe via Shadow DOM, and expose a clean attribute-based API.
 
-- Framework-agnostic (works with React, Vue, Svelte, plain JS)
-- Encapsulated styles (Shadow DOM)
-- Accessible defaults and keyboard support where applicable
+
+### Features
+
+- Works with any framework (React, Vue, Svelte, Angular, or plain JS)
+- Encapsulated, conflict-free styles with Shadow DOM
+- Accessible defaults and keyboard support
+- Simple, attribute-based APIs
+- Slot support for inline content
+
+### Technical
+
+- Components live in: `src/elements/`
+- Register once: `src/elements/index.js`
+- Configure with HTML `attributes`
+- Some components support `slots` for inline content
 
 ## Installation
 
-Install via npm:
+### via CDN
+
+```html
+<script type="module" src="https://unpkg.com/@lubusin/tatva/dist/index.js"></script>
+```
+
+### via NPM
 
 ```bash
 npm install @lubusin/tatva
 ```
+## Usage 
+### Setup
 
-Load all components at once:
+#### Load all components:
 
 ```js
 // main.js
 import '@lubusin/tatva/src/elements/index.js';
 ```
 
-Or load a single component:
+#### Load a single component:
 
 ```js
 import '@lubusin/tatva/src/elements/tatva-marker.js';
 ```
 
-CDN (for quick demos):
+### Examples
 
-```html
-<script type="module" src="https://unpkg.com/@lubusin/tatva/dist/index.js"></script>
-```
-
-## Overview
-
-- Source for components lives in `src/elements/`
-- Register them once by importing `src/elements/index.js`
-- Use attributes to configure; slots are supported for inline content where noted
-
-Example (Marker):
-
+#### Marker
 ```html
 <tatva-marker type="underline" color="#dc143c" animation animation-duration="5s">
   Highlighted text
 </tatva-marker>
 ```
 
-## Getting Started
-
-1. Install the package and register the elements in your app entry.
-2. Pick a component and add it to your markup.
-3. Adjust attributes to suit your use case.
-
-Example (Pulse with superscript):
+#### Pulse
 
 ```html
 <tatva-pulse position="superscript" size="0.75rem" color="#1e90ff" gap="8px" superscript-offset="-0.5em">
@@ -69,4 +84,7 @@ Example (Pulse with superscript):
 </tatva-pulse>
 ```
 
-Tip: In frameworks like React, prefer attribute strings over camelCase props for Custom Elements, and listen to native DOM events if exposed.
+Explore Storybook to know more about various eleements and customization avaiable
+
+## **Tip** 
+In frameworks like React, prefer attribute strings over camelCase props for Custom Elements, and listen to native DOM events if exposed.
