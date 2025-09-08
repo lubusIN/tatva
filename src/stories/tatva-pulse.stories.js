@@ -52,7 +52,7 @@ export default {
     slot: {
       control: 'text',
       description: 'Content alongside which the pulse is displayed.',
-      table: { type: { summary: 'string' } },
+      table: { disable: true },
     },
   },
 };

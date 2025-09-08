@@ -41,7 +41,7 @@ export default {
     slot: {
       control: 'text',
       description: 'Text content to be highlighted by the marker.',
-      table: { type: { summary: 'string' } },
+      table: { disable: true },
     },
     'animation-duration': {
       control: 'text',

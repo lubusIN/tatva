@@ -69,10 +69,14 @@ export default {
             description: 'Background color of tooltip',
             table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
         },
+        slotContent: {
+            control: 'text',
+            description: 'Text content to be highlighted by the marker.',
+            table: { disable: true },
+        },
     },
     args: {
         'icon-enabled' : true,
-        underline: false,
     }
 };
 
@@ -95,7 +99,7 @@ const DefaultValues ={
  * @param {Object} args - Component arguments from Storybook controls
  * @returns {HTMLElement} Configured tatva-infotip element
  */
-const Template = (args) => {
+const Template = ({slotContent, ...args}) => {
     const el = document.createElement('tatva-infotip');
 
     Object.entries(args).forEach(([key, value]) => {
@@ -103,9 +107,8 @@ const Template = (args) => {
         if (DefaultValues[key] === value) return;
         el.setAttribute(key, String(value));
     });
-
-    // Add some default slot content
-    el.textContent = args.slotContent || '';
+    
+        el.textContent = slotContent;
 
     return el;
 };
