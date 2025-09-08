@@ -68,7 +68,6 @@ const Template = (args) => {
 export const Typing = {
   render: Template,
   args: {
-    type: 'typing',
     words: '["Hello Lubus", "Welcome to Tatva"]',
     speed: 150,
   },
