@@ -9,6 +9,7 @@ export default {
   // Component documentation and metadata
   parameters: {
     layout: 'centered',
+    controls: { expanded: true },
     docs: {
       description: {
         component:
@@ -34,13 +35,14 @@ export default {
       table: { type: { summary: 'boolean' }, defaultValue: { summary: false } },
     },
   },
-  // Default values for the component attributes
-  args: {
-    handle: 'line',
-    hover: false,
-    'hide-arrows': false,
-  },
 };
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues = {
+            handle: 'line',
+            hover: false,
+            'hide-arrows': false,
+        }
 
 const Template = (args) => {
   // Create the custom element instance
@@ -48,15 +50,11 @@ const Template = (args) => {
   
   // Apply all provided arguments as attributes to the element
   // This handles boolean attributes (set empty string for true) and other values
-  Object.entries(args).forEach(([key, value]) => {
-    if (value === undefined || value === null || value === false) return;
-    if (value === true) {
-      el.setAttribute(key, '');
-    } else {
-      el.setAttribute(key, String(value));
-    }
-  });
-
+    Object.entries(args).forEach(([key, value]) => {
+        if (value == null) return;
+        if (DefaultValues[key] === value) return; // Skip setting default values
+        el.setAttribute(key, String(value));
+    });
   // Create the "before" image element that will be slotted into the component
   const before = document.createElement('img');
   before.slot = 'before-image';
@@ -84,5 +82,8 @@ export const Default = Template.bind({});
 export const HoverToReveal = Template.bind({});
 HoverToReveal.args = { hover: true };
 
+export const ArrowHandle = Template.bind({});
+ArrowHandle.args = { handle: 'arrow', hover: true }; 
+
 export const HideArrows = Template.bind({});
-HideArrows.args = { 'hide-arrows': true }; 
+HideArrows.args = { 'hide-arrows': true , handle: 'arrow' }; 

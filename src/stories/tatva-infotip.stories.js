@@ -9,6 +9,7 @@ export default {
     tags: ['autodocs'],
     parameters: {
         layout: 'centered',
+        controls: { expanded: true },
         docs: {
             description: {
                 component: 'Interactive tooltip component with customizable icons, positioning, and styling.',
@@ -28,7 +29,7 @@ export default {
         'icon-enabled': {
             control: 'boolean',
             description: 'Enable/disable icon display',
-            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } },
+            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
         },
         'icon-position': {
             control: 'inline-radio',
@@ -45,7 +46,7 @@ export default {
         'icon-color': {
             control: 'color',
             description: 'Color of the icon',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000000' } },
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
         },
         offset: {
             control: { type: 'number' },
@@ -61,48 +62,64 @@ export default {
         'overlay-text-color': {
             control: 'color',
             description: 'Text color in tooltip',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#ffffff' } },
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#fff' } },
         },
         'overlay-background-color': {
             control: 'color',
             description: 'Background color of tooltip',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000000' } },
+            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
+        },
+        slotContent: {
+            control: 'text',
+            description: 'Text content to be highlighted by the marker.',
+            table: { disable: true },
         },
     },
     args: {
-        content: 'This is helpful information that appears in the tooltip',
-        underline: false,
-        'icon-enabled': true,
-        'icon-position': 'left',
-        'icon-type': 'info',
-        'icon-color': '#000000',
-        offset: 6,
-        'overlay-placement': 'top',
-        'overlay-text-color': '#ffffff',
-        'overlay-background-color': '#000000',
-    },
+        'icon-enabled' : true,
+    }
 };
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues ={
+            content: 'Hello world',
+            underline: false,
+            'icon-enabled': false,
+            'icon-position': 'left',
+            'icon-type': 'info',
+            offset: '6',
+            'overlay-placement': 'top',
+            'icon-color': "#000",
+            'overlay-text-color': "#fff",
+            'overlay-background-color': "#000"
+        }
 
 /**
  * Template function to create tatva-infotip component instances
  * @param {Object} args - Component arguments from Storybook controls
  * @returns {HTMLElement} Configured tatva-infotip element
  */
-const Template = (args) => {
+const Template = ({slotContent, ...args}) => {
     const el = document.createElement('tatva-infotip');
 
     Object.entries(args).forEach(([key, value]) => {
         if (value == null) return;
+        if (DefaultValues[key] === value) return;
         el.setAttribute(key, String(value));
     });
-
-    // Add some default slot content
-    el.textContent = args.slotContent || 'Hover or focus for info';
+    
+        el.textContent = slotContent;
 
     return el;
 };
 
-export const Default = Template.bind({});
+export const Default = {
+    render: Template,
+    args: {
+        content: 'This is helpful information that appears in the tooltip',
+        slotContent: 'Hover or focus for info',
+    },
+}
 
 export const InfoIcon = {
     render: Template,
@@ -128,11 +145,7 @@ export const HelpIcon = {
 };
 
 export const IconOnly = {
-    render: (args) => {
-        const el = Template(args);
-        el.textContent = ''; // Remove text content
-        return el;
-    },
+    render: Template,
     args: {
         content: 'This is an icon-only tooltip for minimal UI elements.',
         'icon-type': 'info',

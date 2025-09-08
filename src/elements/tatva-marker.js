@@ -51,6 +51,16 @@ class TatvaMarker extends HTMLElement {
     }
 
     /**
+    * Converts attribute values to boolean
+    */
+    static convertAttributeToBoolean(value) {
+        if (value === null || value === undefined) {
+            return null; // Return null so the ?? operator can use the default
+        }
+        return value === '' || value === 'true' || value === true;
+    }
+
+    /**
     * Sets up shadow DOM and renders the initial component
     */
     connectedCallback() {
@@ -109,7 +119,7 @@ class TatvaMarker extends HTMLElement {
         return {
             type: this.getAttribute('type') || defaults.type,
             color: this.getAttribute('color') || defaults.color,
-            animation: this.getAttribute('animation') || defaults.animation,
+            animation: TatvaMarker.convertAttributeToBoolean(this.getAttribute('animation')) ?? defaults.animation,
             animationDuration: this.getAttribute('animation-duration') || defaults.animationDuration,
             animationFunction: this.getAttribute('animation-function') || defaults.animationFunction,
         };

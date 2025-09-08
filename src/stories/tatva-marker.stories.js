@@ -9,6 +9,7 @@ export default {
   // Component documentation and metadata
   parameters: {
     layout: 'centered',
+    controls: { expanded: true },
     docs: {
       description: {
         component:
@@ -37,10 +38,16 @@ export default {
       description: 'Enable drawing animation for the marker path.',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } },
     },
+    slot: {
+      control: 'text',
+      description: 'Text content to be highlighted by the marker.',
+      table: { disable: true },
+    },
     'animation-duration': {
       control: 'text',
       description: 'Duration of the marker animation (e.g., 5s).',
       table: { type: { summary: 'string' }, defaultValue: { summary: '5s' } },
+      if: { arg: 'animation', truthy: true },
     },
     'animation-function': {
       control: 'select',
@@ -50,33 +57,34 @@ export default {
       ],
       description: 'Timing function used by the animation.',
       table: { type: { summary: 'enum' }, defaultValue: { summary: 'ease-in' } },
-    },
-    slot: {
-      control: 'text',
-      description: 'Text content to be highlighted by the marker.',
-      table: { type: { summary: 'string' } },
+      if: { arg: 'animation', truthy: true },
     },
   },
   // Default values for the component attributes
   args: {
-    type: 'circle',
-    color: '#ff0000',
     animation: true,
-    'animation-duration': '5s',
-    'animation-function': 'ease-in',
-    slot: 'Marker',
   },
+};
+
+// Default values for comparison to avoid redundant attributes in the template
+const DefaultValues = {
+  type: 'circle',
+  color: '#ff0000',
+  animation: true,
+  'animation-duration': '5s',
+  'animation-function': 'ease-in'
 };
 
 const Template = ({ slot, ...args }) => {
   const el = document.createElement('tatva-marker');
-  
+
   // Apply all provided arguments as attributes to the element
   // This handles boolean attributes (set empty string for true) and other values
   Object.entries(args).forEach(([key, value]) => {
-    if (value === undefined || value === null || value === false) return;
+    if (value === undefined || value === null) return;
+    if (DefaultValues[key] === value) return;
     if (value === true) {
-      el.setAttribute(key, '');
+      el.setAttribute(key, value);
     } else {
       el.setAttribute(key, String(value));
     }
@@ -87,6 +95,7 @@ const Template = ({ slot, ...args }) => {
 
 // Default story variant - shows the component with default settings
 export const Default = Template.bind({});
+Default.args = { slot: 'Marker' };
 
 export const Curly = Template.bind({});
 Curly.args = { type: 'curly', slot: 'Curly Underline' };
@@ -98,4 +107,11 @@ export const DoubleUnderline = Template.bind({});
 DoubleUnderline.args = { type: 'double-underline', slot: 'Double Underline' };
 
 export const Strikethrough = Template.bind({});
-Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' }; 
+Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' };
+
+export const CustomAnimation = Template.bind({});
+CustomAnimation.args = {
+  slot: 'Custom Animation',
+  'animation-duration': '3s',
+  'animation-function': 'ease-out',
+};
