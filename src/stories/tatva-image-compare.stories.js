@@ -34,6 +34,26 @@ export default {
       description: 'Hide the default left/right arrows inside the handle.',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: false } },
     },
+    beforeImage: {
+      control: 'text',
+      description: 'Path to the before image.',
+      table: { disable: true },
+    },
+    beforeAlt: {
+      control: 'text',
+      description: 'Alt text for the before image.',
+      table: { disable: true },
+    },
+    afterImage: {
+      control: 'text',
+      description: 'Path to the after image.',
+      table: { disable: true },
+    },
+    afterAlt: {
+      control: 'text',
+      description: 'Alt text for the after image.',
+      table: { disable: true },
+    },
   },
 };
 
@@ -50,7 +70,9 @@ const Template = (args) => {
   
   // Apply all provided arguments as attributes to the element
   // This handles boolean attributes (set empty string for true) and other values
+    const allowedAttributes = new Set(['handle', 'hover', 'hide-arrows']);
     Object.entries(args).forEach(([key, value]) => {
+        if (!allowedAttributes.has(key)) return; // Ignore non-element args like beforeImage/afterImage
         if (value == null) return;
         if (DefaultValues[key] === value) return; // Skip setting default values
         el.setAttribute(key, String(value));
@@ -58,14 +80,14 @@ const Template = (args) => {
   // Create the "before" image element that will be slotted into the component
   const before = document.createElement('img');
   before.slot = 'before-image';
-  before.src = 'assets/before.png';
-  before.alt = 'Before';
+  before.src = args.beforeImage || 'assets/before.png';
+  before.alt = args.beforeAlt || 'Before';
 
   // Create the "after" image element that will be slotted into the component
   const after = document.createElement('img');
   after.slot = 'after-image';
-  after.src = 'assets/after.png';
-  after.alt = 'After';
+  after.src = args.afterImage || 'assets/after.png';
+  after.alt = args.afterAlt || 'After';
 
   el.appendChild(before);
   el.appendChild(after);
@@ -83,7 +105,44 @@ export const HoverToReveal = Template.bind({});
 HoverToReveal.args = { hover: true };
 
 export const ArrowHandle = Template.bind({});
-ArrowHandle.args = { handle: 'arrow', hover: true }; 
+ArrowHandle.args = { handle: 'arrow', hover: true };
+
+export const CircleHandle = Template.bind({});
+CircleHandle.storyName = 'Handle: Circle';
+CircleHandle.args = { handle: 'circle' };
 
 export const HideArrows = Template.bind({});
-HideArrows.args = { 'hide-arrows': true , handle: 'arrow' }; 
+HideArrows.args = { 'hide-arrows': true , handle: 'arrow' };
+
+export const BadAppleToGoodApple = Template.bind({});
+BadAppleToGoodApple.storyName = 'Apple: Before & After';
+BadAppleToGoodApple.args = {
+  beforeImage: 'assets/bad-apple-image.png',
+  beforeAlt: 'A rotten apple',
+  afterImage: 'assets/apple.png',
+  afterAlt: 'A fresh, good apple',
+  handle: 'circle',
+  hover: true
+};
+
+export const SkeletonToHumanBody = Template.bind({});
+SkeletonToHumanBody.storyName = 'Skeleton to Human';
+SkeletonToHumanBody.args = {
+  beforeImage: 'assets/skelton.png',
+  beforeAlt: 'A skeleton',
+  afterImage: 'assets/skin.png',
+  afterAlt: 'A human body',
+  handle: 'bar',
+  hover: false,
+};
+
+export const DayToNight = Template.bind({});
+DayToNight.storyName = 'Day to Night';
+DayToNight.args = {
+  beforeImage: 'assets/before-img.png',
+  beforeAlt: 'A city landscape during the day',
+  afterImage: 'assets/after-img.png',
+  afterAlt: 'The same city landscape at night',
+  hover: true,
+  handle: 'arrow'
+};
