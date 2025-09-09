@@ -11,6 +11,7 @@ export default {
     layout: 'centered',
     controls: { expanded: true },
     docs: {
+      canvas: { sourceState: 'shown' },
       description: {
         component:
           'A custom web component that renders animated marker styles around slotted text (underline, curly, strike, etc.).',
@@ -39,6 +40,11 @@ export default {
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } },
     },
     slot: {
+      control: 'text',
+      description: 'Text content to be highlighted by the marker.',
+      table: { disable: true },
+    },
+    content: {
       control: 'text',
       description: 'Text content to be highlighted by the marker.',
       table: { disable: true },
@@ -75,7 +81,7 @@ const DefaultValues = {
   'animation-function': 'ease-in'
 };
 
-const Template = ({ slot, ...args }) => {
+const Template = ({ content, slot, ...args }) => {
   const el = document.createElement('tatva-marker');
 
   // Apply all provided arguments as attributes to the element
@@ -90,6 +96,13 @@ const Template = ({ slot, ...args }) => {
     }
   });
   el.textContent = slot;
+
+  // If content provided → inject el, else return el alone
+  if (content) {
+    const container = document.createElement('h1');
+    container.innerHTML = content.replace('{{slot}}', el.outerHTML);
+    return container;
+  }
   return el;
 };
 
@@ -100,18 +113,60 @@ Default.args = { slot: 'Marker' };
 export const Curly = Template.bind({});
 Curly.args = { type: 'curly', slot: 'Curly Underline' };
 
+export const Cross = Template.bind({});
+Cross.args = { type: 'cross', slot: 'Cross Out' };
+
 export const Underline = Template.bind({});
 Underline.args = { type: 'underline', slot: 'Plain Underline' };
 
 export const DoubleUnderline = Template.bind({});
 DoubleUnderline.args = { type: 'double-underline', slot: 'Double Underline' };
 
+
+export const Strike = Template.bind({});
+Strike.args = { type: 'strike', slot: 'Strike' };
+
 export const Strikethrough = Template.bind({});
 Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' };
 
-export const CustomAnimation = Template.bind({});
-CustomAnimation.args = {
-  slot: 'Custom Animation',
-  'animation-duration': '3s',
+export const Animation = Template.bind({});
+Animation.args = {
+  type: 'double',
+  color: 'blue',
+  slot: 'Animation',
+  'animation-duration': '10s',
   'animation-function': 'ease-out',
+};
+
+export const CallToAction = Template.bind({});
+CallToAction.args = {
+  content: 'Ready to start? {{slot}} now!',
+  slot: 'Sign up',
+  type: 'underline',
+  color: '#4CAF50',
+  'animation-duration': '1s',
+};
+
+export const LimitedTimeOffer = Template.bind({});
+LimitedTimeOffer.args = {
+  content: '🔥 Hurry! Offer valid {{slot}}',
+  slot: 'today only',
+  color: '#ff6f00',
+};
+
+export const ImportantNotice = Template.bind({});
+ImportantNotice.args = {
+  content: '⚠️ {{slot}} Please read our new privacy policy.',
+  slot: 'Important Notice:',
+  type: 'underline-zigzag',
+  color: '#FFC107',
+  animation: true,
+};
+
+export const PriceDiscount = Template.bind({});
+PriceDiscount.args = {
+  content: 'Original price: {{slot}} Now only $50!',
+  slot: '$100',
+  type: 'strikethrough',
+  animation: false,
 };
