@@ -101,48 +101,34 @@ const Template = (args) => {
 // Default story variant - shows the component with default settings
 export const Default = Template.bind({});
 
-export const HoverToReveal = Template.bind({});
-HoverToReveal.args = { hover: true };
+export const Hover = Template.bind({});
+Hover.args = { hover: true };
 
 export const ArrowHandle = Template.bind({});
-ArrowHandle.args = { handle: 'arrow', hover: true };
-
-export const CircleHandle = Template.bind({});
-CircleHandle.storyName = 'Handle: Circle';
-CircleHandle.args = { handle: 'circle' };
-
-export const HideArrows = Template.bind({});
-HideArrows.args = { 'hide-arrows': true , handle: 'arrow' };
-
-export const BadAppleToGoodApple = Template.bind({});
-BadAppleToGoodApple.storyName = 'Apple: Before & After';
-BadAppleToGoodApple.args = {
-  beforeImage: 'assets/bad-apple-image.png',
-  beforeAlt: 'A rotten apple',
-  afterImage: 'assets/apple.png',
-  afterAlt: 'A fresh, good apple',
-  handle: 'circle',
-  hover: true
-};
-
-export const SkeletonToHumanBody = Template.bind({});
-SkeletonToHumanBody.storyName = 'Skeleton to Human';
-SkeletonToHumanBody.args = {
-  beforeImage: 'assets/skelton.png',
-  beforeAlt: 'A skeleton',
-  afterImage: 'assets/skin.png',
-  afterAlt: 'A human body',
-  handle: 'bar',
-  hover: false,
-};
-
-export const DayToNight = Template.bind({});
-DayToNight.storyName = 'Day to Night';
-DayToNight.args = {
+ArrowHandle.args = { 
   beforeImage: 'assets/before-img.png',
   beforeAlt: 'A city landscape during the day',
   afterImage: 'assets/after-img.png',
   afterAlt: 'The same city landscape at night',
   hover: true,
   handle: 'arrow'
+};
+
+export const CircleHandle = Template.bind({});
+CircleHandle.args = { 
+  beforeImage: 'assets/bad-apple-image.png',
+  beforeAlt: 'A rotten apple',
+  afterImage: 'assets/apple.png',
+  afterAlt: 'A fresh, good apple',
+  handle: 'circle',
+  hover: true 
+};
+
+export const RectangleHandle = Template.bind({});
+RectangleHandle.args = {
+  beforeImage: 'assets/skelton.png',
+  beforeAlt: 'A skeleton',
+  afterImage: 'assets/skin.png',
+  afterAlt: 'A human body',
+  handle: 'rectangle'
 };
