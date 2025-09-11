@@ -11,7 +11,6 @@ export default {
     layout: 'centered',
     controls: { expanded: true },
     docs: {
-      canvas: { sourceState: 'shown' },
       description: {
         component:
           'A custom web component that renders animated marker styles around slotted text (underline, curly, strike, etc.).',
@@ -108,65 +107,73 @@ const Template = ({ content, slot, ...args }) => {
 
 // Default story variant - shows the component with default settings
 export const Default = Template.bind({});
-Default.args = { slot: 'Marker' };
-
-export const Curly = Template.bind({});
-Curly.args = { type: 'curly', slot: 'Curly Underline' };
-
-export const Cross = Template.bind({});
-Cross.args = { type: 'cross', slot: 'Cross Out' };
-
-export const Underline = Template.bind({});
-Underline.args = { type: 'underline', slot: 'Plain Underline' };
-
-export const DoubleUnderline = Template.bind({});
-DoubleUnderline.args = { type: 'double-underline', slot: 'Double Underline' };
-
-
-export const Strike = Template.bind({});
-Strike.args = { type: 'strike', slot: 'Strike' };
-
-export const Strikethrough = Template.bind({});
-Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' };
-
-export const Animation = Template.bind({});
-Animation.args = {
-  type: 'double',
-  color: 'blue',
-  slot: 'Animation',
-  'animation-duration': '10s',
-  'animation-function': 'ease-out',
-};
-
-export const CallToAction = Template.bind({});
-CallToAction.args = {
-  content: 'Ready to start? {{slot}} now!',
-  slot: 'Sign up',
-  type: 'underline',
-  color: '#4CAF50',
-  'animation-duration': '1s',
-};
-
-export const LimitedTimeOffer = Template.bind({});
-LimitedTimeOffer.args = {
-  content: '🔥 Hurry! Offer valid {{slot}}',
+Default.args = {
+  content: 'Hurry! Offer valid {{slot}}',
   slot: 'today only',
   color: '#ff6f00',
 };
 
-export const ImportantNotice = Template.bind({});
-ImportantNotice.args = {
-  content: '⚠️ {{slot}} Please read our new privacy policy.',
-  slot: 'Important Notice:',
-  type: 'underline-zigzag',
-  color: '#FFC107',
-  animation: true,
+export const Curly = Template.bind({});
+Curly.args = { 
+  type: 'curly', 
+  content: 'Upgrade to {{slot}} now for premium benefits.',
+  slot: 'Pro Plan',
 };
 
-export const PriceDiscount = Template.bind({});
-PriceDiscount.args = {
+export const Cross = Template.bind({});
+Cross.args = { 
+  type: 'cross', 
+  slot: 'Out of Stock',
+};
+
+export const Strike = Template.bind({});
+Strike.args = { 
+  type: 'strike', 
+  content: 'This feature {{slot}} is no longer supported.',
+  slot: 'Legacy Mode',
+  color: '#9e9e9e',
+  animation: false,
+};
+
+export const Strikethrough = Template.bind({});
+Strikethrough.args = { 
+  type: 'strikethrough', 
   content: 'Original price: {{slot}} Now only $50!',
   slot: '$100',
-  type: 'strikethrough',
-  animation: false,
+  animation: false, 
+};
+
+export const Underline = Template.bind({});
+Underline.args = { 
+  type: 'underline',
+  content: 'Ready to start? {{slot}} now!',
+  slot: 'Sign up',
+  color: '#4CAF50',
+  'animation-duration': '1s', 
+};
+
+export const DoubleUnderline = Template.bind({});
+DoubleUnderline.args = { 
+  type: 'double-underline', 
+  content: 'Ready to go? {{slot}} today!',
+  slot: 'Join us',
+  color: '#2196f3',
+};
+
+export const UnderlineZigzig = Template.bind({});
+UnderlineZigzig.args = {
+  type: 'underline-zigzag',
+  content: '⚠️ {{slot}} Action required before deadline!',
+  slot: 'Urgent:',
+  color: '#f44336',
+};
+
+export const Animation = Template.bind({});
+Animation.args = {
+  type: 'double',
+  slot: 'Double Marker',
+  color: '#3f51b5',
+  content: 'Highlight {{slot}} with style.',
+  'animation-duration': '10s',
+  'animation-function': 'ease-out',
 };
