@@ -135,28 +135,26 @@ export const Default = {
 export const Caution = {
     render: Template,
     args: {
-        slot: 'Delete account',
-        slotContent: '{{slot}} is permanent.',
-        content: 'This action will erase all your data and cannot be undone.',
+        slot: 'Unsaved changes',
+        content: 'Make sure to save before leaving this page.',
         underline: true,
         'icon-enabled': true,
         'icon-type': 'caution',
         'icon-position': 'left',
         'icon-color': '#f39c12',
-        'overlay-placement': 'right',
+        'overlay-placement': 'top-start',
     },
 };
 
 export const ErrorTip = {
     render: Template,
     args: {
-        slot: 'Email',
-        slotContent: 'Please enter a valid {{slot}} address.',
-        content: 'Example: user@example.com',
-        underline: true,
+        slot: 'Upload failed',
+        slotContent: '{{slot}}: file too big.',
+        content: 'Maximum upload size is 5MB.',
         'icon-enabled': true,
         'icon-type': 'error',
-        'icon-position': 'right',
+        'icon-position': 'left',
         'icon-color': '#e74c3c',
         'overlay-placement': 'top-start',
     },
@@ -166,12 +164,11 @@ export const HelpIcon = {
     render: Template,
     args: {
         slot: 'Password',
-        slotContent: 'Create a secure {{slot}} for your account.',
         content: 'Must be at least 8 characters long and include one number and one special character.',
         'icon-type': 'help',
         'icon-position': 'right',
         'icon-color': '#28a745',
-        'overlay-placement': 'bottom',
+        'overlay-placement': 'bottom-start',
         underline: true
     },
 };
