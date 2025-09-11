@@ -69,6 +69,11 @@ export default {
             description: 'Background color of tooltip',
             table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
         },
+        slot: {
+            control: 'text',
+            description: 'Text content to be highlighted by the marker.',
+            table: { disable: true },
+        },
         slotContent: {
             control: 'text',
             description: 'Text content to be highlighted by the marker.',
@@ -76,30 +81,31 @@ export default {
         },
     },
     args: {
-        'icon-enabled' : true,
+        'icon-enabled': true,
     }
 };
 
 // Default values for comparison to avoid redundant attributes in the template
-const DefaultValues ={
-            content: 'Hello world',
-            underline: false,
-            'icon-enabled': false,
-            'icon-position': 'left',
-            'icon-type': 'info',
-            offset: '6',
-            'overlay-placement': 'top',
-            'icon-color': "#000",
-            'overlay-text-color': "#fff",
-            'overlay-background-color': "#000"
-        }
+const DefaultValues = {
+    content: 'Hello world',
+    underline: false,
+    'icon-enabled': false,
+    'icon-position': 'left',
+    'icon-type': 'info',
+    offset: '6',
+    'overlay-placement': 'top',
+    'icon-color': "#000",
+    'overlay-text-color': "#fff",
+    'overlay-background-color': "#000"
+}
 
 /**
  * Template function to create tatva-infotip component instances
  * @param {Object} args - Component arguments from Storybook controls
  * @returns {HTMLElement} Configured tatva-infotip element
  */
-const Template = ({slotContent, ...args}) => {
+const Template = ({ slot, slotContent, ...args }) => {
+
     const el = document.createElement('tatva-infotip');
 
     Object.entries(args).forEach(([key, value]) => {
@@ -107,8 +113,13 @@ const Template = ({slotContent, ...args}) => {
         if (DefaultValues[key] === value) return;
         el.setAttribute(key, String(value));
     });
-    
-        el.textContent = slotContent;
+
+    el.textContent = slot;
+    if (slotContent) {
+        const container = document.createElement('div');
+        container.innerHTML = slotContent.replace('{{slot}}', el.outerHTML);
+        return container;
+    }
 
     return el;
 };
@@ -116,31 +127,65 @@ const Template = ({slotContent, ...args}) => {
 export const Default = {
     render: Template,
     args: {
-        content: 'This is helpful information that appears in the tooltip',
-        slotContent: 'Hover or focus for info',
+        slot: 'Shipping details apply at checkout',
+        content: 'Orders above $50 qualify for free shipping within 5–7 business days.',
     },
 }
 
-export const InfoIcon = {
+export const Caution = {
     render: Template,
     args: {
-        content: 'This provides additional context and helpful information about the feature.',
-        'icon-type': 'info',
-        'icon-color': '#0066cc',
+        slot: 'Delete account',
+        slotContent: '{{slot}} is permanent.',
+        content: 'This action will erase all your data and cannot be undone.',
         underline: true,
-        slotContent: 'Learn more',
+        'icon-enabled': true,
+        'icon-type': 'caution',
+        'icon-position': 'left',
+        'icon-color': '#f39c12',
+        'overlay-placement': 'right',
+    },
+};
+
+export const ErrorTip = {
+    render: Template,
+    args: {
+        slot: 'Email',
+        slotContent: 'Please enter a valid {{slot}} address.',
+        content: 'Example: user@example.com',
+        underline: true,
+        'icon-enabled': true,
+        'icon-type': 'error',
+        'icon-position': 'right',
+        'icon-color': '#e74c3c',
+        'overlay-placement': 'top-start',
     },
 };
 
 export const HelpIcon = {
     render: Template,
     args: {
-        content: 'Need assistance? This tooltip provides helpful guidance and tips.',
+        slot: 'Password',
+        slotContent: 'Create a secure {{slot}} for your account.',
+        content: 'Must be at least 8 characters long and include one number and one special character.',
         'icon-type': 'help',
         'icon-position': 'right',
         'icon-color': '#28a745',
         'overlay-placement': 'bottom',
-        slotContent: 'Help',
+        underline: true
+    },
+};
+
+export const InfoIcon = {
+    render: Template,
+    args: {
+        slotContent: 'Our {{slot}} guarantees your satisfaction.',
+        slot: '30-day refund',
+        content: 'Guaranteed, no questions asked!',
+        'icon-enabled': true,
+        'icon-type': 'info',
+        underline: true,
+        'overlay-placement': 'top',
     },
 };
 
@@ -157,10 +202,11 @@ export const IconOnly = {
 export const TextOnly = {
     render: Template,
     args: {
-        content: 'Additional information without any visual icon indicator.',
+        slot: 'Promo codes',
+        slotContent: '{{slot}} are applied at the final step of checkout.',
+        content: 'Only one promo code can be used per order.',
         'icon-enabled': false,
         underline: true,
         'overlay-placement': 'bottom',
-        slotContent: 'Underlined text with tooltip',
     },
 };
