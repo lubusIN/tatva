@@ -110,7 +110,6 @@ export const Default = Template.bind({});
 Default.args = {
   content: 'Hurry! Offer valid {{slot}}',
   slot: 'today only',
-  color: '#ff6f00',
 };
 
 export const Curly = Template.bind({});
