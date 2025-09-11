@@ -110,7 +110,6 @@ ArrowHandle.args = {
   beforeAlt: 'A city landscape during the day',
   afterImage: 'assets/after-img.png',
   afterAlt: 'The same city landscape at night',
-  hover: true,
   handle: 'arrow'
 };
 
@@ -121,7 +120,6 @@ CircleHandle.args = {
   afterImage: 'assets/apple.png',
   afterAlt: 'A fresh, good apple',
   handle: 'circle',
-  hover: true 
 };
 
 export const RectangleHandle = Template.bind({});
