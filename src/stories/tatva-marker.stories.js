@@ -105,74 +105,33 @@ const Template = ({ content, slot, ...args }) => {
   return el;
 };
 
-// Default story variant - shows the component with default settings
-export const Default = Template.bind({});
-Default.args = {
+export const type = Template.bind({});
+type.args = {
   content: 'Hurry! Offer valid {{slot}}',
   slot: 'today only',
 };
 
-export const Curly = Template.bind({});
-Curly.args = { 
-  type: 'curly', 
-  content: 'Upgrade to {{slot}} now for premium benefits.',
-  slot: 'Pro Plan',
-};
-
-export const Cross = Template.bind({});
-Cross.args = { 
-  type: 'cross', 
-  slot: 'Out of Stock',
-};
-
-export const Strike = Template.bind({});
-Strike.args = { 
-  type: 'strike', 
-  content: 'This feature {{slot}} is no longer supported.',
-  slot: 'Legacy Mode',
-  color: '#9e9e9e',
-  animation: false,
-};
-
-export const Strikethrough = Template.bind({});
-Strikethrough.args = { 
-  type: 'strikethrough', 
-  content: 'Original price: {{slot}} Now only $50!',
-  slot: '$100',
-  animation: false, 
-};
-
-export const Underline = Template.bind({});
-Underline.args = { 
-  type: 'underline',
-  content: 'Ready to start? {{slot}} now!',
-  slot: 'Sign up',
-  color: '#4CAF50',
-  'animation-duration': '1s', 
-};
-
-export const DoubleUnderline = Template.bind({});
-DoubleUnderline.args = { 
-  type: 'double-underline', 
-  content: 'Ready to go? {{slot}} today!',
-  slot: 'Join us',
-  color: '#2196f3',
-};
-
-export const UnderlineZigzig = Template.bind({});
-UnderlineZigzig.args = {
+export const Color = Template.bind({});
+Color.args = {
   type: 'underline-zigzag',
-  content: '⚠️ {{slot}} Action required before deadline!',
+  content: '{{slot}} Action required before deadline!',
   slot: 'Urgent:',
   color: '#f44336',
 };
 
 export const Animation = Template.bind({});
 Animation.args = {
-  type: 'double',
-  slot: 'Double Marker',
-  color: '#3f51b5',
-  content: 'Highlight {{slot}} with style.',
-  'animation-duration': '10s',
-  'animation-function': 'ease-out',
+  type: 'circle',
+  content: 'Upgrade to {{slot}} now for premium benefits.',
+  slot: 'Pro Plan',
+  'animation-duration': '3s',
+  'animation-function': 'steps(5, end)',
+};
+
+export const AnimationDisable = Template.bind({});
+AnimationDisable.args = { 
+  type: 'strikethrough', 
+  content: 'Original price: {{slot}} Now only $50!',
+  slot: '$100',
+  animation: false, 
 };
