@@ -98,35 +98,24 @@ const Template = (args) => {
   return el;
 };
 
-// Default story variant - shows the component with default settings
-export const Default = Template.bind({});
-
-export const Hover = Template.bind({});
-Hover.args = { hover: true };
-
-export const ArrowHandle = Template.bind({});
-ArrowHandle.args = { 
-  beforeImage: 'assets/before-img.png',
-  beforeAlt: 'A city landscape during the day',
-  afterImage: 'assets/after-img.png',
-  afterAlt: 'The same city landscape at night',
-  handle: 'arrow'
-};
-
-export const CircleHandle = Template.bind({});
-CircleHandle.args = { 
+export const Handle = Template.bind({});
+Handle.args = {
   beforeImage: 'assets/bad-apple-image.png',
   beforeAlt: 'A rotten apple',
   afterImage: 'assets/apple.png',
   afterAlt: 'A fresh, good apple',
   handle: 'circle',
-};
+}
 
-export const RectangleHandle = Template.bind({});
-RectangleHandle.args = {
+export const Hover = Template.bind({});
+Hover.args = { hover: true };
+
+export const HideArrows = Template.bind({});
+HideArrows.args = {
   beforeImage: 'assets/skelton.png',
   beforeAlt: 'A skeleton',
   afterImage: 'assets/skin.png',
   afterAlt: 'A human body',
-  handle: 'rectangle'
+  'hide-arrows': true,
+  handle: 'arrow'
 };
