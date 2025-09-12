@@ -124,86 +124,87 @@ const Template = ({ slot, slotContent, ...args }) => {
     return el;
 };
 
-export const Default = {
-    render: Template,
-    args: {
-        slot: 'Shipping details apply at checkout',
-        content: 'Orders above $50 qualify for free shipping within 5–7 business days.',
-    },
-}
-
-export const Caution = {
-    render: Template,
-    args: {
-        slot: 'Unsaved changes',
-        content: 'Make sure to save before leaving this page.',
-        underline: true,
-        'icon-enabled': true,
-        'icon-type': 'caution',
-        'icon-position': 'left',
-        'icon-color': '#f39c12',
-        'overlay-placement': 'top-start',
-    },
+export const IconType = {
+  render: Template,
+  args: {
+    slot: 'Shipping details apply at checkout',
+    content: 'Orders above $50 qualify for free shipping within 5–7 business days.',
+    'icon-type': 'info',
+  },
 };
 
-export const ErrorTip = {
-    render: Template,
-    args: {
-        slot: 'Upload failed',
-        slotContent: '{{slot}}: file too big.',
-        content: 'Maximum upload size is 5MB.',
-        'icon-enabled': true,
-        'icon-type': 'error',
-        'icon-position': 'left',
-        'icon-color': '#e74c3c',
-        'overlay-placement': 'top-start',
-    },
+export const IconPosition = {
+  render: Template,
+  args: {
+    slot: 'Password',
+    content: 'Must be at least 8 characters long and include one number and one special character.',
+    'icon-type': 'help',
+    'icon-position': 'right',
+  },
 };
 
-export const HelpIcon = {
-    render: Template,
-    args: {
-        slot: 'Password',
-        content: 'Must be at least 8 characters long and include one number and one special character.',
-        'icon-type': 'help',
-        'icon-position': 'right',
-        'icon-color': '#28a745',
-        'overlay-placement': 'bottom-start',
-        underline: true
-    },
+export const Underline = {
+  render: Template,
+  args: {
+    slot: 'Unsaved changes',
+    content: 'Make sure to save before leaving this page.',
+    underline: true,
+  },
 };
 
-export const InfoIcon = {
-    render: Template,
-    args: {
-        slotContent: 'Our {{slot}} guarantees your satisfaction.',
-        slot: '30-day refund',
-        content: 'Guaranteed, no questions asked!',
-        'icon-enabled': true,
-        'icon-type': 'info',
-        underline: true,
-        'overlay-placement': 'top',
-    },
+export const IconColor = {
+  render: Template,
+  args: {
+    slot: 'Billing alert',
+    content: 'Please update your payment details.',
+    'icon-type': 'error',
+    'icon-color': '#e74c3c',
+  },
+};
+
+export const Offset = {
+  render: Template,
+  args: {
+    slot: 'Hover me',
+    content: 'This tooltip is offset by 20px.',
+    offset: 20,
+  },
+};
+
+export const OverlayPlacement = {
+  render: Template,
+  args: {
+    slot: 'Details',
+    content: 'Tooltip is placed at the bottom-end.',
+    'overlay-placement': 'bottom-end',
+  },
+};
+
+export const OverlayColors = {
+  render: Template,
+  args: {
+    slot: 'Styled tooltip',
+    content: 'Custom background and text colors.',
+    'overlay-background-color': '#333',
+    'overlay-text-color': '#ffcc00',
+  },
 };
 
 export const IconOnly = {
-    render: Template,
-    args: {
-        content: 'This is an icon-only tooltip for minimal UI elements.',
-        'icon-type': 'info',
-        'icon-color': '#17a2b8',
-        'overlay-placement': 'top',
-    },
+  render: Template,
+  args: {
+    content: 'This is an icon-only tooltip for minimal UI elements.',
+    'icon-type': 'info',
+  },
 };
 
 export const TextOnly = {
-    render: Template,
-    args: {
-        slot: 'Promo codes',
-        slotContent: '{{slot}} are applied at the final step of checkout.',
-        content: 'Only one promo code can be used per order.',
-        'icon-enabled': false,
-        underline: true,
-        'overlay-placement': 'bottom',
-    },
+  render: Template,
+  args: {
+    slot: 'Promo codes',
+    slotContent: '{{slot}} are applied at the final step of checkout.',
+    content: 'Only one promo code can be used per order.',
+    'icon-enabled': false,
+    underline: true,
+  },
 };
