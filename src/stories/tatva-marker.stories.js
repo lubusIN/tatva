@@ -105,8 +105,14 @@ const Template = ({ content, slot, ...args }) => {
   return el;
 };
 
+export const Default = Template.bind({});
+Default.args = {
+  slot: 'Welcome',
+};
+
 export const type = Template.bind({});
 type.args = {
+  type: 'underline',
   content: 'Hurry! Offer valid {{slot}}',
   slot: 'today only',
 };
@@ -121,7 +127,7 @@ Color.args = {
 
 export const Animation = Template.bind({});
 Animation.args = {
-  type: 'circle',
+  type: 'double',
   content: 'Upgrade to {{slot}} now for premium benefits.',
   slot: 'Pro Plan',
   'animation-duration': '3s',
@@ -129,9 +135,9 @@ Animation.args = {
 };
 
 export const AnimationDisable = Template.bind({});
-AnimationDisable.args = { 
-  type: 'strikethrough', 
+AnimationDisable.args = {
+  type: 'strikethrough',
   content: 'Original price: {{slot}} Now only $50!',
   slot: '$100',
-  animation: false, 
+  animation: false,
 };
