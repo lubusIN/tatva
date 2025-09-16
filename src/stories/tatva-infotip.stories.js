@@ -4,99 +4,99 @@ import '../elements/tatva-infotip.js';
  * Storybook configuration for tatva-infotip component
  */
 export default {
-    title: 'Examples/Infotip',
-    component: 'tatva-infotip',
-    tags: ['autodocs'],
-    parameters: {
-        layout: 'centered',
-        controls: { expanded: true },
-        docs: {
-            description: {
-                component: 'Interactive tooltip component with customizable icons, positioning, and styling.',
-            },
-        },
+  title: 'Examples/Infotip',
+  component: 'tatva-infotip',
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    controls: { expanded: true },
+    docs: {
+      description: {
+        component: 'Interactive tooltip component with customizable icons, positioning, and styling.',
+      },
     },
-    argTypes: {
-        content: {
-            control: 'text',
-            description: 'Tooltip content to display',
-        },
-        underline: {
-            control: 'boolean',
-            description: 'Show dotted underline on trigger text',
-            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
-        },
-        'icon-enabled': {
-            control: 'boolean',
-            description: 'Enable/disable icon display',
-            table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
-        },
-        'icon-position': {
-            control: 'inline-radio',
-            options: ['left', 'right'],
-            description: 'Position of icon relative to text',
-            table: { type: { summary: 'left | right' }, defaultValue: { summary: 'left' } },
-        },
-        'icon-type': {
-            control: 'select',
-            options: ['info', 'help', 'caution', 'error', 'notAllowed', 'starEmpty'],
-            description: 'Type of icon to display',
-            table: { type: { summary: 'enum' }, defaultValue: { summary: 'info' } },
-        },
-        'icon-color': {
-            control: 'color',
-            description: 'Color of the icon',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
-        },
-        offset: {
-            control: { type: 'number' },
-            description: 'Distance between trigger and tooltip (px)',
-            table: { type: { summary: 'number' }, defaultValue: { summary: '6' } },
-        },
-        'overlay-placement': {
-            control: 'select',
-            options: ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end'],
-            description: 'Preferred placement of tooltip',
-            table: { type: { summary: 'enum' }, defaultValue: { summary: 'top' } },
-        },
-        'overlay-text-color': {
-            control: 'color',
-            description: 'Text color in tooltip',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#fff' } },
-        },
-        'overlay-background-color': {
-            control: 'color',
-            description: 'Background color of tooltip',
-            table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
-        },
-        slot: {
-            control: 'text',
-            description: 'Text content to be highlighted by the marker.',
-            table: { disable: true },
-        },
-        slotContent: {
-            control: 'text',
-            description: 'Text content to be highlighted by the marker.',
-            table: { disable: true },
-        },
+  },
+  argTypes: {
+    content: {
+      control: 'text',
+      description: 'Tooltip content to display',
     },
-    args: {
-        'icon-enabled': true,
-    }
+    underline: {
+      control: 'boolean',
+      description: 'Show dotted underline on trigger text',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    'icon-enabled': {
+      control: 'boolean',
+      description: 'Enable/disable icon display',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    'icon-position': {
+      control: 'inline-radio',
+      options: ['left', 'right'],
+      description: 'Position of icon relative to text',
+      table: { type: { summary: 'left | right' }, defaultValue: { summary: 'left' } },
+      if: { arg: 'icon-enabled', eq: true },
+    },
+    'icon-type': {
+      control: 'select',
+      options: ['info', 'help', 'caution', 'error', 'notAllowed', 'starEmpty'],
+      description: 'Type of icon to display',
+      table: { type: { summary: 'enum' }, defaultValue: { summary: 'info' } },
+      if: { arg: 'icon-enabled', eq: true },
+    },
+    'icon-color': {
+      control: 'color',
+      description: 'Color of the icon',
+      table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
+      if: { arg: 'icon-enabled', eq: true },
+    },
+    offset: {
+      control: { type: 'number' },
+      description: 'Distance between trigger and tooltip (px)',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '6' } },
+    },
+    'overlay-placement': {
+      control: 'select',
+      options: ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end'],
+      description: 'Preferred placement of tooltip',
+      table: { type: { summary: 'enum' }, defaultValue: { summary: 'top' } },
+    },
+    'overlay-text-color': {
+      control: 'color',
+      description: 'Text color in tooltip',
+      table: { type: { summary: 'Color' }, defaultValue: { summary: '#fff' } },
+    },
+    'overlay-background-color': {
+      control: 'color',
+      description: 'Background color of tooltip',
+      table: { type: { summary: 'Color' }, defaultValue: { summary: '#000' } },
+    },
+    slot: {
+      control: 'text',
+      description: 'Text content to be highlighted by the marker.',
+      table: { disable: true },
+    },
+    slotContent: {
+      control: 'text',
+      description: 'Text content to be highlighted by the marker.',
+      table: { disable: true },
+    },
+  },
 };
 
 // Default values for comparison to avoid redundant attributes in the template
 const DefaultValues = {
-    content: 'Hello world',
-    underline: false,
-    'icon-enabled': false,
-    'icon-position': 'left',
-    'icon-type': 'info',
-    offset: '6',
-    'overlay-placement': 'top',
-    'icon-color': "#000",
-    'overlay-text-color': "#fff",
-    'overlay-background-color': "#000"
+  content: 'Hello world',
+  underline: false,
+  'icon-enabled': false,
+  'icon-position': 'left',
+  'icon-type': 'info',
+  offset: '6',
+  'overlay-placement': 'top',
+  'icon-color': "#000",
+  'overlay-text-color': "#fff",
+  'overlay-background-color': "#000"
 }
 
 /**
@@ -106,55 +106,36 @@ const DefaultValues = {
  */
 const Template = ({ slot, slotContent, ...args }) => {
 
-    const el = document.createElement('tatva-infotip');
+  const el = document.createElement('tatva-infotip');
 
-    Object.entries(args).forEach(([key, value]) => {
-        if (value == null) return;
-        if (DefaultValues[key] === value) return;
-        el.setAttribute(key, String(value));
-    });
+  Object.entries(args).forEach(([key, value]) => {
+    if (value == null) return;
+    if (DefaultValues[key] === value) return;
+    el.setAttribute(key, String(value));
+  });
 
-    el.textContent = slot;
-    if (slotContent) {
-        const container = document.createElement('div');
-        container.innerHTML = slotContent.replace('{{slot}}', el.outerHTML);
-        return container;
-    }
+  el.textContent = slot;
+  if (slotContent) {
+    const container = document.createElement('div');
+    container.innerHTML = slotContent.replace('{{slot}}', el.outerHTML);
+    return container;
+  }
 
-    return el;
+  return el;
 };
 
-export const IconType = {
+export const Default = {
   render: Template,
   args: {
-    slot: 'Shipping details apply at checkout',
-    content: 'Orders above $50 qualify for free shipping within 5–7 business days.',
-    'icon-type': 'info',
-  },
-};
-
-export const IconPosition = {
-  render: Template,
-  args: {
-    slot: 'Password',
-    content: 'Must be at least 8 characters long and include one number and one special character.',
-    'icon-type': 'help',
-    'icon-position': 'right',
-  },
-};
-
-export const Underline = {
-  render: Template,
-  args: {
-    slot: 'Unsaved changes',
-    content: 'Make sure to save before leaving this page.',
-    underline: true,
+    slot: 'Hover for info',
+    content: 'This is the default infotip.',
   },
 };
 
 export const IconColor = {
   render: Template,
   args: {
+    'icon-enabled': true,
     slot: 'Billing alert',
     content: 'Please update your payment details.',
     'icon-type': 'error',
@@ -162,49 +143,74 @@ export const IconColor = {
   },
 };
 
-export const Offset = {
+export const IconOnly = {
   render: Template,
   args: {
-    slot: 'Hover me',
-    content: 'This tooltip is offset by 20px.',
-    offset: 20,
+    'icon-enabled': true,
+    content: 'This is an icon-only tooltip for minimal UI elements.',
+    'icon-type': 'caution',
   },
 };
 
-export const OverlayPlacement = {
+export const IconPosition = {
   render: Template,
   args: {
-    slot: 'Details',
-    content: 'Tooltip is placed at the bottom-end.',
-    'overlay-placement': 'bottom-end',
+    'icon-enabled': true,
+    slot: 'Password',
+    content: 'Must be at least 8 characters long and include one number and one special character.',
+    'icon-type': 'help',
+    'icon-position': 'right',
+  },
+};
+
+export const IconType = {
+  render: Template,
+  args: {
+    'icon-enabled': true,
+    slot: 'Shipping details apply at checkout',
+    content: 'Orders above $50 qualify for free shipping within 5–7 business days.',
+  },
+};
+
+export const Offset = {
+  render: Template,
+  args: {
+    'icon-enabled': true,
+    slot: 'Hover me',
+    content: 'This tooltip is offset by 20px.',
+    offset: 20,
+    'icon-type': 'notAllowed',
   },
 };
 
 export const OverlayColors = {
   render: Template,
   args: {
+    'icon-enabled': true,
     slot: 'Styled tooltip',
     content: 'Custom background and text colors.',
     'overlay-background-color': '#333',
     'overlay-text-color': '#ffcc00',
+    'icon-type': 'starEmpty',
   },
 };
 
-export const IconOnly = {
+export const OverlayPlacement = {
   render: Template,
   args: {
-    content: 'This is an icon-only tooltip for minimal UI elements.',
-    'icon-type': 'info',
+    'icon-enabled': true,
+    slot: 'Details',
+    content: 'Tooltip is placed at the bottom-end.',
+    'overlay-placement': 'bottom-end',
   },
 };
 
-export const TextOnly = {
+export const Underline = {
   render: Template,
   args: {
-    slot: 'Promo codes',
-    slotContent: '{{slot}} are applied at the final step of checkout.',
-    content: 'Only one promo code can be used per order.',
-    'icon-enabled': false,
+    'icon-enabled': true,
+    slot: 'Unsaved changes',
+    content: 'Make sure to save before leaving this page.',
     underline: true,
   },
 };
