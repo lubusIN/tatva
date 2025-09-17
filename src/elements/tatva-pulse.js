@@ -97,6 +97,7 @@ class TatvaPulse extends HTMLElement {
                 :host {
                     display: inline-flex;
                     position: relative;
+                    vertical-align: middle;
                 }
 
                 .content-wrapper {

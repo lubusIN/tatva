@@ -13,7 +13,6 @@ export default {
     controls: { expanded: true },
     docs: {
       // Show source code in documentation
-      canvas: { sourceState: 'shown' },
       description: {
         component:
           'Animated pulse dot with optional slotted content, supporting Left/Right/Background/Superscript positions.',
@@ -85,10 +84,34 @@ const Template = ({content, slot, ...args }) => {
   // If content provided → inject el, else return el alone
   if (content) {
     const container = document.createElement('h1');
+    container.style.display = 'flex';
+    container.style.gap = '10px'
     container.innerHTML = content.replace('{{slot}}', el.outerHTML);
     return container;
   }
   return el;
+};
+
+export const Default = Template.bind({});
+Default.args = {
+  slot: 'Online',
+  color: '#34c759',
+};
+
+export const Color = Template.bind({});
+Color.args = {
+  slot: 'Sale',
+  content: 'Big {{slot}} this weekend only!',
+  color: '#ff2d55',
+  position: 'right'
+};
+
+export const Gap = Template.bind({});
+Gap.args = {
+  slot: 'Live',
+  content: '{{slot}} Event Starting Soon',
+  gap: '20px',
+  color: '#007aff',
 };
 
 export const Size = Template.bind({});
@@ -97,24 +120,7 @@ Size.args = {
   content: '{{slot}} on YouTube',
   position: 'right',
   color: '#34c759',
-  size: '1rem'
-};
-
-export const Color = Template.bind({});
-Color.args = {
-  slot: 'Sale',
-  content: 'Big {{slot}} this weekend only!',
-  size: '1.2rem',
-  color: '#ff2d55',
-};
-
-export const Gap = Template.bind({});
-Gap.args = {
-  slot: 'Update',
-  content: 'System {{slot}} available.',
-  gap: '30px',
-  color: '#007aff',
-  size: '1.2rem',
+  size: '1.2rem'
 };
 
 export const Superscript = Template.bind({});
@@ -122,9 +128,9 @@ Superscript.args = {
   slot: '50% OFF',
   content: 'Get {{slot}} on all summer collection items.',
   position: 'superscript',
-  'superscript-offset': '-0.4em',
+  'superscript-offset': '-0.3em',
   color: '#e74c3c',
 };
 
 export const Background = Template.bind({});
-Background.args = { position: 'background', slot: 'Badge', color: '#007aff', size: '1.5rem' };
+Background.args = { position: 'background', slot: 'Badge', color: '#ff9500', size: '2rem' };
