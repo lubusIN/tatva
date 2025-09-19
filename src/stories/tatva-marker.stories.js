@@ -43,6 +43,11 @@ export default {
       description: 'Text content to be highlighted by the marker.',
       table: { disable: true },
     },
+    content: {
+      control: 'text',
+      description: 'Text content to be highlighted by the marker.',
+      table: { disable: true },
+    },
     'animation-duration': {
       control: 'text',
       description: 'Duration of the marker animation (e.g., 5s).',
@@ -75,7 +80,7 @@ const DefaultValues = {
   'animation-function': 'ease-in'
 };
 
-const Template = ({ slot, ...args }) => {
+const Template = ({ content, slot, ...args }) => {
   const el = document.createElement('tatva-marker');
 
   // Apply all provided arguments as attributes to the element
@@ -90,28 +95,49 @@ const Template = ({ slot, ...args }) => {
     }
   });
   el.textContent = slot;
+
+  // If content provided → inject el, else return el alone
+  if (content) {
+    const container = document.createElement('h1');
+    container.innerHTML = content.replace('{{slot}}', el.outerHTML);
+    return container;
+  }
   return el;
 };
 
-// Default story variant - shows the component with default settings
 export const Default = Template.bind({});
-Default.args = { slot: 'Marker' };
+Default.args = {
+  slot: 'Welcome',
+};
 
-export const Curly = Template.bind({});
-Curly.args = { type: 'curly', slot: 'Curly Underline' };
+export const type = Template.bind({});
+type.args = {
+  type: 'underline',
+  content: 'Hurry! Offer valid {{slot}}',
+  slot: 'today only',
+};
 
-export const Underline = Template.bind({});
-Underline.args = { type: 'underline', slot: 'Plain Underline' };
+export const Color = Template.bind({});
+Color.args = {
+  type: 'underline-zigzag',
+  content: '{{slot}} Action required before deadline!',
+  slot: 'Urgent:',
+  color: '#f44336',
+};
 
-export const DoubleUnderline = Template.bind({});
-DoubleUnderline.args = { type: 'double-underline', slot: 'Double Underline' };
-
-export const Strikethrough = Template.bind({});
-Strikethrough.args = { type: 'strikethrough', slot: 'Strikethrough Text' };
-
-export const CustomAnimation = Template.bind({});
-CustomAnimation.args = {
-  slot: 'Custom Animation',
+export const Animation = Template.bind({});
+Animation.args = {
+  type: 'double',
+  content: 'Upgrade to {{slot}} now for premium benefits.',
+  slot: 'Pro Plan',
   'animation-duration': '3s',
-  'animation-function': 'ease-out',
+  'animation-function': 'steps(5, end)',
+};
+
+export const AnimationDisable = Template.bind({});
+AnimationDisable.args = {
+  type: 'strikethrough',
+  content: 'Original price: {{slot}} Now only $50!',
+  slot: '$100',
+  animation: false,
 };
