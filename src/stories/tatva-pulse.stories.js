@@ -84,8 +84,6 @@ const Template = ({content, slot, ...args }) => {
   // If content provided → inject el, else return el alone
   if (content) {
     const container = document.createElement('h1');
-    container.style.display = 'flex';
-    container.style.gap = '10px'
     container.innerHTML = content.replace('{{slot}}', el.outerHTML);
     return container;
   }
@@ -108,8 +106,7 @@ Color.args = {
 
 export const Gap = Template.bind({});
 Gap.args = {
-  slot: 'Live',
-  content: '{{slot}} Event Starting Soon',
+  slot: 'Live Event Starting Soon',
   gap: '20px',
   color: '#007aff',
 };
