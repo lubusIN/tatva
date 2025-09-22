@@ -13,7 +13,6 @@ export default {
     controls: { expanded: true },
     docs: {
       // Show source code in documentation
-      canvas: { sourceState: 'shown' },
       description: {
         component:
           'Animated pulse dot with optional slotted content, supporting Left/Right/Background/Superscript positions.',
@@ -54,6 +53,10 @@ export default {
       description: 'Content alongside which the pulse is displayed.',
       table: { disable: true },
     },
+    content: {
+      control: 'text',
+      table: { disable: true },
+    }
   },
 };
 
@@ -66,7 +69,7 @@ const DefaultValues = {
   'superscript-offset': '-0.5em',
 }
 
-const Template = ({ slot, ...args }) => {
+const Template = ({content, slot, ...args }) => {
   const el = document.createElement('tatva-pulse');
   Object.entries(args).forEach(([key, value]) => {
     if (value === undefined || value === null || value === false) return;
@@ -78,18 +81,53 @@ const Template = ({ slot, ...args }) => {
     }
   });
   el.textContent = slot;
+  // If content provided → inject el, else return el alone
+  if (content) {
+    const container = document.createElement('h1');
+    container.innerHTML = content.replace('{{slot}}', el.outerHTML);
+    return container;
+  }
   return el;
 };
 
-// Default story variant - shows the component with default settings
 export const Default = Template.bind({});
-Default.args = { slot: 'New', color: '#ff0000' };
+Default.args = {
+  slot: 'Online',
+  color: '#34c759',
+};
 
-export const Right = Template.bind({});
-Right.args = { color: '#34c759', position: 'right', slot: 'Sale' };
+export const Color = Template.bind({});
+Color.args = {
+  slot: 'Sale',
+  content: 'Big {{slot}} this weekend only!',
+  color: '#ff2d55',
+  position: 'right'
+};
+
+export const Gap = Template.bind({});
+Gap.args = {
+  slot: 'Live Event Starting Soon',
+  gap: '20px',
+  color: '#007aff',
+};
+
+export const Size = Template.bind({});
+Size.args = {
+  slot: 'Live Now',
+  content: '{{slot}} on YouTube',
+  position: 'right',
+  color: '#34c759',
+  size: '1.2rem'
+};
 
 export const Superscript = Template.bind({});
-Superscript.args = { position: 'superscript', slot: 'Pro', color: '#ff9f0a', 'superscript-offset': '-0.5em' };
+Superscript.args = {
+  slot: '50% OFF',
+  content: 'Get {{slot}} on all summer collection items.',
+  position: 'superscript',
+  'superscript-offset': '-0.3em',
+  color: '#e74c3c',
+};
 
 export const Background = Template.bind({});
-Background.args = { position: 'background', slot: 'Badge', color: '#007aff', size: '1.5rem' };
+Background.args = { position: 'background', slot: 'Badge', color: '#ff9500', size: '2rem' };
