@@ -3,7 +3,6 @@
     padding: 5px 8px;
     border-radius: 20px;
     max-width: fit-content;
-    align-self: center;
     font-size: 12px !important;
 }
 
@@ -16,5 +15,19 @@
 
 .tatva-hero-Section {
     background-color: #0E2D14;
-    padding: 45px;
+    background-image: url(/public/tatva-header-cover.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left 15% bottom;
+}
+
+.tatva-hero-card {
+  align-items: flex-start !important;
+}
+
+.tatva-hero-cont {
+  max-width: 1200px;
+  padding: 100px;
+  width: 100%;
+  margin: 0 auto !important;
 }
