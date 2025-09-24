@@ -7,11 +7,12 @@ class TatvaTextAnimation extends HTMLElement {
             type: 'typing',
             words: ["Hello Lubus", "From Tatva"],
             speed: 100,
+            repeat: false,
         };
     }
 
     static get observedAttributes() {
-        return ['type', 'words', 'speed'];
+        return ['type', 'words', 'speed', 'repeat'];
     }
 
     /**
@@ -23,6 +24,7 @@ class TatvaTextAnimation extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.typingInterval = null;
         this.letterFadeTimeouts = [];
+        this.animationComplete = false;
     }
 
     /**
@@ -50,6 +52,7 @@ class TatvaTextAnimation extends HTMLElement {
     attributeChangedCallback(attributeName, oldValue, newValue) {
         if (oldValue !== newValue && this.shadowRoot && this._isInitialized) {
             this.clearIntervals();
+            this.animationComplete = false;
             this.renderComponent();
             this.init();
         }
@@ -136,10 +139,18 @@ class TatvaTextAnimation extends HTMLElement {
         const speedAttr = Number(this.getAttribute('speed'));
         const speed = Number.isFinite(speedAttr) && speedAttr > 0 ? speedAttr : defaults.speed;
 
+        // Parse repeat attribute - handle boolean values
+        let repeat = defaults.repeat;
+        const repeatAttr = this.getAttribute('repeat');
+        if (repeatAttr !== null) {
+            repeat = repeatAttr !== 'false' && repeatAttr !== '0';
+        }
+
         return {
             type: this.getAttribute('type') || defaults.type,
             words: words,
             speed: speed,
+            repeat: repeat,
         };
     }
 
@@ -202,6 +213,11 @@ class TatvaTextAnimation extends HTMLElement {
                     animation: blink 1.1s infinite;
                 }
 
+                .textcontainer.no-repeat {
+                    border-right: none;
+                    animation: none;
+                }
+
                 @keyframes blink {
                     0%, 50% { border-right-color: currentColor; }
                     51%, 100% { border-right-color: transparent; }
@@ -233,6 +249,16 @@ class TatvaTextAnimation extends HTMLElement {
     }
 
     /**
+     * Dispatches animation complete event
+     */
+    dispatchAnimationComplete() {
+        this.dispatchEvent(new CustomEvent('animationComplete', {
+            bubbles: true,
+            detail: { component: this }
+        }));
+    }
+
+    /**
      * Initializes typing animation with typewriter effect
      * @param {Object} config - Component configuration object
      */
@@ -243,22 +269,45 @@ class TatvaTextAnimation extends HTMLElement {
         this.charIndex = 0;
         this.isForward = true;
         this.skipCharDelay = 15;
+        this.cycleCount = 0;
 
         // Enable CSS-based caret blinking
         element.classList.add('blinking');
 
         this.typingInterval = setInterval(() => {
+            if (this.animationComplete) return;
+
             if (this.isForward) {
                 this.charIndex++;
             } else {
                 this.charIndex--;
             }
 
+            // Check if we've finished typing the current word
             if (this.charIndex >= this.words[this.wordIndex].length + this.skipCharDelay) {
+                // If this is the last word and repeat is false, stop here
+                if (!config.repeat && this.wordIndex === this.words.length - 1) {
+                    this.animationComplete = true;
+                    clearInterval(this.typingInterval);
+                    this.typingInterval = null;
+
+                    // Keep the last word displayed with blinking cursor
+                    element.textContent = this.words[this.wordIndex];
+                    this.dispatchAnimationComplete();
+                    return;
+                }
+
+                // Otherwise, start erasing
                 this.isForward = false;
             } else if (this.charIndex <= 0) {
+                // Move to next word
                 this.isForward = true;
                 this.wordIndex = (this.wordIndex + 1) % this.words.length;
+
+                // Check if we've completed a full cycle (only relevant for repeat mode)
+                if (this.wordIndex === 0) {
+                    this.cycleCount++;
+                }
             }
 
             element.textContent = this.words[this.wordIndex].slice(0, Math.max(0, this.charIndex));
@@ -271,13 +320,34 @@ class TatvaTextAnimation extends HTMLElement {
      */
     initFlyin(config) {
         const charSpans = this.setupCharacterAnimation(config);
+        let completedAnimations = 0;
 
-        charSpans.forEach((span, index) => {
+        const handleAnimationStep = (span, index) => {
             setTimeout(() => {
+                if (this.animationComplete) return;
+
                 span.style.transform = "scale(1)";
                 span.style.opacity = "1";
+                completedAnimations++;
+
+                // Check if all animations are complete
+                if (completedAnimations === charSpans.length) {
+                    if (!config.repeat) {
+                        this.animationComplete = true;
+                        this.dispatchAnimationComplete();
+                    } else {
+                        // Reset and restart animation if repeat is true
+                        setTimeout(() => {
+                            if (!this.animationComplete) {
+                                this.resetAndRestart(config);
+                            }
+                        }, 2000); // Wait 2 seconds before restarting
+                    }
+                }
             }, index * config.speed);
-        });
+        };
+
+        charSpans.forEach(handleAnimationStep);
     }
 
     /**
@@ -286,6 +356,7 @@ class TatvaTextAnimation extends HTMLElement {
      */
     initLetterFade(config) {
         const charSpans = this.setupCharacterAnimation(config);
+        let completedAnimations = 0;
 
         charSpans.forEach((span, index) => {
             // Apply letter-fade class for different styling
@@ -293,11 +364,59 @@ class TatvaTextAnimation extends HTMLElement {
 
             // Create staggered fade-in effect
             const timeout = setTimeout(() => {
+                if (this.animationComplete) return;
+
                 span.classList.add('show');
+                completedAnimations++;
+
+                // Check if all animations are complete
+                if (completedAnimations === charSpans.length) {
+                    if (!config.repeat) {
+                        this.animationComplete = true;
+                        this.dispatchAnimationComplete();
+                    } else {
+                        // Reset and restart animation if repeat is true
+                        setTimeout(() => {
+                            if (!this.animationComplete) {
+                                this.resetAndRestart(config);
+                            }
+                        }, 2000); // Wait 2 seconds before restarting
+                    }
+                }
             }, index * config.speed);
 
             this.letterFadeTimeouts.push(timeout);
         });
+    }
+
+    /**
+     * Resets and restarts the animation (for character-based animations with repeat)
+     * @param {Object} config - Component configuration object
+     */
+    resetAndRestart(config) {
+        this.clearIntervals();
+
+        // Reset all character states
+        const charSpans = this.shadowRoot.querySelectorAll('.char');
+        charSpans.forEach(span => {
+            if (config.type === 'flyin') {
+                span.style.transform = "scale(5)";
+                span.style.opacity = "0";
+            } else if (config.type === 'fade') {
+                span.classList.remove('show');
+                // Force opacity to 0 to ensure proper reset
+                span.style.opacity = "0";
+            }
+        });
+
+        // Restart the animation
+        setTimeout(() => {
+            if (config.type === 'flyin') {
+                this.initFlyin(config);
+            } else if (config.type === 'fade') {
+                this.initLetterFade(config);
+            }
+        }, 500); // Short delay before restarting
     }
 }
 
