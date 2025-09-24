@@ -33,7 +33,7 @@ const categories = [
     title: 'Text Animation',
     count: getStoryCount(textAnimationStories),
     path: `/?path=/docs/examples-text-animation--docs`,
-    thumbnail: () => <tatva-text-animation effect="slide-up" duration="800">Smooth text</tatva-text-animation>,
+    thumbnail: () => <tatva-text-animation effect="slide-up" duration="800" repeat="true">Smooth text</tatva-text-animation>,
   },
   {
     title: 'Image Compare',

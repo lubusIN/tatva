@@ -33,6 +33,11 @@ export default {
       description: 'Animation speed (ms)',
       table: { type: { summary: 'number' }, defaultValue: { summary: 100 } },
     },
+    repeat: {
+      control: 'boolean',
+      description: 'Repeat animation indefinitely',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
   },
 };
 
@@ -56,9 +61,9 @@ const Template = (args) => {
   const el = document.createElement('tatva-text-animation');
 
   Object.entries(args).forEach(([key, value]) => {
-    if (value == null || value === false) return;
+    if (value == null) return;
     if (DefaultValues[key] === value) return;
-    el.setAttribute(key, value === true ? '' : String(value));
+    el.setAttribute(key, String(value));
   });
 
   return el;
@@ -70,6 +75,7 @@ export const Typing = {
   args: {
     words: '["Hello Lubus", "Welcome to Tatva"]',
     speed: 150,
+    repeat: true,
   },
 };
 
