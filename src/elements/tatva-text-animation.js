@@ -404,6 +404,8 @@ class TatvaTextAnimation extends HTMLElement {
                 span.style.opacity = "0";
             } else if (config.type === 'fade') {
                 span.classList.remove('show');
+                // Force opacity to 0 to ensure proper reset
+                span.style.opacity = "0";
             }
         });
 
