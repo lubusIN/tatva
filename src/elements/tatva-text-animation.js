@@ -264,61 +264,54 @@ class TatvaTextAnimation extends HTMLElement {
      */
     initTyping(config) {
         const element = this.shadowRoot.querySelector('.textcontainer');
+        this.words = config.words;
+        this.wordIndex = 0;
+        this.charIndex = 0;
+        this.isForward = true;
+        this.skipCharDelay = 15;
+        this.cycleCount = 0;
 
-        if (config.repeat) {
-            // Repeat mode: cycle through array of words
-            this.words = config.words;
-            this.wordIndex = 0;
-            this.charIndex = 0;
-            this.isForward = true;
-            this.skipCharDelay = 15;
+        // Enable CSS-based caret blinking
+        element.classList.add('blinking');
 
-            // Enable CSS-based caret blinking for repeat mode
-            element.classList.add('blinking');
+        this.typingInterval = setInterval(() => {
+            if (this.animationComplete) return;
 
-            this.typingInterval = setInterval(() => {
-                if (this.animationComplete) return;
-
-                if (this.isForward) {
-                    this.charIndex++;
-                } else {
-                    this.charIndex--;
-                }
-
-                if (this.charIndex >= this.words[this.wordIndex].length + this.skipCharDelay) {
-                    this.isForward = false;
-                } else if (this.charIndex <= 0) {
-                    this.isForward = true;
-                    this.wordIndex = (this.wordIndex + 1) % this.words.length;
-                }
-
-                element.textContent = this.words[this.wordIndex].slice(0, Math.max(0, this.charIndex));
-            }, config.speed);
-        } else {
-            // Non-repeat mode: show all words as single merged text with typing effect
-            const mergedText = config.words.join(' ');
-            this.charIndex = 0;
-
-            // Enable blinking during typing, will be removed when complete
-            element.classList.add('blinking');
-
-            this.typingInterval = setInterval(() => {
-                if (this.animationComplete) return;
-
+            if (this.isForward) {
                 this.charIndex++;
-                element.textContent = mergedText.slice(0, this.charIndex);
+            } else {
+                this.charIndex--;
+            }
 
-                // Check if we've typed the entire merged text
-                if (this.charIndex >= mergedText.length) {
+            // Check if we've finished typing the current word
+            if (this.charIndex >= this.words[this.wordIndex].length + this.skipCharDelay) {
+                // If this is the last word and repeat is false, stop here
+                if (!config.repeat && this.wordIndex === this.words.length - 1) {
                     this.animationComplete = true;
-                    element.classList.remove('blinking');
-                    element.classList.add('no-repeat');
                     clearInterval(this.typingInterval);
                     this.typingInterval = null;
+
+                    // Keep the last word displayed with blinking cursor
+                    element.textContent = this.words[this.wordIndex];
                     this.dispatchAnimationComplete();
+                    return;
                 }
-            }, config.speed);
-        }
+
+                // Otherwise, start erasing
+                this.isForward = false;
+            } else if (this.charIndex <= 0) {
+                // Move to next word
+                this.isForward = true;
+                this.wordIndex = (this.wordIndex + 1) % this.words.length;
+
+                // Check if we've completed a full cycle (only relevant for repeat mode)
+                if (this.wordIndex === 0) {
+                    this.cycleCount++;
+                }
+            }
+
+            element.textContent = this.words[this.wordIndex].slice(0, Math.max(0, this.charIndex));
+        }, config.speed);
     }
 
     /**
