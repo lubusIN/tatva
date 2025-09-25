@@ -47,62 +47,9 @@ class TatvaInfotip extends HTMLElement {
     constructor() {
         super();
         this._isInitialized = false;
-        this._floatingUI = null;
         this.attachShadow({ mode: 'open' });
-        this.loadFloatingUI();
     }
 
-    /**
-     * Loads Floating UI from CDN using UMD format
-     */
-    async loadFloatingUI() {
-        if (window.FloatingUIDOM) {
-            this._floatingUI = window.FloatingUIDOM;
-            this.initializeComponent();
-            return;
-        }
-
-        try {
-            // Load core first, then DOM package as per UMD documentation
-            const coreScript = document.createElement('script');
-            coreScript.src = 'https://cdn.jsdelivr.net/npm/@floating-ui/core@1.7.3';
-
-            coreScript.onload = () => {
-                // After core loads, load the DOM package
-                const domScript = document.createElement('script');
-                domScript.src = 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.3';
-
-                domScript.onload = () => {
-                    // Wait a bit for the script to fully initialize
-                    setTimeout(() => {
-                        this._floatingUI = window.FloatingUIDOM;
-                        this.initializeComponent();
-                    }, 100);
-                };
-
-                domScript.onerror = () => {
-                    console.error('Failed to load Floating UI DOM package from CDN');
-                    this.initializeComponent();
-                };
-
-                document.head.appendChild(domScript);
-            };
-
-            coreScript.onerror = () => {
-                console.error('Failed to load Floating UI core package from CDN');
-                this.initializeComponent();
-            };
-
-            document.head.appendChild(coreScript);
-        } catch (error) {
-            console.error('Error loading Floating UI:', error);
-            this.initializeComponent();
-        }
-    }
-
-    /**
-     * Sets up shadow DOM and renders the initial component
-     */
     connectedCallback() {
         if (!this._isInitialized) {
             this.initializeComponent();
@@ -129,12 +76,14 @@ class TatvaInfotip extends HTMLElement {
         slot.addEventListener('slotchange', () => {
             // gather all assigned nodes
             const nodes = slot.assignedNodes({ flatten: true });
-            // check if there's any non‑empty text left
-            const hasText = nodes.some(
-                (node) =>
-                    node.nodeType === Node.TEXT_NODE &&
-                    node.textContent.trim() !== ''
-            );
+            const hasText = nodes.some((node) => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    return node.textContent.trim() !== '';
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    return node.textContent.trim() !== '';
+                }
+                return false;
+            });
             if (!hasText) this.remove();
         });
     }
@@ -204,8 +153,8 @@ class TatvaInfotip extends HTMLElement {
             }
             .infotip {
                 display: none;
-                width: 300px;
-                max-width: 100%;
+                width: 100%;
+                max-width: 300px;
                 position: fixed;
                 top: 0px;
                 left: 0px;
@@ -215,6 +164,7 @@ class TatvaInfotip extends HTMLElement {
                 border-radius: 4px;
                 font-size: 70%;
                 z-index: 1000;
+                text-align: center;
             }
             .infotip .arrow {
                 position: absolute;
@@ -281,7 +231,7 @@ class TatvaInfotip extends HTMLElement {
     // Updates the infotip overlay position using Floating UI
     updatePosition() {
         const config = this.getComponentConfig();
-        if (!config.content || !this._floatingUI) {
+        if (!config.content) {
             this.hideTooltip();
             return;
         }
@@ -290,54 +240,140 @@ class TatvaInfotip extends HTMLElement {
         const tooltip = this.shadowRoot.querySelector('.infotip');
         const arrow = tooltip.querySelector('.arrow');
 
-        const middleware = [
-            this._floatingUI.offset(parseInt(this.getAttribute('offset') ?? 6, 10)),
-            this._floatingUI.flip({
-                crossAxis: false,
-                fallbackPlacements: [
-                    'top-start',
-                    'top',
-                    'top-end',
-                    'right-start',
-                    'right',
-                    'right-end',
-                    'bottom-start',
-                    'bottom',
-                    'bottom-end',
-                    'left-start',
-                    'left',
-                    'left-end',
-                ],
-            }),
-            this._floatingUI.shift({ padding: 5 }),
-            this._floatingUI.arrow({ element: arrow, padding: 5 }),
-        ];
-
-        this._floatingUI
-            .computePosition(anchor, tooltip, {
-                placement: config.overlayPlacement,
-                strategy: 'fixed',
-                middleware,
-            })
-            .then(({ x, y, placement, middlewareData }) => {
-                this.applyTooltipStyles(tooltip, x, y);
-                this.applyArrowStyles(arrow, placement, middlewareData.arrow);
-            });
+        // Try FloatingUI first if available, otherwise use fallback
+        if (window.FloatingUIDOM) {
+            this.updatePositionWithFloatingUI(anchor, tooltip, arrow, config);
+        } else {
+            this.updatePositionWithFallback(anchor, tooltip, arrow, config);
+        }
     }
 
-    // Positions the arrow based on placement and middleware data
-    applyArrowStyles(arrow, placement, arrowData) {
-        if (!arrow || !arrowData) return;
+    /**
+     * Enhanced positioning using FloatingUI with better error handling
+     */
+    updatePositionWithFloatingUI(anchor, tooltip, arrow, config) {
+        try {
+            const middleware = [
+                window.FloatingUIDOM.offset(config.offset),
+                window.FloatingUIDOM.flip({
+                    crossAxis: false,
+                    fallbackPlacements: [
+                        'top-start', 'top', 'top-end',
+                        'right-start', 'right', 'right-end',
+                        'bottom-start', 'bottom', 'bottom-end',
+                        'left-start', 'left', 'left-end',
+                    ],
+                }),
+                window.FloatingUIDOM.shift({ padding: 5 }),
+                window.FloatingUIDOM.arrow({ element: arrow, padding: 5 }),
+            ];
 
-        const [side] = placement.split('-');
-        const positions = {
-            top: { bottom: '-4px', left: `${arrowData.x || 0}px` },
-            bottom: { top: '-4px', left: `${arrowData.x || 0}px` },
-            left: { right: '-4px', top: `${arrowData.y || 0}px` },
-            right: { left: '-4px', top: `${arrowData.y || 0}px` }
-        };
+            window.FloatingUIDOM
+                .computePosition(anchor, tooltip, {
+                    placement: config.overlayPlacement,
+                    strategy: 'fixed',
+                    middleware,
+                })
+                .then(({ x, y, placement, middlewareData }) => {
+                    this.applyTooltipStyles(tooltip, x, y);
+                    this.applyArrowStyles(arrow, placement, middlewareData.arrow, true);
+                })
+                .catch(() => {
+                    // If FloatingUI fails, fall back to custom positioning
+                    this.updatePositionWithFallback(anchor, tooltip, arrow, config);
+                });
+        } catch (error) {
+            // If FloatingUI fails, fall back to custom positioning
+            this.updatePositionWithFallback(anchor, tooltip, arrow, config);
+        }
+    }
 
-        Object.assign(arrow.style, { left: '', top: '', right: '', bottom: '', ...positions[side] });
+    /**
+     * Fallback positioning system that works reliably in all environments
+     */
+    updatePositionWithFallback(anchor, tooltip, arrow, config) {
+        const position = this.calculatePosition(anchor, tooltip, config);
+        this.applyTooltipStyles(tooltip, position.x, position.y);
+        this.applyArrowStyles(arrow, position.placement, position.arrowData, false);
+    }
+
+    calculatePosition(anchor, tooltip, config) {
+        const anchorRect = anchor.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const placement = config.overlayPlacement;
+        const offset = config.offset;
+
+        let x, y;
+        const [side, align] = placement.split('-');
+
+        // Calculate base position
+        switch (side) {
+            case 'top':
+                x = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
+                y = anchorRect.top - tooltipRect.height - offset;
+                break;
+            case 'bottom':
+                x = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
+                y = anchorRect.bottom + offset;
+                break;
+            case 'left':
+                x = anchorRect.left - tooltipRect.width - offset;
+                y = anchorRect.top + anchorRect.height / 2 - tooltipRect.height / 2;
+                break;
+            case 'right':
+                x = anchorRect.right + offset;
+                y = anchorRect.top + anchorRect.height / 2 - tooltipRect.height / 2;
+                break;
+            default:
+                x = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
+                y = anchorRect.top - tooltipRect.height - offset;
+        }
+
+        // Adjust for alignment
+        if (align === 'start') {
+            if (['top', 'bottom'].includes(side)) {
+                x = anchorRect.left;
+            } else {
+                y = anchorRect.top;
+            }
+        } else if (align === 'end') {
+            if (['top', 'bottom'].includes(side)) {
+                x = anchorRect.right - tooltipRect.width;
+            } else {
+                y = anchorRect.bottom - tooltipRect.height;
+            }
+        }
+
+        // Keep within viewport
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        x = Math.max(5, Math.min(x, viewportWidth - tooltipRect.width - 5));
+        y = Math.max(5, Math.min(y, viewportHeight - tooltipRect.height - 5));
+
+        // Calculate arrow position
+        const arrowData = this.calculateArrowPosition(anchorRect, x, y, side);
+
+        return { x, y, placement, arrowData };
+    }
+
+    calculateArrowPosition(anchorRect, tooltipX, tooltipY, side) {
+        const anchorCenterX = anchorRect.left + anchorRect.width / 2;
+        const anchorCenterY = anchorRect.top + anchorRect.height / 2;
+
+        let x = 0, y = 0;
+
+        switch (side) {
+            case 'top':
+            case 'bottom':
+                x = anchorCenterX - tooltipX - 4; // 4 is half arrow width
+                break;
+            case 'left':
+            case 'right':
+                y = anchorCenterY - tooltipY - 4; // 4 is half arrow height
+                break;
+        }
+
+        return { x, y };
     }
 
     applyTooltipStyles(tooltip, x, y) {
@@ -345,6 +381,40 @@ class TatvaInfotip extends HTMLElement {
             left: `${x}px`,
             top: `${y}px`,
         });
+    }
+
+    applyArrowStyles(arrow, placement, arrowData, isFloatingUI) {
+        if (!arrow || !arrowData) return;
+
+        const [side] = placement.split('-');
+
+        // Reset all position properties
+        Object.assign(arrow.style, {
+            top: '',
+            right: '',
+            bottom: '',
+            left: '',
+        });
+
+        if (isFloatingUI) {
+            // FloatingUI provides x,y coordinates
+            const positions = {
+                top: { bottom: '-4px', left: `${arrowData.x || 0}px` },
+                bottom: { top: '-4px', left: `${arrowData.x || 0}px` },
+                left: { right: '-4px', top: `${arrowData.y || 0}px` },
+                right: { left: '-4px', top: `${arrowData.y || 0}px` }
+            };
+            Object.assign(arrow.style, positions[side]);
+        } else {
+            // Fallback positioning
+            const positions = {
+                top: { bottom: '-4px', left: `${arrowData.x}px` },
+                bottom: { top: '-4px', left: `${arrowData.x}px` },
+                left: { right: '-4px', top: `${arrowData.y}px` },
+                right: { left: '-4px', top: `${arrowData.y}px` }
+            };
+            Object.assign(arrow.style, positions[side]);
+        }
     }
 
     showTooltip() {
@@ -394,7 +464,7 @@ class TatvaInfotip extends HTMLElement {
 
         // Always update styles
         const config = this.getComponentConfig();
-        this.shadowRoot.querySelector('style').textContent = this.generateStyles(config);
+        this.shadowRoot.querySelector('style').textContent = this.generateStyles(config).replace('<style>', '').replace('</style>', '');
     }
 }
 
