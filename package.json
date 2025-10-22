@@ -1,7 +1,7 @@
 {
   "name": "@lubusin/tatva",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tatva Web Components",
   "main": "src/elements/index.js",
   "exports": {
