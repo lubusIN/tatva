@@ -1,3 +1,5 @@
+<!-- @format -->
+
 import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta  
@@ -21,7 +23,6 @@ A collection of framework-agnostic Web Components designed for composability, ac
 ## Overview
 
 Tatva provides a set of reusable Custom Elements you can drop into any project. Components are self-contained, style-safe via Shadow DOM, and expose a clean attribute-based API.
-
 
 ### Features
 
@@ -51,25 +52,28 @@ Tatva provides a set of reusable Custom Elements you can drop into any project. 
 ```bash
 npm install @lubusin/tatva
 ```
-## Usage 
+
+## Usage
+
 ### Setup
 
 #### Load all components:
 
 ```js
 // main.js
-import '@lubusin/tatva/src/elements/index.js';
+import '@lubusin/tatva/index.js';
 ```
 
 #### Load a single component:
 
 ```js
-import '@lubusin/tatva/src/elements/tatva-marker.js';
+import '@lubusin/tatva/tatva-marker.js';
 ```
 
 ### Examples
 
 #### Marker
+
 ```html
 <tatva-marker type="underline" color="#dc143c" animation animation-duration="5s">
   Highlighted text
@@ -86,5 +90,6 @@ import '@lubusin/tatva/src/elements/tatva-marker.js';
 
 Explore Storybook to know more about various eleements and customization avaiable
 
-## **Tip** 
+## **Tip**
+
 In frameworks like React, prefer attribute strings over camelCase props for Custom Elements, and listen to native DOM events if exposed.
