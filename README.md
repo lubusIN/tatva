@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="60" src=".github/logo.svg?v=1" alt="Tatva Logo" />
+  <img width="250" src=".github/logo.svg?v=1" alt="Tatva Logo" />
 </p>
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgZmlsbD0idHJhbnNwYXJlbnQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIvPjxnPjxwYXRoIGQ9Ik0xOSAxM3Y2YzAgMS4xMDUtLjg5NSAyLTIgMkg1Yy0xLjEwNSAwLTItLjg5NS0yLTJWN2MwLTEuMTA1Ljg5NS0yIDItMmg2djJINXYxMmgxMnYtNmgyek0xMyAzdjJoNC41ODZsLTcuNzkzIDcuNzkzIDEuNDE0IDEuNDE0TDE5IDYuNDE0VjExaDJWM2gtOHoiIGZpbGw9IiNmZmYiLz48L2c+PC9zdmc+)](https://tatva.lubus.in/)
