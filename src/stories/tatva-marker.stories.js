@@ -1,6 +1,6 @@
-import '../elements/tatva-marker.js';
-
-// Main story configuration for the Marker component
+/**
+ * Storybook configuration for tatva-marker component
+ */
 export default {
   title: 'Examples/Marker',
   component: 'tatva-marker',

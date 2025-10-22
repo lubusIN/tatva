@@ -1,6 +1,3 @@
-import { useEffect } from 'react';
-import '../elements/tatva-infotip.js';
-
 /**
  * Storybook configuration for tatva-infotip component
  */

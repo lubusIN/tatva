@@ -1,6 +1,6 @@
-import '../elements/tatva-pulse.js';
-
-// Main story configuration for the Pulse component
+/**
+ * Storybook configuration for tatva-pulse component
+ */
 export default {
   title: 'Examples/Pulse',
   component: 'tatva-pulse',
@@ -47,7 +47,7 @@ export default {
       description: 'Vertical offset used in superscript mode.',
       table: { type: { summary: 'string' }, defaultValue: { summary: '-0.5em' } },
       if: { arg: 'position', eq: 'superscript' },
-  },
+    },
     slot: {
       control: 'text',
       description: 'Content alongside which the pulse is displayed.',
@@ -69,7 +69,7 @@ const DefaultValues = {
   'superscript-offset': '-0.5em',
 }
 
-const Template = ({content, slot, ...args }) => {
+const Template = ({ content, slot, ...args }) => {
   const el = document.createElement('tatva-pulse');
   Object.entries(args).forEach(([key, value]) => {
     if (value === undefined || value === null || value === false) return;

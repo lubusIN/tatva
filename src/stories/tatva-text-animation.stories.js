@@ -1,8 +1,5 @@
-import '../elements/tatva-text-animation.js';
-
 /**
  * Storybook configuration for tatva-text-animation component
- * @type {import('@storybook/web-components').Meta}
  */
 export default {
   title: 'Examples/Text Animation',

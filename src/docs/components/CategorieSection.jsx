@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../elements/index.js';
 import { CategoryCard } from './index.js';
 import {
   __experimentalGrid as Grid,

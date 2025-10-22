@@ -1,5 +1,6 @@
-import '../elements/tatva-image-compare.js';
-
+/**
+ * Storybook configuration for tatva-image-compare component
+ */
 export default {
   title: 'Examples/Image Compare',
   // The component being documented and tested
