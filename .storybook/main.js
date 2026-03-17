@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url';
+
 export default {
   stories: [
     '../src/docs/**/*.mdx',
@@ -5,20 +7,37 @@ export default {
   ],
 
   // Addons configuration - plugins that extend Storybook functionality
-  addons: [// Enhanced documentation features
-  '@storybook/addon-docs'],
+  addons: ['@storybook/addon-docs'],
 
   // Framework configuration - specifies the build system
   framework: {
-    name: '@storybook/web-components-vite', // Uses Vite for building web components
+    name: '@storybook/web-components-vite',
     options: {},
   },
 
   // Static directories - files that should be served as-is
-  // public directory for assets
   staticDirs: ['../public'],
 
   core: {
-    disableWhatsNewNotifications: true
-  }
-}; 
+    disableWhatsNewNotifications: true,
+  },
+
+  features: {
+    sidebarOnboardingChecklist: false,
+  },
+
+  viteFinal: async (config) => {
+    config.plugins = [
+      ...(config.plugins || []),
+      {
+        name: 'resolve-file-urls',
+        resolveId(source) {
+          if (source.startsWith('file://')) {
+            return fileURLToPath(source);
+          }
+        },
+      },
+    ];
+    return config;
+  },
+};
