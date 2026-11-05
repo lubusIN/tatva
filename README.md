@@ -7,6 +7,7 @@
 ![tatva](.github/assets/banner.png)
 
 [![Open Storybook](https://img.shields.io/badge/Open%20Storybook-000?style=for-the-badge&logo=storybook&logoColor=white&labelColor=FF4785)](https://tatva.lubus.in/)
+[![NPM](https://img.shields.io/badge/On%20NPM-000?style=for-the-badge&logo=npm&logoColor=white&labelColor=cb3837)](https://www.npmjs.com/package/@lubusin/tatva)
 
 ## tatva
 
