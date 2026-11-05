@@ -1,6 +1,8 @@
 /**
  * Storybook configuration for tatva-marker component
  */
+import { expect } from 'storybook/test';
+
 export default {
   title: 'Examples/Marker',
   component: 'tatva-marker',
@@ -140,4 +142,20 @@ AnimationDisable.args = {
   content: 'Original price: {{slot}} Now only $50!',
   slot: '$100',
   animation: false,
+};
+
+export const InteractiveRender = Template.bind({});
+InteractiveRender.args = {
+  slot: 'Highlight Test',
+  type: 'circle',
+};
+InteractiveRender.play = async ({ canvasElement, step }) => {
+  const el = canvasElement.querySelector('tatva-marker');
+
+  await step('Verify slotted text content and SVG marker', async () => {
+    expect(el.textContent.trim()).toBe('Highlight Test');
+    const svg = el.shadowRoot.querySelector('svg');
+    expect(svg).not.toBeNull();
+    expect(svg.getAttribute('aria-hidden')).toBe('true');
+  });
 };

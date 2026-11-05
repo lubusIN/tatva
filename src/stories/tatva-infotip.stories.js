@@ -1,6 +1,8 @@
 /**
  * Storybook configuration for tatva-infotip component
  */
+import { expect, userEvent } from 'storybook/test';
+
 export default {
   title: 'Examples/Infotip',
   component: 'tatva-infotip',
@@ -229,5 +231,40 @@ export const Underline = {
     slot: 'Unsaved changes',
     content: 'Make sure to save before leaving this page.',
     underline: true,
+  },
+};
+
+export const InteractiveHoverAndKeyboard = {
+  render: Template,
+  args: {
+    slot: 'Hover or Focus me',
+    content: 'Interactive tooltip demonstrated!',
+    underline: true,
+    'icon-enabled': true,
+  },
+  play: async ({ canvasElement, step }) => {
+    const el = canvasElement.querySelector('tatva-infotip');
+    const trigger = el.shadowRoot.querySelector('.text');
+    const tooltip = el.shadowRoot.querySelector('.infotip');
+
+    await step('Hover over trigger to show tooltip', async () => {
+      await userEvent.hover(trigger);
+      expect(tooltip.style.display).toBe('block');
+    });
+
+    await step('Unhover trigger to hide tooltip', async () => {
+      await userEvent.unhover(trigger);
+      expect(tooltip.style.display).toBe('none');
+    });
+
+    await step('Focus trigger with keyboard', async () => {
+      trigger.focus();
+      expect(tooltip.style.display).toBe('block');
+    });
+
+    await step('Press Escape to dismiss tooltip', async () => {
+      await userEvent.keyboard('{Escape}');
+      expect(tooltip.style.display).toBe('none');
+    });
   },
 };

@@ -1,6 +1,8 @@
 /**
  * Storybook configuration for tatva-image-compare component
  */
+import { expect, userEvent } from 'storybook/test';
+
 export default {
   title: 'Examples/Image Compare',
   // The component being documented and tested
@@ -167,4 +169,38 @@ CustomArrow.args = {
     <polygon points="9,6 15,12 9,18"></polygon>
   </svg>
 `,
+};
+
+export const KeyboardInteraction = Template.bind({});
+KeyboardInteraction.args = {
+  handle: 'line',
+};
+KeyboardInteraction.play = async ({ canvasElement, step }) => {
+  const el = canvasElement.querySelector('tatva-image-compare');
+  const overlay = el.shadowRoot.querySelector('[part="slider-overlay"]');
+
+  await step('Focus slider overlay', async () => {
+    overlay.focus();
+    expect(el.getSliderPosition()).toBe(50);
+  });
+
+  await step('Press ArrowRight to move slider forward (+2%)', async () => {
+    await userEvent.keyboard('{ArrowRight}');
+    expect(el.getSliderPosition()).toBe(52);
+  });
+
+  await step('Press PageUp to jump forward (+10%)', async () => {
+    await userEvent.keyboard('{PageUp}');
+    expect(el.getSliderPosition()).toBe(62);
+  });
+
+  await step('Press Home to jump to 0%', async () => {
+    await userEvent.keyboard('{Home}');
+    expect(el.getSliderPosition()).toBe(0);
+  });
+
+  await step('Press End to jump to 100%', async () => {
+    await userEvent.keyboard('{End}');
+    expect(el.getSliderPosition()).toBe(100);
+  });
 };

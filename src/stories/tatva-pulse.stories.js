@@ -1,6 +1,8 @@
 /**
  * Storybook configuration for tatva-pulse component
  */
+import { expect } from 'storybook/test';
+
 export default {
   title: 'Examples/Pulse',
   component: 'tatva-pulse',
@@ -131,3 +133,20 @@ Superscript.args = {
 
 export const Background = Template.bind({});
 Background.args = { position: 'background', slot: 'Badge', color: '#ff9500', size: '2rem' };
+
+export const InteractiveRender = Template.bind({});
+InteractiveRender.args = {
+  slot: 'Live Signal',
+  color: '#34c759',
+  position: 'left',
+};
+InteractiveRender.play = async ({ canvasElement, step }) => {
+  const el = canvasElement.querySelector('tatva-pulse');
+
+  await step('Verify slotted text content and decorative ping indicator', async () => {
+    expect(el.textContent.trim()).toBe('Live Signal');
+    const ping = el.shadowRoot.querySelector('[part="ping"]');
+    expect(ping).not.toBeNull();
+    expect(ping.getAttribute('aria-hidden')).toBe('true');
+  });
+};

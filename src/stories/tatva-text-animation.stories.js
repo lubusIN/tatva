@@ -1,6 +1,8 @@
 /**
  * Storybook configuration for tatva-text-animation component
  */
+import { expect, waitFor } from 'storybook/test';
+
 export default {
   title: 'Examples/Text Animation',
   component: 'tatva-text-animation',
@@ -89,5 +91,29 @@ export const Fade = {
   args: {
     type: 'fade',
     words: 'Elegant Animation',
+  },
+};
+
+export const InteractiveTypingCompletion = {
+  render: Template,
+  args: {
+    words: '["Finished"]',
+    speed: 50,
+    repeat: false,
+  },
+  play: async ({ canvasElement, step }) => {
+    const el = canvasElement.querySelector('tatva-text-animation');
+    const visual = el.shadowRoot.querySelector('.textcontainer');
+    const srOnly = el.shadowRoot.querySelector('.sr-only');
+
+    await step('Verify accessible screen-reader text is present', async () => {
+      expect(srOnly.textContent).toBe('Finished');
+    });
+
+    await step('Wait for typing animation to complete', async () => {
+      await waitFor(() => {
+        expect(visual.textContent).toBe('Finished');
+      }, { timeout: 3000 });
+    });
   },
 };
