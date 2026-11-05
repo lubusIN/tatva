@@ -1,7 +1,7 @@
 /**
  * TatvaImageCompare - A custom web component for comparing two images with an interactive slider
  */
-class TatvaImageCompare extends HTMLElement {
+export class TatvaImageCompare extends HTMLElement {
     static get DEFAULT_CONFIG() {
         return {
             handle: 'line',
@@ -15,6 +15,13 @@ class TatvaImageCompare extends HTMLElement {
     }
 
     /**
+     * Converts attribute values to boolean
+     */
+    static convertAttributeToBoolean(value) {
+        return value === '' || value === 'true' || value === true;
+    }
+
+    /**
      * Constructor initializes the component
      */
     constructor() {
@@ -22,9 +29,12 @@ class TatvaImageCompare extends HTMLElement {
         this._isInitialized = false;
         this.attachShadow({ mode: 'open' });
 
-        // Initialize component state
+        // Component state
+        this._position = 50; // Current slider position in percentage (0 to 100)
         this.isDragging = false;
         this.resizeObserver = null;
+        this._boundPointerMove = null;
+        this._boundPointerUp = null;
 
         // Pre-bind event handlers to maintain consistent function references
         this.handlePointerDown = this.handlePointerDown.bind(this);
@@ -37,11 +47,51 @@ class TatvaImageCompare extends HTMLElement {
         this.initializeSliderPosition = this.initializeSliderPosition.bind(this);
     }
 
-    /**
-     * Converts attribute values to boolean
-     */
-    static convertAttributeToBoolean(value) {
-        return value === '' || value === 'true' || value === true;
+    // Property getters and setters for framework interoperability
+    get handle() {
+        return this.getAttribute('handle') || TatvaImageCompare.DEFAULT_CONFIG.handle;
+    }
+
+    set handle(value) {
+        if (value) {
+            this.setAttribute('handle', value);
+        } else {
+            this.removeAttribute('handle');
+        }
+    }
+
+    get hover() {
+        const attr = this.getAttribute('hover');
+        return attr !== null ? (attr !== 'false' && attr !== '0') : TatvaImageCompare.DEFAULT_CONFIG.hover;
+    }
+
+    set hover(value) {
+        if (value) {
+            this.setAttribute('hover', '');
+        } else {
+            this.removeAttribute('hover');
+        }
+    }
+
+    get hideArrows() {
+        const attr = this.getAttribute('hide-arrows');
+        return attr !== null ? (attr !== 'false' && attr !== '0') : TatvaImageCompare.DEFAULT_CONFIG.hideArrows;
+    }
+
+    set hideArrows(value) {
+        if (value) {
+            this.setAttribute('hide-arrows', '');
+        } else {
+            this.removeAttribute('hide-arrows');
+        }
+    }
+
+    get position() {
+        return this.getSliderPosition();
+    }
+
+    set position(value) {
+        this.setSliderPosition(Number(value));
     }
 
     /**
@@ -51,6 +101,12 @@ class TatvaImageCompare extends HTMLElement {
         if (!this._isInitialized) {
             this.init();
             this._isInitialized = true;
+        } else {
+            // Reconnected: re-attach observers and listeners without destroying DOM
+            this.setupResizeObserver();
+            this.attachEventListeners();
+            this.setupSlotListeners();
+            this.applyPosition();
         }
     }
 
@@ -58,19 +114,25 @@ class TatvaImageCompare extends HTMLElement {
      * Cleanup when element is removed from DOM
      */
     disconnectedCallback() {
-        this._isInitialized = false;
         this.removeEventListeners();
         this.cleanupResizeObserver();
         this.removeSlotListeners();
     }
 
     /**
-    * Re-renders component when observed attributes change
-    */
+     * Handles observed attribute changes without destroying DOM
+     */
     attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue === newValue || !this.isConnected) return;
-        if (this._isInitialized) {
-            this.init(); // Re-render component when attributes change
+        if (oldValue === newValue || !this.isConnected || !this._isInitialized) return;
+
+        if (name === 'handle') {
+            this.handleType = newValue || TatvaImageCompare.DEFAULT_CONFIG.handle;
+            this.configureHandleAppearance();
+        } else if (name === 'hover') {
+            this.hoverEnabled = TatvaImageCompare.convertAttributeToBoolean(newValue);
+            this.attachEventListeners();
+        } else if (name === 'hide-arrows') {
+            // Handled via CSS selectors :host([hide-arrows]) / :host([hide-arrows="true"])
         }
     }
 
@@ -109,11 +171,13 @@ class TatvaImageCompare extends HTMLElement {
      */
     getComponentConfig() {
         const defaults = TatvaImageCompare.DEFAULT_CONFIG;
+        const hoverAttr = this.getAttribute('hover');
+        const hideArrowsAttr = this.getAttribute('hide-arrows');
 
         return {
             handle: this.getAttribute('handle') || defaults.handle,
-            hover: TatvaImageCompare.convertAttributeToBoolean(this.getAttribute('hover')) || defaults.hover,
-            hideArrows: TatvaImageCompare.convertAttributeToBoolean(this.getAttribute('hide-arrows')) || defaults.hideArrows,
+            hover: hoverAttr !== null ? (hoverAttr !== 'false' && hoverAttr !== '0') : defaults.hover,
+            hideArrows: hideArrowsAttr !== null ? (hideArrowsAttr !== 'false' && hideArrowsAttr !== '0') : defaults.hideArrows,
         };
     }
 
@@ -127,17 +191,23 @@ class TatvaImageCompare extends HTMLElement {
                 :host {
                     display: block;
                     height: 100%;
+                    position: relative;
+                    white-space: normal;
+                    user-select: none;
+                    -webkit-user-select: none;
                 }
 
                 [part="image-compare"] {
                     width: 100%;
                     height: 100%;
+                    position: relative;
                 }
 
                 [part="image-container"] {
                     position: relative;
                     overflow: hidden;
                     height: 100%;
+                    width: 100%;
                 }
 
                 [part="before-image-wrapper"],
@@ -150,6 +220,8 @@ class TatvaImageCompare extends HTMLElement {
                 [part="before-image-wrapper"] {
                     z-index: 2;
                     position: relative;
+                    clip-path: inset(0px 50% 0px 0px);
+                    will-change: clip-path;
                 }
 
                 [part="after-image-wrapper"] {
@@ -166,6 +238,7 @@ class TatvaImageCompare extends HTMLElement {
                     object-fit: cover;
                     background-color: #94a3b8;
                     display: block;
+                    pointer-events: none;
                 }
 
                 [part="slider-overlay"] {
@@ -175,23 +248,25 @@ class TatvaImageCompare extends HTMLElement {
                     inset: 0;
                     z-index: 12;
                     cursor: pointer;
+                    touch-action: pan-y;
                 }
 
                 [part="slider-overlay"]:focus-visible {
-                    outline: 2px solid #3b82f6;
+                    outline: 2px solid var(--tatva-focus-color, #3b82f6);
                     outline-offset: 2px;
                 }
 
                 [part="slider-handle"] {
                     cursor: ew-resize;
-                    width: 4px;
+                    width: var(--tatva-handle-width, 4px);
                     height: 100%;
-                    background: white;
+                    background: var(--tatva-handle-color, white);
                     position: absolute;
                     top: 0;
                     left: 50%;
                     touch-action: none;
                     transform: translateX(-50%);
+                    will-change: left;
                 }
 
                 /* Line handle style (default) */
@@ -200,7 +275,7 @@ class TatvaImageCompare extends HTMLElement {
                     content: '';
                     width: 20px;
                     height: 20px;
-                    background: white;
+                    background: var(--tatva-handle-color, white);
                     border-radius: 50%;
                     position: absolute;
                     left: 50%;
@@ -219,8 +294,8 @@ class TatvaImageCompare extends HTMLElement {
                     display: none;
                     width: 45px;
                     height: 45px;
-                    border: 5px solid white;
-                    color: white;
+                    border: 5px solid var(--tatva-handle-color, white);
+                    color: var(--tatva-handle-color, white);
                     position: absolute;
                     top: 50%;
                     left: 50%;
@@ -228,6 +303,7 @@ class TatvaImageCompare extends HTMLElement {
                     box-sizing: border-box;
                     align-items: center;
                     justify-content: center;
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
                 }
 
                 /* Circle handle style */
@@ -239,15 +315,38 @@ class TatvaImageCompare extends HTMLElement {
                 /* Rectangle handle style */
                 [part="slider-handle"].rectangle [part="handle-controls"] {
                     display: flex;
+                    border-radius: 4px;
                 }
 
                 /* Arrow handle style */
                 [part="slider-handle"].arrow [part="handle-controls"] {
                     display: flex;
                     border: none;
+                    box-shadow: none;
+                }
+
+                /* Bar handle style */
+                [part="slider-handle"].bar [part="handle-controls"] {
+                    display: flex;
+                    width: 28px;
+                    height: 56px;
+                    border-radius: 14px;
+                    border: none;
+                    background: var(--tatva-handle-color, white);
+                    color: #1e293b;
+                }
+
+                [part="slider-handle"].bar [part="arrow-left"],
+                [part="slider-handle"].bar [part="arrow-right"] {
+                    color: #1e293b;
+                    fill: currentColor;
                 }
 
                 /* Hide arrows when hide-arrows attribute is present */
+                :host([hide-arrows]) [part="arrow-left"],
+                :host([hide-arrows]) [part="arrow-right"],
+                :host([hide-arrows]) ::slotted([slot="arrow-left"]),
+                :host([hide-arrows]) ::slotted([slot="arrow-right"]),
                 :host([hide-arrows="true"]) [part="arrow-left"],
                 :host([hide-arrows="true"]) [part="arrow-right"],
                 :host([hide-arrows="true"]) ::slotted([slot="arrow-left"]),
@@ -259,14 +358,7 @@ class TatvaImageCompare extends HTMLElement {
                 [part="arrow-right"] {
                     width: 20px;
                     height: 20px;
-                }
-
-                [part="arrow-left"],
-                [part="arrow-right"],
-                ::slotted(.arrow-left),
-                ::slotted(.arrow-right) {
-                    width: 20px;
-                    height: 20px;
+                    flex-shrink: 0;
                 }
 
                 /* Style slotted arrow content */
@@ -275,6 +367,7 @@ class TatvaImageCompare extends HTMLElement {
                     width: 20px;
                     height: 20px;
                     color: white;
+                    flex-shrink: 0;
                 }
             </style>
         `;
@@ -289,7 +382,7 @@ class TatvaImageCompare extends HTMLElement {
         return `
             <div part="image-compare">
                 <div part="image-container" data-handle-type="${config.handle}" data-hover-enabled="${config.hover}">
-                     <div part="before-image-wrapper">
+                    <div part="before-image-wrapper">
                         <slot name="before-image">
                             <img part="default-before-image" alt="Before" src="assets/before.png" />
                         </slot>
@@ -297,9 +390,11 @@ class TatvaImageCompare extends HTMLElement {
                     <div part="slider-overlay" 
                          role="slider" 
                          aria-label="Image compare slider" 
+                         aria-orientation="horizontal"
                          aria-valuemin="0" 
                          aria-valuemax="100" 
                          aria-valuenow="50"
+                         aria-valuetext="50%"
                          tabindex="0">
                         <div part="slider-handle">
                             <div part="handle-controls" aria-hidden="true">
@@ -316,7 +411,7 @@ class TatvaImageCompare extends HTMLElement {
                             </div>
                         </div>
                     </div>
-                     <div part="after-image-wrapper">
+                    <div part="after-image-wrapper">
                         <slot name="after-image">
                             <img part="default-after-image" alt="After" src="assets/after.png" />
                         </slot>
@@ -337,19 +432,19 @@ class TatvaImageCompare extends HTMLElement {
         this.beforeImageWrapper = this.shadowRoot.querySelector('[part="before-image-wrapper"]');
         this.afterImageWrapper = this.shadowRoot.querySelector('[part="after-image-wrapper"]');
 
-        // Get slots
         this.beforeImageSlot = this.shadowRoot.querySelector('slot[name="before-image"]');
         this.afterImageSlot = this.shadowRoot.querySelector('slot[name="after-image"]');
 
-        // Extract configuration from cached elements
-        this.handleType = this.imageContainer.dataset.handleType;
-        this.hoverEnabled = TatvaImageCompare.convertAttributeToBoolean(this.imageContainer.dataset.hoverEnabled);
+        const config = this.getComponentConfig();
+        this.handleType = config.handle;
+        this.hoverEnabled = config.hover;
     }
 
     /**
      * Gets the actual image element from the before image slot
      */
     getBeforeImageElement() {
+        if (!this.beforeImageSlot) return null;
         const slottedElements = this.beforeImageSlot.assignedElements();
         if (slottedElements.length > 0) {
             return slottedElements.find(el => el.tagName === 'IMG') || slottedElements[0];
@@ -361,6 +456,7 @@ class TatvaImageCompare extends HTMLElement {
      * Sets up slot change listeners
      */
     setupSlotListeners() {
+        this.removeSlotListeners();
         [this.beforeImageSlot, this.afterImageSlot].forEach(slot => {
             if (slot) {
                 slot.addEventListener('slotchange', this.initializeSliderPosition);
@@ -383,12 +479,10 @@ class TatvaImageCompare extends HTMLElement {
      * Applies the appropriate handle styling based on handle type
      */
     configureHandleAppearance() {
-        const handleStyles = ['line', 'circle', 'rectangle', 'arrow'];
-
-        // Remove all existing handle style classes
+        if (!this.sliderHandle) return;
+        const handleStyles = ['line', 'circle', 'rectangle', 'arrow', 'bar'];
         this.sliderHandle.classList.remove(...handleStyles);
 
-        // Apply current handle type class
         if (this.handleType) {
             this.sliderHandle.classList.add(this.handleType);
         }
@@ -398,16 +492,19 @@ class TatvaImageCompare extends HTMLElement {
      * Attaches all event listeners
      */
     attachEventListeners() {
-        this.removeEventListeners(); // Prevent duplicate listeners
+        this.removeEventListeners();
 
-        // Primary interaction events
-        this.sliderHandle.addEventListener('pointerdown', this.handlePointerDown);
-        this.sliderOverlay.addEventListener('click', this.handleOverlayClick);
-        this.sliderOverlay.addEventListener('keydown', this.handleKeyboardNavigation);
+        if (this.sliderHandle) {
+            this.sliderHandle.addEventListener('pointerdown', this.handlePointerDown);
+        }
 
-        // Optional hover interaction
-        if (this.hoverEnabled) {
-            this.sliderOverlay.addEventListener('pointermove', this.handleOverlayHover);
+        if (this.sliderOverlay) {
+            this.sliderOverlay.addEventListener('click', this.handleOverlayClick);
+            this.sliderOverlay.addEventListener('keydown', this.handleKeyboardNavigation);
+
+            if (this.hoverEnabled) {
+                this.sliderOverlay.addEventListener('pointermove', this.handleOverlayHover);
+            }
         }
     }
 
@@ -420,17 +517,22 @@ class TatvaImageCompare extends HTMLElement {
         }
 
         if (this.sliderOverlay) {
-            const events = ['click', 'keydown', 'pointermove', 'pointerup', 'pointercancel', 'pointerleave'];
-            events.forEach(event => {
-                this.sliderOverlay.removeEventListener(event, this.handlePointerMove);
-                this.sliderOverlay.removeEventListener(event, this.handlePointerUp);
-                this.sliderOverlay.removeEventListener(event, this.handleOverlayClick);
-                this.sliderOverlay.removeEventListener(event, this.handleOverlayHover);
-                this.sliderOverlay.removeEventListener(event, this.handleKeyboardNavigation);
-            });
+            this.sliderOverlay.removeEventListener('click', this.handleOverlayClick);
+            this.sliderOverlay.removeEventListener('keydown', this.handleKeyboardNavigation);
+            this.sliderOverlay.removeEventListener('pointermove', this.handleOverlayHover);
         }
 
-        // Remove image load listeners from both slotted and default images
+        if (this._boundPointerMove) {
+            window.removeEventListener('pointermove', this._boundPointerMove);
+            this._boundPointerMove = null;
+        }
+
+        if (this._boundPointerUp) {
+            window.removeEventListener('pointerup', this._boundPointerUp);
+            window.removeEventListener('pointercancel', this._boundPointerUp);
+            this._boundPointerUp = null;
+        }
+
         const beforeImg = this.getBeforeImageElement();
         if (beforeImg) {
             beforeImg.removeEventListener('load', this.handleBeforeImageLoad);
@@ -442,27 +544,37 @@ class TatvaImageCompare extends HTMLElement {
      */
     initializeSliderPosition() {
         const beforeImg = this.getBeforeImageElement();
-        if (!beforeImg) return;
+        if (!beforeImg) {
+            this.applyPosition();
+            return;
+        }
 
-        beforeImg.addEventListener('load', this.handleBeforeImageLoad);
+        beforeImg.removeEventListener('load', this.handleBeforeImageLoad);
+        beforeImg.addEventListener('load', this.handleBeforeImageLoad, { once: true });
 
-        // Handle case where image is already loaded
         if (beforeImg.complete && (beforeImg.naturalWidth > 0 || beforeImg.tagName !== 'IMG')) {
             this.handleBeforeImageLoad();
+        } else {
+            this.applyPosition();
         }
     }
 
     /**
-     * Sets up resize observer to handle container size changes
+     * Sets up resize observer to maintain fluid percentage positioning
      */
     setupResizeObserver() {
+        this.cleanupResizeObserver();
+        if (typeof ResizeObserver === 'undefined') return;
+
         this.resizeObserver = new ResizeObserver(() => {
             if (!this.sliderOverlay) return;
-            const containerRect = this.sliderOverlay.getBoundingClientRect();
-            const currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
-            this.updateSliderPosition(currentLeft);
+            // With fluid percentage styling, percentage stays rock solid across resizes
+            this.applyPosition();
         });
-        this.resizeObserver.observe(this.imageContainer);
+
+        if (this.imageContainer) {
+            this.resizeObserver.observe(this.imageContainer);
+        }
     }
 
     /**
@@ -476,25 +588,32 @@ class TatvaImageCompare extends HTMLElement {
     }
 
     /**
-     * Handles initial image load to set default position
+     * Handles initial image load
      */
     handleBeforeImageLoad() {
-        const beforeImg = this.getBeforeImageElement();
-        if (!beforeImg) return;
-        this.updateSliderPosition(beforeImg.getBoundingClientRect().width / 2);
+        this.applyPosition();
     }
 
     /**
      * Handles pointer down events to start dragging
      */
     handlePointerDown(event) {
+        if (event.button !== 0) return; // Only primary button
         event.preventDefault();
         this.isDragging = true;
 
-        // Capture pointer for smooth dragging
-        this.sliderHandle.setPointerCapture(event.pointerId);
-        ['pointermove', 'pointerup', 'pointercancel', 'pointerleave']
-            .forEach(ev => this.sliderOverlay.addEventListener(ev, this[ev === 'pointermove' ? 'handlePointerMove' : 'handlePointerUp']));
+        try {
+            this.sliderHandle.setPointerCapture(event.pointerId);
+        } catch (e) {
+            // Ignore pointer capture errors if unsupported
+        }
+
+        this._boundPointerMove = (e) => this.handlePointerMove(e);
+        this._boundPointerUp = (e) => this.handlePointerUp(e);
+
+        window.addEventListener('pointermove', this._boundPointerMove);
+        window.addEventListener('pointerup', this._boundPointerUp);
+        window.addEventListener('pointercancel', this._boundPointerUp);
     }
 
     /**
@@ -509,18 +628,27 @@ class TatvaImageCompare extends HTMLElement {
      * Handles pointer up events to end dragging
      */
     handlePointerUp(e) {
+        if (!this.isDragging) return;
         this.isDragging = false;
 
-        // Release pointer capture
         try {
-            this.sliderHandle.releasePointerCapture(e.pointerId);
+            if (this.sliderHandle && e && e.pointerId != null) {
+                this.sliderHandle.releasePointerCapture(e.pointerId);
+            }
         } catch (error) {
-            // Ignore errors when releasing pointer capture
+            // Ignore errors
         }
 
-        // Remove move and end event listeners
-        ['pointermove', 'pointerup', 'pointercancel', 'pointerleave']
-            .forEach(ev => this.sliderOverlay.removeEventListener(ev, this[ev === 'pointermove' ? 'handlePointerMove' : 'handlePointerUp']));
+        if (this._boundPointerMove) {
+            window.removeEventListener('pointermove', this._boundPointerMove);
+            this._boundPointerMove = null;
+        }
+
+        if (this._boundPointerUp) {
+            window.removeEventListener('pointerup', this._boundPointerUp);
+            window.removeEventListener('pointercancel', this._boundPointerUp);
+            this._boundPointerUp = null;
+        }
     }
 
     /**
@@ -541,24 +669,28 @@ class TatvaImageCompare extends HTMLElement {
     }
 
     /**
-     * Handles keyboard navigation (arrow keys)
+     * Handles keyboard navigation (arrow keys, home, end, page up/down)
      */
     handleKeyboardNavigation(e) {
-        const containerRect = this.sliderOverlay.getBoundingClientRect();
-        const step = Math.max(1, Math.round(containerRect.width * 0.02)); // 2% step
-        let currentLeft = parseFloat(this.sliderHandle.style.left) || containerRect.width / 2;
+        let currentPercentage = this._position;
+        const step = 2; // 2% step
+        const pageStep = 10; // 10% step
 
         const moves = {
-            ArrowLeft: () => { currentLeft = Math.max(0, currentLeft - step); },
-            ArrowRight: () => { currentLeft = Math.min(containerRect.width, currentLeft + step); },
-            Home: () => { currentLeft = 0; },
-            End: () => { currentLeft = containerRect.width; }
+            ArrowLeft: () => { currentPercentage = Math.max(0, currentPercentage - step); },
+            ArrowDown: () => { currentPercentage = Math.max(0, currentPercentage - step); },
+            ArrowRight: () => { currentPercentage = Math.min(100, currentPercentage + step); },
+            ArrowUp: () => { currentPercentage = Math.min(100, currentPercentage + step); },
+            PageDown: () => { currentPercentage = Math.max(0, currentPercentage - pageStep); },
+            PageUp: () => { currentPercentage = Math.min(100, currentPercentage + pageStep); },
+            Home: () => { currentPercentage = 0; },
+            End: () => { currentPercentage = 100; },
         };
 
         if (moves[e.key]) {
-            moves[e.key]();
-            this.updateSliderPosition(currentLeft);
             e.preventDefault();
+            moves[e.key]();
+            this.setSliderPosition(currentPercentage);
         }
     }
 
@@ -568,34 +700,47 @@ class TatvaImageCompare extends HTMLElement {
     calculatePositionFromEvent(e) {
         if (!this.sliderOverlay) return;
         const containerRect = this.sliderOverlay.getBoundingClientRect();
-        this.updateSliderPosition(e.clientX - containerRect.left);
+        if (containerRect.width === 0) return;
+
+        const offsetX = e.clientX - containerRect.left;
+        const clampedOffset = Math.max(0, Math.min(containerRect.width, offsetX));
+        const percentage = (clampedOffset / containerRect.width) * 100;
+
+        this.setSliderPosition(percentage);
     }
 
     /**
-     * Updates slider position and applies clipping to before image
+     * Updates slider position and applies fluid percentage clipping
      */
-    updateSliderPosition(offsetX) {
-        const containerRect = this.sliderOverlay.getBoundingClientRect();
-        const clampedPosition = Math.max(0, Math.min(containerRect.width, offsetX));
+    applyPosition() {
+        if (!this.sliderHandle || !this.beforeImageWrapper) return;
 
-        // Position the slider handle
-        this.sliderHandle.style.left = `${clampedPosition}px`;
+        const percentage = Math.max(0, Math.min(100, this._position));
 
-        // Clip the before image wrapper to reveal the after image
-        const rightInset = Math.max(0, containerRect.width - clampedPosition);
-        this.beforeImageWrapper.style.clipPath = `inset(0px ${rightInset}px 0px 0px)`;
+        // Use percentage for fluid, resolution-independent layout
+        this.sliderHandle.style.left = `${percentage}%`;
+        this.beforeImageWrapper.style.clipPath = `inset(0px ${100 - percentage}% 0px 0px)`;
 
-        // Update accessibility attributes
-        const percentage = containerRect.width ? Math.round((clampedPosition / containerRect.width) * 100) : 50;
-        this.sliderOverlay.setAttribute('aria-valuenow', String(percentage));
+        // Accessibility attributes
+        const roundedPercentage = Math.round(percentage);
+        if (this.sliderOverlay) {
+            this.sliderOverlay.setAttribute('aria-valuenow', String(roundedPercentage));
+            this.sliderOverlay.setAttribute('aria-valuetext', `${roundedPercentage}%`);
+        }
+
+        const containerRect = this.sliderOverlay ? this.sliderOverlay.getBoundingClientRect() : null;
+        const containerWidth = containerRect ? containerRect.width : 0;
+        const clampedPixels = (percentage / 100) * containerWidth;
 
         // Dispatch custom event for external listeners
         this.dispatchEvent(new CustomEvent('slider-move', {
             detail: {
-                position: clampedPosition,
-                percentage: percentage,
-                containerWidth: containerRect.width
-            }
+                position: clampedPixels,
+                percentage: roundedPercentage,
+                containerWidth: containerWidth,
+            },
+            bubbles: true,
+            composed: true,
         }));
     }
 
@@ -603,32 +748,25 @@ class TatvaImageCompare extends HTMLElement {
      * Public API: Get current slider position as percentage (0-100)
      */
     getSliderPosition() {
-        const containerRect = this.sliderOverlay?.getBoundingClientRect();
-        const currentLeft = parseFloat(this.sliderHandle?.style.left) || 0;
-
-        if (!containerRect || containerRect.width === 0) return 50;
-
-        return Math.round((currentLeft / containerRect.width) * 100);
+        return Math.round(this._position);
     }
 
     /**
      * Public API: Set slider position by percentage (0-100)
      */
     setSliderPosition(percentage) {
-        const clampedPercentage = Math.max(0, Math.min(100, percentage));
-        const containerRect = this.sliderOverlay?.getBoundingClientRect();
-
-        if (!containerRect) return;
-
-        const position = (clampedPercentage / 100) * containerRect.width;
-        this.updateSliderPosition(position);
+        if (typeof percentage !== 'number' || isNaN(percentage)) return;
+        this._position = Math.max(0, Math.min(100, percentage));
+        this.applyPosition();
     }
 }
 
-// Expose class globally for external access
-window.TatvaImageCompare = TatvaImageCompare;
-
-// Register the custom element
-if (!window.customElements.get('tatva-image-compare')) {
-    window.customElements.define('tatva-image-compare', TatvaImageCompare);
+// Expose class globally for external access in browser environments
+if (typeof window !== 'undefined') {
+    window.TatvaImageCompare = TatvaImageCompare;
+    if (typeof window.customElements !== 'undefined' && !window.customElements.get('tatva-image-compare')) {
+        window.customElements.define('tatva-image-compare', TatvaImageCompare);
+    }
 }
+
+export default TatvaImageCompare;

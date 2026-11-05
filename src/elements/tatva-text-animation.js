@@ -1,7 +1,8 @@
 /**
- * TatvaTextAnimation: A custom web component for rendering animated text with multiple effects ( such as typing, fly-in, and letter-fade).
+ * TatvaTextAnimation: A custom web component for rendering animated text with multiple effects
+ * (such as typing, fly-in, and letter-fade).
  */
-class TatvaTextAnimation extends HTMLElement {
+export class TatvaTextAnimation extends HTMLElement {
     static get DEFAULT_CONFIG() {
         return {
             type: 'typing',
@@ -23,8 +24,56 @@ class TatvaTextAnimation extends HTMLElement {
         this._isInitialized = false;
         this.attachShadow({ mode: 'open' });
         this.typingInterval = null;
-        this.letterFadeTimeouts = [];
+        this._activeTimers = new Set();
         this.animationComplete = false;
+    }
+
+    // Property getters and setters
+    get type() {
+        return this.getAttribute('type') || TatvaTextAnimation.DEFAULT_CONFIG.type;
+    }
+
+    set type(val) {
+        if (val) this.setAttribute('type', val);
+        else this.removeAttribute('type');
+    }
+
+    get words() {
+        const config = this.getComponentConfig();
+        return config.words;
+    }
+
+    set words(val) {
+        if (Array.isArray(val)) {
+            this.setAttribute('words', JSON.stringify(val));
+        } else if (typeof val === 'string') {
+            this.setAttribute('words', val);
+        } else {
+            this.removeAttribute('words');
+        }
+    }
+
+    get speed() {
+        const val = Number(this.getAttribute('speed'));
+        return Number.isFinite(val) && val > 0 ? val : TatvaTextAnimation.DEFAULT_CONFIG.speed;
+    }
+
+    set speed(val) {
+        if (val != null) this.setAttribute('speed', String(val));
+        else this.removeAttribute('speed');
+    }
+
+    get repeat() {
+        const repeatAttr = this.getAttribute('repeat');
+        if (repeatAttr !== null) {
+            return repeatAttr !== 'false' && repeatAttr !== '0';
+        }
+        return TatvaTextAnimation.DEFAULT_CONFIG.repeat;
+    }
+
+    set repeat(val) {
+        if (val) this.setAttribute('repeat', '');
+        else this.setAttribute('repeat', 'false');
     }
 
     /**
@@ -35,14 +84,18 @@ class TatvaTextAnimation extends HTMLElement {
             this.renderComponent();
             this.init();
             this._isInitialized = true;
+        } else {
+            // Reconnected: restart cleanly
+            this.clearIntervals();
+            this.animationComplete = false;
+            this.init();
         }
     }
 
     /**
-     * Cleanup when element is removed from DOM
+     * Cleanup when element is removed from DOM to prevent any memory leaks
      */
     disconnectedCallback() {
-        this._isInitialized = false;
         this.clearIntervals();
     }
 
@@ -59,10 +112,44 @@ class TatvaTextAnimation extends HTMLElement {
     }
 
     /**
+     * Safe timer helper that tracks active timeouts and automatically cleans up
+     */
+    _safeTimeout(callback, delay) {
+        let timerId;
+        timerId = setTimeout(() => {
+            this._activeTimers.delete(timerId);
+            callback();
+        }, delay);
+        this._activeTimers.add(timerId);
+        return timerId;
+    }
+
+    /**
+     * Clear all active intervals and timeouts to prevent memory leaks and zombie execution
+     */
+    clearIntervals() {
+        if (this.typingInterval) {
+            clearInterval(this.typingInterval);
+            this.typingInterval = null;
+        }
+
+        if (this._activeTimers) {
+            this._activeTimers.forEach(id => clearTimeout(id));
+            this._activeTimers.clear();
+        }
+    }
+
+    /**
      * Initialization method
      */
     init() {
         const config = this.getComponentConfig();
+
+        // Check for reduced motion preference
+        if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            this.initReducedMotion(config);
+            return;
+        }
 
         switch (config.type) {
             case 'typing':
@@ -80,18 +167,15 @@ class TatvaTextAnimation extends HTMLElement {
     }
 
     /**
-     * Clear all intervals to prevent memory leaks
+     * Renders full text immediately for users with prefers-reduced-motion
      */
-    clearIntervals() {
-        if (this.typingInterval) {
-            clearInterval(this.typingInterval);
-            this.typingInterval = null;
-        }
-        // Clear letter fade timeouts
-        if (this.letterFadeTimeouts) {
-            this.letterFadeTimeouts.forEach(timeout => clearTimeout(timeout));
-            this.letterFadeTimeouts = [];
-        }
+    initReducedMotion(config) {
+        const visualEl = this.shadowRoot.querySelector('.textcontainer');
+        if (!visualEl) return;
+        const text = Array.isArray(config.words) ? config.words.join(' ') : String(config.words);
+        visualEl.textContent = text;
+        this.animationComplete = true;
+        this.dispatchAnimationComplete();
     }
 
     /**
@@ -117,29 +201,36 @@ class TatvaTextAnimation extends HTMLElement {
     getComponentConfig() {
         const defaults = TatvaTextAnimation.DEFAULT_CONFIG;
 
-        // Parse words attribute - handle both string and array formats
+        // Parse words attribute - handle JSON array, string, comma-separated, with fallback
         let words = defaults.words;
         const wordsAttr = this.getAttribute('words');
         if (wordsAttr) {
             try {
-                // Try parsing as JSON array first
-                words = JSON.parse(wordsAttr);
-                if (!Array.isArray(words)) {
-                    words = [String(words)];
+                const parsed = JSON.parse(wordsAttr);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    words = parsed.map(String);
+                } else if (parsed != null) {
+                    words = [String(parsed)];
                 }
             } catch (e) {
-                // If JSON parsing fails, treat as comma-separated list
-                words = wordsAttr
+                const split = wordsAttr
                     .split(',')
                     .map(s => s.trim())
                     .filter(Boolean);
+                if (split.length > 0) {
+                    words = split;
+                }
             }
+        }
+
+        // Ensure words is a non-empty array of non-empty strings
+        if (!Array.isArray(words) || words.length === 0) {
+            words = defaults.words;
         }
 
         const speedAttr = Number(this.getAttribute('speed'));
         const speed = Number.isFinite(speedAttr) && speedAttr > 0 ? speedAttr : defaults.speed;
 
-        // Parse repeat attribute - handle boolean values
         let repeat = defaults.repeat;
         const repeatAttr = this.getAttribute('repeat');
         if (repeatAttr !== null) {
@@ -156,18 +247,19 @@ class TatvaTextAnimation extends HTMLElement {
 
     /**
      * Generates the HTML markup structure
+     * Accessible text is maintained in a screen-reader element so typing doesn't spam screen readers
      * @param {Object} config - Component configuration object
      * @returns {string} Complete HTML structure
      */
     generateMarkup(config) {
+        const fullAccessibleText = Array.isArray(config.words) ? config.words.join(', ') : String(config.words);
         return `
+            <span class="sr-only">${fullAccessibleText}</span>
             <div
                 class="textcontainer"
                 part="textcontainer"
-                role="text"
-                aria-live="${config.type === 'typing' ? 'polite' : 'off'}"
-            >
-            </div>
+                aria-hidden="true"
+            ></div>
         `;
     }
 
@@ -178,30 +270,48 @@ class TatvaTextAnimation extends HTMLElement {
     generateStyles() {
         return `
             <style>
+                :host {
+                    display: inline-block;
+                    white-space: normal;
+                }
+
+                .sr-only {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    padding: 0;
+                    margin: -1px;
+                    overflow: hidden;
+                    clip: rect(0, 0, 0, 0);
+                    white-space: nowrap;
+                    border: 0;
+                }
+
                 .textcontainer {
                     margin: auto;
                     width: max-content;
-                    display: flex;
+                    display: inline-flex;
                     flex-wrap: wrap;
                     align-items: center;
-                    font-size: 2rem;
-                    font-weight: 800;
+                    font-size: var(--tatva-font-size, 2rem);
+                    font-weight: var(--tatva-font-weight, 800);
                     line-height: initial;
                     color: var(--tatva-text-color, #000);
                     padding: 0px 5px;
+                    min-height: 1.2em;
                 }
                 
                 .textcontainer .char {
                     white-space: pre;
                     transform: scale(5);
                     opacity: 0;
-                    transition: transform 0.5s ease, opacity 1s ease;
+                    transition: transform 0.4s ease, opacity 0.5s ease;
                 }
 
                 .textcontainer .char.letter-fade {
                     transform: scale(1);
                     opacity: 0;
-                    transition: opacity 5s ease;
+                    transition: opacity var(--tatva-fade-duration, 0.5s) ease;
                 }
 
                 .textcontainer .char.letter-fade.show {
@@ -209,8 +319,8 @@ class TatvaTextAnimation extends HTMLElement {
                 }
 
                 .textcontainer.blinking {
-                    border-right: var(--tatva-caret-width, 6px) solid currentColor;
-                    animation: blink 1.1s infinite;
+                    border-right: var(--tatva-caret-width, 4px) solid var(--tatva-caret-color, currentColor);
+                    animation: tatva-caret-blink 1.1s infinite;
                 }
 
                 .textcontainer.no-repeat {
@@ -218,9 +328,21 @@ class TatvaTextAnimation extends HTMLElement {
                     animation: none;
                 }
 
-                @keyframes blink {
-                    0%, 50% { border-right-color: currentColor; }
+                @keyframes tatva-caret-blink {
+                    0%, 50% { border-right-color: var(--tatva-caret-color, currentColor); }
                     51%, 100% { border-right-color: transparent; }
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                    .textcontainer {
+                        animation: none !important;
+                        border-right: none !important;
+                    }
+                    .textcontainer .char {
+                        transform: none !important;
+                        opacity: 1 !important;
+                        transition: none !important;
+                    }
                 }
             </style>
         `;
@@ -233,8 +355,9 @@ class TatvaTextAnimation extends HTMLElement {
      */
     setupCharacterAnimation(config) {
         const element = this.shadowRoot.querySelector('.textcontainer');
-        // Use the first word or join all words
-        const text = Array.isArray(config.words) ? config.words.join(' ') : config.words;
+        if (!element) return [];
+
+        const text = Array.isArray(config.words) ? config.words.join(' ') : String(config.words);
         const chars = text.split('');
 
         element.innerHTML = '';
@@ -254,6 +377,7 @@ class TatvaTextAnimation extends HTMLElement {
     dispatchAnimationComplete() {
         this.dispatchEvent(new CustomEvent('animationComplete', {
             bubbles: true,
+            composed: true,
             detail: { component: this }
         }));
     }
@@ -264,6 +388,8 @@ class TatvaTextAnimation extends HTMLElement {
      */
     initTyping(config) {
         const element = this.shadowRoot.querySelector('.textcontainer');
+        if (!element) return;
+
         this.words = config.words;
         this.wordIndex = 0;
         this.charIndex = 0;
@@ -271,11 +397,13 @@ class TatvaTextAnimation extends HTMLElement {
         this.skipCharDelay = 15;
         this.cycleCount = 0;
 
-        // Enable CSS-based caret blinking
+        element.classList.remove('no-repeat');
         element.classList.add('blinking');
 
         this.typingInterval = setInterval(() => {
-            if (this.animationComplete) return;
+            if (this.animationComplete || !this.isConnected) return;
+
+            const currentWord = this.words[this.wordIndex] || '';
 
             if (this.isForward) {
                 this.charIndex++;
@@ -284,33 +412,31 @@ class TatvaTextAnimation extends HTMLElement {
             }
 
             // Check if we've finished typing the current word
-            if (this.charIndex >= this.words[this.wordIndex].length + this.skipCharDelay) {
-                // If this is the last word and repeat is false, stop here
+            if (this.charIndex >= currentWord.length + this.skipCharDelay) {
                 if (!config.repeat && this.wordIndex === this.words.length - 1) {
                     this.animationComplete = true;
                     clearInterval(this.typingInterval);
                     this.typingInterval = null;
 
-                    // Keep the last word displayed with blinking cursor
-                    element.textContent = this.words[this.wordIndex];
+                    // Display full word cleanly
+                    element.textContent = currentWord;
                     this.dispatchAnimationComplete();
                     return;
                 }
 
-                // Otherwise, start erasing
+                // Start erasing
                 this.isForward = false;
             } else if (this.charIndex <= 0) {
                 // Move to next word
                 this.isForward = true;
                 this.wordIndex = (this.wordIndex + 1) % this.words.length;
 
-                // Check if we've completed a full cycle (only relevant for repeat mode)
                 if (this.wordIndex === 0) {
                     this.cycleCount++;
                 }
             }
 
-            element.textContent = this.words[this.wordIndex].slice(0, Math.max(0, this.charIndex));
+            element.textContent = currentWord.slice(0, Math.max(0, this.charIndex));
         }, config.speed);
     }
 
@@ -320,34 +446,34 @@ class TatvaTextAnimation extends HTMLElement {
      */
     initFlyin(config) {
         const charSpans = this.setupCharacterAnimation(config);
+        if (charSpans.length === 0) return;
+
         let completedAnimations = 0;
 
-        const handleAnimationStep = (span, index) => {
-            setTimeout(() => {
-                if (this.animationComplete) return;
+        charSpans.forEach((span, index) => {
+            this._safeTimeout(() => {
+                if (this.animationComplete || !this.isConnected) return;
 
                 span.style.transform = "scale(1)";
                 span.style.opacity = "1";
                 completedAnimations++;
 
-                // Check if all animations are complete
+                // Check if all character animations are complete
                 if (completedAnimations === charSpans.length) {
                     if (!config.repeat) {
                         this.animationComplete = true;
                         this.dispatchAnimationComplete();
                     } else {
-                        // Reset and restart animation if repeat is true
-                        setTimeout(() => {
-                            if (!this.animationComplete) {
+                        // Restart after delay if repeat is true
+                        this._safeTimeout(() => {
+                            if (!this.animationComplete && this.isConnected) {
                                 this.resetAndRestart(config);
                             }
-                        }, 2000); // Wait 2 seconds before restarting
+                        }, 2000);
                     }
                 }
             }, index * config.speed);
-        };
-
-        charSpans.forEach(handleAnimationStep);
+        });
     }
 
     /**
@@ -356,47 +482,44 @@ class TatvaTextAnimation extends HTMLElement {
      */
     initLetterFade(config) {
         const charSpans = this.setupCharacterAnimation(config);
+        if (charSpans.length === 0) return;
+
         let completedAnimations = 0;
 
         charSpans.forEach((span, index) => {
-            // Apply letter-fade class for different styling
             span.classList.add('letter-fade');
 
-            // Create staggered fade-in effect
-            const timeout = setTimeout(() => {
-                if (this.animationComplete) return;
+            this._safeTimeout(() => {
+                if (this.animationComplete || !this.isConnected) return;
 
                 span.classList.add('show');
                 completedAnimations++;
 
-                // Check if all animations are complete
+                // Check if all character animations are complete
                 if (completedAnimations === charSpans.length) {
                     if (!config.repeat) {
                         this.animationComplete = true;
                         this.dispatchAnimationComplete();
                     } else {
-                        // Reset and restart animation if repeat is true
-                        setTimeout(() => {
-                            if (!this.animationComplete) {
+                        // Restart after delay if repeat is true
+                        this._safeTimeout(() => {
+                            if (!this.animationComplete && this.isConnected) {
                                 this.resetAndRestart(config);
                             }
-                        }, 2000); // Wait 2 seconds before restarting
+                        }, 2000);
                     }
                 }
             }, index * config.speed);
-
-            this.letterFadeTimeouts.push(timeout);
         });
     }
 
     /**
-     * Resets and restarts the animation (for character-based animations with repeat)
+     * Resets and restarts the animation cleanly
      * @param {Object} config - Component configuration object
      */
     resetAndRestart(config) {
         this.clearIntervals();
 
-        // Reset all character states
         const charSpans = this.shadowRoot.querySelectorAll('.char');
         charSpans.forEach(span => {
             if (config.type === 'flyin') {
@@ -404,26 +527,28 @@ class TatvaTextAnimation extends HTMLElement {
                 span.style.opacity = "0";
             } else if (config.type === 'fade') {
                 span.classList.remove('show');
-                // Force opacity to 0 to ensure proper reset
                 span.style.opacity = "0";
             }
         });
 
-        // Restart the animation
-        setTimeout(() => {
-            if (config.type === 'flyin') {
-                this.initFlyin(config);
-            } else if (config.type === 'fade') {
-                this.initLetterFade(config);
+        this._safeTimeout(() => {
+            if (this.isConnected) {
+                if (config.type === 'flyin') {
+                    this.initFlyin(config);
+                } else if (config.type === 'fade') {
+                    this.initLetterFade(config);
+                }
             }
-        }, 500); // Short delay before restarting
+        }, 500);
     }
 }
 
-// Expose class globally for external access
-window.TatvaTextAnimation = TatvaTextAnimation;
-
-// Register the custom element
-if (!window.customElements.get('tatva-text-animation')) {
-    window.customElements.define('tatva-text-animation', TatvaTextAnimation);
+// Expose class globally for external access in browser environments
+if (typeof window !== 'undefined') {
+    window.TatvaTextAnimation = TatvaTextAnimation;
+    if (typeof window.customElements !== 'undefined' && !window.customElements.get('tatva-text-animation')) {
+        window.customElements.define('tatva-text-animation', TatvaTextAnimation);
+    }
 }
+
+export default TatvaTextAnimation;

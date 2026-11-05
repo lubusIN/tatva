@@ -1,7 +1,8 @@
 /**
- * TatvaPulse - A lightweight, reusable web component for rendering an animated pulse effect. Supports optional text and full customization of size, color, and animation speed.
+ * TatvaPulse - A lightweight, reusable web component for rendering an animated pulse effect.
+ * Supports optional text and full customization of size, color, and animation speed.
  */
-class TatvaPulse extends HTMLElement {
+export class TatvaPulse extends HTMLElement {
     static get DEFAULT_CONFIG() {
         return {
             size: '0.75rem',
@@ -14,7 +15,14 @@ class TatvaPulse extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['size', 'color', 'position', 'gap', 'superscript-offset'];
+        return [
+            'size',
+            'color',
+            'position',
+            'gap',
+            'superscript-offset',
+            'animation-duration',
+        ];
     }
 
     /**
@@ -26,6 +34,61 @@ class TatvaPulse extends HTMLElement {
         this.attachShadow({ mode: 'open' });
     }
 
+    // Property getters and setters
+    get size() {
+        return this.getAttribute('size') || TatvaPulse.DEFAULT_CONFIG.size;
+    }
+
+    set size(val) {
+        if (val) this.setAttribute('size', val);
+        else this.removeAttribute('size');
+    }
+
+    get color() {
+        return this.getAttribute('color') || TatvaPulse.DEFAULT_CONFIG.color;
+    }
+
+    set color(val) {
+        if (val) this.setAttribute('color', val);
+        else this.removeAttribute('color');
+    }
+
+    get gap() {
+        return this.getAttribute('gap') || TatvaPulse.DEFAULT_CONFIG.gap;
+    }
+
+    set gap(val) {
+        if (val) this.setAttribute('gap', val);
+        else this.removeAttribute('gap');
+    }
+
+    get position() {
+        return this.getAttribute('position') || TatvaPulse.DEFAULT_CONFIG.position;
+    }
+
+    set position(val) {
+        if (val) this.setAttribute('position', val);
+        else this.removeAttribute('position');
+    }
+
+    get superscriptOffset() {
+        return this.getAttribute('superscript-offset') || TatvaPulse.DEFAULT_CONFIG.superscriptOffset;
+    }
+
+    set superscriptOffset(val) {
+        if (val) this.setAttribute('superscript-offset', val);
+        else this.removeAttribute('superscript-offset');
+    }
+
+    get animationDuration() {
+        return this.getAttribute('animation-duration') || TatvaPulse.DEFAULT_CONFIG.animationDuration;
+    }
+
+    set animationDuration(val) {
+        if (val) this.setAttribute('animation-duration', val);
+        else this.removeAttribute('animation-duration');
+    }
+
     /**
      * Sets up shadow DOM and renders the initial component
      */
@@ -34,22 +97,38 @@ class TatvaPulse extends HTMLElement {
             this.renderComponent();
             this._isInitialized = true;
         }
+        this.updateCSSVariables();
     }
 
     /**
      * Cleanup when element is removed from DOM
      */
     disconnectedCallback() {
-        this._isInitialized = false;
+        // Keeps state ready for reconnection
     }
 
     /**
-     * Re-renders component when observed attributes change
+     * Updates CSS variables cleanly when observed attributes change without re-creating DOM
      */
     attributeChangedCallback(attributeName, oldValue, newValue) {
         if (oldValue !== newValue && this.shadowRoot && this._isInitialized) {
-            this.renderComponent();
+            this.updateCSSVariables();
         }
+    }
+
+    /**
+     * Updates dynamic CSS variables on the component container
+     */
+    updateCSSVariables() {
+        const config = this.getComponentConfig();
+        const container = this.shadowRoot.querySelector('.pulse-container');
+        if (!container) return;
+
+        container.style.setProperty('--pulse-size', config.size);
+        container.style.setProperty('--pulse-color', config.color);
+        container.style.setProperty('--pulse-gap', config.gap);
+        container.style.setProperty('--pulse-duration', config.animationDuration);
+        container.style.setProperty('--pulse-superscript-offset', config.superscriptOffset);
     }
 
     /**
@@ -66,7 +145,7 @@ class TatvaPulse extends HTMLElement {
 
         this.shadowRoot.innerHTML = '';
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-
+        this.updateCSSVariables();
     }
 
     /**
@@ -79,7 +158,7 @@ class TatvaPulse extends HTMLElement {
         return {
             size: this.getAttribute('size') || defaults.size,
             color: this.getAttribute('color') || defaults.color,
-            animationDuration: defaults.animationDuration,
+            animationDuration: this.getAttribute('animation-duration') || defaults.animationDuration,
             gap: this.getAttribute('gap') || defaults.gap,
             position: this.getAttribute('position') || defaults.position,
             superscriptOffset: this.getAttribute('superscript-offset') || defaults.superscriptOffset,
@@ -98,51 +177,59 @@ class TatvaPulse extends HTMLElement {
                     display: inline-flex;
                     position: relative;
                     vertical-align: middle;
+                    white-space: normal;
+                }
+
+                .pulse-container {
+                    display: inline-flex;
+                    flex-direction: row-reverse;
+                    align-items: center;
+                    position: relative;
+                    gap: var(--pulse-gap, ${config.gap});
+                    white-space: normal;
                 }
 
                 .content-wrapper {
                     display: inline-flex;
                     align-items: center;
-                    z-index: 1; /* Ensure content is above pulse */
-                }
-
-                .pulse-container{
-                    display: inline-flex;
-                    flex-direction: row-reverse;
-                    align-items: center;
                     position: relative;
-                    gap: ${config.gap};
+                    z-index: 1; /* Ensure content is above pulse */
+                    white-space: normal;
                 }
 
                 /* Pulse indicator wrapper - base positioning */
                 .pulse-wrapper {
                     display: flex;
                     position: relative;
-                    width: ${config.size};
-                    height: ${config.size};
+                    width: var(--pulse-size, ${config.size});
+                    height: var(--pulse-size, ${config.size});
                     flex-shrink: 0;
+                    align-items: center;
+                    justify-content: center;
+                    pointer-events: none;
                 }
 
                 /* Animated spreading circle that grows and fades */
                 .pulse-spread {
                     position: absolute;
+                    inset: 0;
                     width: 100%;
                     height: 100%;
                     opacity: 0.75;
                     border-radius: 50%;
-                    background-color: ${config.color};
-                    animation: pulse-animation ${config.animationDuration} cubic-bezier(0, 0, 0.2, 1) infinite;
+                    background-color: var(--pulse-color, ${config.color});
+                    animation: pulse-animation var(--pulse-duration, ${config.animationDuration}) cubic-bezier(0, 0, 0.2, 1) infinite;
                 }
 
                 .pulse-dot {
                     position: relative;
-                    width: ${config.size};
-                    height: ${config.size};
+                    width: 100%;
+                    height: 100%;
                     border-radius: 50%;
-                    background-color: ${config.color};
+                    background-color: var(--pulse-color, ${config.color});
                     display: inline-flex;
                 }
-                
+
                 :host([position="background"]) .pulse-wrapper {
                     position: absolute !important;
                     top: 50%;
@@ -153,15 +240,15 @@ class TatvaPulse extends HTMLElement {
                 :host([position="right"]) .pulse-container {
                     flex-direction: row;
                 }
-                
+
                 :host([position="superscript"]) .pulse-container {
                     align-items: flex-start;
                 }
 
                 :host([position="superscript"]) .pulse-wrapper {
                     position: absolute !important;
-                    top: ${config.superscriptOffset};
-                    right: -${config.gap};
+                    top: var(--pulse-superscript-offset, ${config.superscriptOffset});
+                    right: calc(-1 * var(--pulse-gap, ${config.gap}));
                     transform: translateX(100%);
                 }
 
@@ -177,14 +264,14 @@ class TatvaPulse extends HTMLElement {
                 @media (prefers-contrast: high) {
                     .pulse-spread,
                     .pulse-dot {
-                        outline: 1px solid;
+                        outline: 1px solid currentColor;
                     }
                 }
 
                 @media (prefers-reduced-motion: reduce) {
                     .pulse-spread {
                         animation: none;
-                        opacity: 0.5;
+                        opacity: 0.4;
                     }
                 }
             </style>
@@ -196,24 +283,16 @@ class TatvaPulse extends HTMLElement {
      * @returns {string} Complete HTML structure
      */
     generateMarkup() {
-        return `
-            <div class="pulse-container">
-                <div class="content-wrapper" part="content">
-                    <slot></slot>
-                </div>
-                <div class="pulse-wrapper" part="ping">
-                    <div class="pulse-spread" part="spread"></div>
-                    <div class="pulse-dot" part="dot"></div>
-                </div>
-            </div>
-        `;
+        return `<div class="pulse-container" part="container"><div class="content-wrapper" part="content"><slot></slot></div><div class="pulse-wrapper" part="ping" aria-hidden="true"><div class="pulse-spread" part="spread"></div><div class="pulse-dot" part="dot"></div></div></div>`;
     }
 }
 
-// Expose class globally for external access
-window.TatvaPulse = TatvaPulse;
-
-// Register the custom element
-if (!window.customElements.get('tatva-pulse')) {
-    window.customElements.define('tatva-pulse', TatvaPulse);
+// Expose class globally for external access in browser environments
+if (typeof window !== 'undefined') {
+    window.TatvaPulse = TatvaPulse;
+    if (typeof window.customElements !== 'undefined' && !window.customElements.get('tatva-pulse')) {
+        window.customElements.define('tatva-pulse', TatvaPulse);
+    }
 }
+
+export default TatvaPulse;

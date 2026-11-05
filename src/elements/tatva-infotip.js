@@ -1,7 +1,7 @@
 /**
  * Tatva: Infotip web component
  */
-class TatvaInfotip extends HTMLElement {
+export class TatvaInfotip extends HTMLElement {
     static get DEFAULT_CONFIG() {
         return {
             content: 'Hello world',
@@ -9,7 +9,7 @@ class TatvaInfotip extends HTMLElement {
             iconEnabled: false,
             iconPosition: 'left',
             iconType: 'info',
-            offset: '6',
+            offset: 6,
             overlayPlacement: 'top',
             iconColor: "#000",
             overlayTextColor: "#fff",
@@ -32,6 +32,10 @@ class TatvaInfotip extends HTMLElement {
         ];
     }
 
+    static convertAttributeToBoolean(value) {
+        return value === '' || value === 'true' || value === true;
+    }
+
     static ICONS = {
         info: `<path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 12a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0ZM12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm.75 4v1.5h-1.5V8h1.5Zm0 8v-5h-1.5v5h1.5Z"/>`,
         help: `<path d="M12 4.75a7.25 7.25 0 100 14.5 7.25 7.25 0 000-14.5zM3.25 12a8.75 8.75 0 1117.5 0 8.75 8.75 0 01-17.5 0zM12 8.75a1.5 1.5 0 01.167 2.99c-.465.052-.917.44-.917 1.01V14h1.5v-.845A3 3 0 109 10.25h1.5a1.5 1.5 0 011.5-1.5zM11.25 15v1.5h1.5V15h-1.5z"/>`,
@@ -42,57 +46,139 @@ class TatvaInfotip extends HTMLElement {
     };
 
     /**
-     * Constructor initializes the component and loads Floating UI
+     * Constructor initializes the component
      */
     constructor() {
         super();
         this._isInitialized = false;
+        this.isOpen = false;
         this.attachShadow({ mode: 'open' });
+
+        // Pre-bind event handlers
+        this.showTooltip = this.showTooltip.bind(this);
+        this.hideTooltip = this.hideTooltip.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleReposition = this.handleReposition.bind(this);
+    }
+
+    // Property getters and setters
+    get content() {
+        return this.getAttribute('content') || TatvaInfotip.DEFAULT_CONFIG.content;
+    }
+
+    set content(val) {
+        if (val) this.setAttribute('content', val);
+        else this.removeAttribute('content');
+    }
+
+    get underline() {
+        return TatvaInfotip.convertAttributeToBoolean(this.getAttribute('underline'));
+    }
+
+    set underline(val) {
+        if (val) this.setAttribute('underline', '');
+        else this.removeAttribute('underline');
+    }
+
+    get iconEnabled() {
+        return TatvaInfotip.convertAttributeToBoolean(this.getAttribute('icon-enabled'));
+    }
+
+    set iconEnabled(val) {
+        if (val) this.setAttribute('icon-enabled', '');
+        else this.removeAttribute('icon-enabled');
+    }
+
+    get iconPosition() {
+        return this.getAttribute('icon-position') || TatvaInfotip.DEFAULT_CONFIG.iconPosition;
+    }
+
+    set iconPosition(val) {
+        if (val) this.setAttribute('icon-position', val);
+        else this.removeAttribute('icon-position');
+    }
+
+    get iconType() {
+        return this.getAttribute('icon-type') || TatvaInfotip.DEFAULT_CONFIG.iconType;
+    }
+
+    set iconType(val) {
+        if (val) this.setAttribute('icon-type', val);
+        else this.removeAttribute('icon-type');
+    }
+
+    get iconColor() {
+        return this.getAttribute('icon-color') || TatvaInfotip.DEFAULT_CONFIG.iconColor;
+    }
+
+    set iconColor(val) {
+        if (val) this.setAttribute('icon-color', val);
+        else this.removeAttribute('icon-color');
+    }
+
+    get offset() {
+        const val = parseInt(this.getAttribute('offset'), 10);
+        return Number.isFinite(val) ? val : TatvaInfotip.DEFAULT_CONFIG.offset;
+    }
+
+    set offset(val) {
+        if (val != null) this.setAttribute('offset', String(val));
+        else this.removeAttribute('offset');
+    }
+
+    get overlayPlacement() {
+        return this.getAttribute('overlay-placement') || TatvaInfotip.DEFAULT_CONFIG.overlayPlacement;
+    }
+
+    set overlayPlacement(val) {
+        if (val) this.setAttribute('overlay-placement', val);
+        else this.removeAttribute('overlay-placement');
+    }
+
+    get overlayTextColor() {
+        return this.getAttribute('overlay-text-color') || TatvaInfotip.DEFAULT_CONFIG.overlayTextColor;
+    }
+
+    set overlayTextColor(val) {
+        if (val) this.setAttribute('overlay-text-color', val);
+        else this.removeAttribute('overlay-text-color');
+    }
+
+    get overlayBackgroundColor() {
+        return this.getAttribute('overlay-background-color') || TatvaInfotip.DEFAULT_CONFIG.overlayBackgroundColor;
+    }
+
+    set overlayBackgroundColor(val) {
+        if (val) this.setAttribute('overlay-background-color', val);
+        else this.removeAttribute('overlay-background-color');
     }
 
     connectedCallback() {
         if (!this._isInitialized) {
             this.initializeComponent();
+        } else {
+            this.initEvents();
         }
     }
 
     /**
-     * Initialize the component once Floating UI is loaded
+     * Initialize the component
      */
     initializeComponent() {
         if (this._isInitialized) return;
 
         this.renderComponent();
         this._isInitialized = true;
-
-        requestAnimationFrame(() => {
-            this.updateIcon();
-            this.updatePosition();
-            this.initEvents();
-            this.hideTooltip();
-        });
-
-        const slot = this.shadowRoot.querySelector('slot');
-        slot.addEventListener('slotchange', () => {
-            // gather all assigned nodes
-            const nodes = slot.assignedNodes({ flatten: true });
-            const hasText = nodes.some((node) => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    return node.textContent.trim() !== '';
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    return node.textContent.trim() !== '';
-                }
-                return false;
-            });
-            if (!hasText) this.remove();
-        });
+        this.updateIcon();
+        this.initEvents();
+        this.hideTooltip();
     }
 
     /**
-     * Cleanup when element is removed from DOM
+     * Cleanup when element is removed from DOM to prevent memory leaks
      */
     disconnectedCallback() {
-        this._isInitialized = false;
+        this.removeEvents();
     }
 
     /**
@@ -117,14 +203,15 @@ class TatvaInfotip extends HTMLElement {
      */
     getComponentConfig() {
         const defaults = TatvaInfotip.DEFAULT_CONFIG;
+        const offsetVal = parseInt(this.getAttribute('offset'), 10);
 
         return {
             content: this.getAttribute('content') || defaults.content,
-            underline: this.getAttribute('underline') === 'true' || defaults.underline,
-            iconEnabled: this.getAttribute('icon-enabled') === 'true' || defaults.iconEnabled,
+            underline: TatvaInfotip.convertAttributeToBoolean(this.getAttribute('underline')),
+            iconEnabled: TatvaInfotip.convertAttributeToBoolean(this.getAttribute('icon-enabled')),
             iconPosition: this.getAttribute('icon-position') || defaults.iconPosition,
             iconType: this.getAttribute('icon-type') || defaults.iconType,
-            offset: parseInt(this.getAttribute('offset') || defaults.offset, 10),
+            offset: Number.isFinite(offsetVal) ? offsetVal : defaults.offset,
             overlayPlacement: this.getAttribute('overlay-placement') || defaults.overlayPlacement,
             iconColor: this.getAttribute('icon-color') || defaults.iconColor,
             overlayTextColor: this.getAttribute('overlay-text-color') || defaults.overlayTextColor,
@@ -133,63 +220,87 @@ class TatvaInfotip extends HTMLElement {
     }
 
     /**
-     * Generates the CSS styles for the component
+     * Generates raw CSS styles
      * @param {Object} config - Component configuration object
-     * @returns {string} Complete CSS styles wrapped in <style> tags
+     * @returns {string} Raw CSS string
      */
-    generateStyles(config) {
+    generateCSS(config) {
         let css = `
+            :host {
+                display: inline-flex;
+                position: relative;
+                vertical-align: middle;
+                white-space: normal;
+            }
             .wrapper {
                 position: relative;
+                display: inline-flex;
+                align-items: center;
+                white-space: normal;
             }
             .text {
                 text-decoration: ${config.underline ? 'dotted underline' : 'none'};
                 cursor: pointer;
                 display: inline-flex;
                 vertical-align: bottom;
-                gap: 2px;
+                gap: 4px;
                 flex-direction: ${config.iconPosition === 'right' ? 'row-reverse' : 'row'};
-                align-items: center
+                align-items: center;
+                outline: none;
+                white-space: normal;
+            }
+            .text:focus-visible {
+                outline: 2px solid var(--tatva-focus-color, #3b82f6);
+                outline-offset: 2px;
+                border-radius: 2px;
             }
             .infotip {
                 display: none;
-                width: 100%;
-                max-width: 300px;
+                width: max-content;
+                max-width: var(--tatva-infotip-max-width, 300px);
                 position: fixed;
                 top: 0px;
                 left: 0px;
-                background: ${config.overlayBackgroundColor};
-                color: ${config.overlayTextColor};
-                padding: 10px;
-                border-radius: 4px;
-                font-size: 70%;
+                background: var(--tatva-infotip-bg, ${config.overlayBackgroundColor});
+                color: var(--tatva-infotip-color, ${config.overlayTextColor});
+                padding: var(--tatva-infotip-padding, 8px 12px);
+                border-radius: var(--tatva-infotip-radius, 4px);
+                font-size: var(--tatva-infotip-font-size, 0.85rem);
+                line-height: 1.4;
                 z-index: 1000;
                 text-align: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+                pointer-events: auto;
             }
             .infotip .arrow {
                 position: absolute;
-                background: ${config.overlayBackgroundColor};
+                background: var(--tatva-infotip-bg, ${config.overlayBackgroundColor});
                 width: 8px;
                 height: 8px;
                 transform: rotate(45deg);
             }
+            .icon {
+                display: ${config.iconEnabled ? 'inline-flex' : 'none'};
+                align-items: center;
+                flex-shrink: 0;
+            }
+            .icon svg {
+                width: 18px;
+                height: 18px;
+                fill: var(--tatva-infotip-icon-color, ${config.iconColor});
+            }
         `;
 
-        if (config.iconEnabled) {
-            css += `
-                .icon {
-                    display: inline-flex;
-                    align-items: center;
-                }
-                .icon svg {
-                    width: 24px;
-                    height: 24px;
-                    fill: ${config.iconColor};
-                }
-            `;
-        }
+        return css;
+    }
 
-        return `<style>${css}</style>`;
+    /**
+     * Backward-compatible method returning CSS wrapped in <style>
+     * @param {Object} config - Component configuration object
+     * @returns {string} Complete CSS styles wrapped in <style> tags
+     */
+    generateStyles(config) {
+        return `<style>${this.generateCSS(config)}</style>`;
     }
 
     /**
@@ -198,29 +309,18 @@ class TatvaInfotip extends HTMLElement {
      * @returns {string} Complete HTML structure
      */
     generateMarkup(config) {
-        return `
-            <span class="wrapper">
-                <span class="text" tabindex="0" role="button" aria-describedby="infotip-popover">
-                    <span class="icon"></span>
-                    <slot></slot>
-                </span>
-                <div class="infotip" id="infotip-popover">
-                    <div class="infotip-popover-content">
-                        ${config.content}
-                    </div>
-                    <div class="arrow"></div>
-                </div>
-            </span>
-        `;
+        return `<span class="wrapper" part="wrapper"><span class="text" part="trigger" tabindex="0" role="button" aria-describedby="infotip-popover"><span class="icon" part="icon"></span><slot></slot></span><div class="infotip" part="popover" id="infotip-popover" role="tooltip" aria-hidden="true"><div class="infotip-popover-content" part="content"><slot name="content">${config.content}</slot></div><div class="arrow" part="arrow"></div></div></span>`;
     }
 
-    // Updates the icon based on current attributes
+    /**
+     * Updates the icon based on current attributes
+     */
     updateIcon() {
         const config = this.getComponentConfig();
         const icon = this.shadowRoot.querySelector('.icon');
-
         if (!icon) return;
 
+        icon.style.display = config.iconEnabled ? 'inline-flex' : 'none';
         icon.innerHTML = config.iconEnabled
             ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" role="img">
                 ${TatvaInfotip.ICONS[config.iconType] || TatvaInfotip.ICONS.info}
@@ -228,20 +328,18 @@ class TatvaInfotip extends HTMLElement {
             : '';
     }
 
-    // Updates the infotip overlay position using Floating UI
+    /**
+     * Updates the infotip overlay position
+     */
     updatePosition() {
         const config = this.getComponentConfig();
-        if (!config.content) {
-            this.hideTooltip();
-            return;
-        }
-
         const anchor = this.shadowRoot.querySelector('.text');
         const tooltip = this.shadowRoot.querySelector('.infotip');
+        if (!anchor || !tooltip) return;
+
         const arrow = tooltip.querySelector('.arrow');
 
-        // Try FloatingUI first if available, otherwise use fallback
-        if (window.FloatingUIDOM) {
+        if (typeof window !== 'undefined' && window.FloatingUIDOM) {
             this.updatePositionWithFloatingUI(anchor, tooltip, arrow, config);
         } else {
             this.updatePositionWithFallback(anchor, tooltip, arrow, config);
@@ -249,7 +347,7 @@ class TatvaInfotip extends HTMLElement {
     }
 
     /**
-     * Enhanced positioning using FloatingUI with better error handling
+     * Enhanced positioning using FloatingUI
      */
     updatePositionWithFloatingUI(anchor, tooltip, arrow, config) {
         try {
@@ -279,11 +377,9 @@ class TatvaInfotip extends HTMLElement {
                     this.applyArrowStyles(arrow, placement, middlewareData.arrow, true);
                 })
                 .catch(() => {
-                    // If FloatingUI fails, fall back to custom positioning
                     this.updatePositionWithFallback(anchor, tooltip, arrow, config);
                 });
         } catch (error) {
-            // If FloatingUI fails, fall back to custom positioning
             this.updatePositionWithFallback(anchor, tooltip, arrow, config);
         }
     }
@@ -292,7 +388,17 @@ class TatvaInfotip extends HTMLElement {
      * Fallback positioning system that works reliably in all environments
      */
     updatePositionWithFallback(anchor, tooltip, arrow, config) {
+        // Temporarily ensure tooltip has measurable dimensions
+        const prevDisplay = tooltip.style.display;
+        const prevVisibility = tooltip.style.visibility;
+        tooltip.style.display = 'block';
+        tooltip.style.visibility = 'hidden';
+
         const position = this.calculatePosition(anchor, tooltip, config);
+
+        tooltip.style.display = prevDisplay;
+        tooltip.style.visibility = prevVisibility;
+
         this.applyTooltipStyles(tooltip, position.x, position.y);
         this.applyArrowStyles(arrow, position.placement, position.arrowData, false);
     }
@@ -306,7 +412,6 @@ class TatvaInfotip extends HTMLElement {
         let x, y;
         const [side, align] = placement.split('-');
 
-        // Calculate base position
         switch (side) {
             case 'top':
                 x = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
@@ -329,7 +434,6 @@ class TatvaInfotip extends HTMLElement {
                 y = anchorRect.top - tooltipRect.height - offset;
         }
 
-        // Adjust for alignment
         if (align === 'start') {
             if (['top', 'bottom'].includes(side)) {
                 x = anchorRect.left;
@@ -344,13 +448,11 @@ class TatvaInfotip extends HTMLElement {
             }
         }
 
-        // Keep within viewport
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+        const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1024;
+        const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 768;
         x = Math.max(5, Math.min(x, viewportWidth - tooltipRect.width - 5));
         y = Math.max(5, Math.min(y, viewportHeight - tooltipRect.height - 5));
 
-        // Calculate arrow position
         const arrowData = this.calculateArrowPosition(anchorRect, x, y, side);
 
         return { x, y, placement, arrowData };
@@ -365,11 +467,11 @@ class TatvaInfotip extends HTMLElement {
         switch (side) {
             case 'top':
             case 'bottom':
-                x = anchorCenterX - tooltipX - 4; // 4 is half arrow width
+                x = anchorCenterX - tooltipX - 4;
                 break;
             case 'left':
             case 'right':
-                y = anchorCenterY - tooltipY - 4; // 4 is half arrow height
+                y = anchorCenterY - tooltipY - 4;
                 break;
         }
 
@@ -388,7 +490,6 @@ class TatvaInfotip extends HTMLElement {
 
         const [side] = placement.split('-');
 
-        // Reset all position properties
         Object.assign(arrow.style, {
             top: '',
             right: '',
@@ -396,82 +497,160 @@ class TatvaInfotip extends HTMLElement {
             left: '',
         });
 
-        if (isFloatingUI) {
-            // FloatingUI provides x,y coordinates
-            const positions = {
-                top: { bottom: '-4px', left: `${arrowData.x || 0}px` },
-                bottom: { top: '-4px', left: `${arrowData.x || 0}px` },
-                left: { right: '-4px', top: `${arrowData.y || 0}px` },
-                right: { left: '-4px', top: `${arrowData.y || 0}px` }
-            };
-            Object.assign(arrow.style, positions[side]);
-        } else {
-            // Fallback positioning
-            const positions = {
-                top: { bottom: '-4px', left: `${arrowData.x}px` },
-                bottom: { top: '-4px', left: `${arrowData.x}px` },
-                left: { right: '-4px', top: `${arrowData.y}px` },
-                right: { left: '-4px', top: `${arrowData.y}px` }
-            };
+        const arrowOffset = isFloatingUI ? (arrowData.x || 0) : arrowData.x;
+        const arrowOffsetY = isFloatingUI ? (arrowData.y || 0) : arrowData.y;
+
+        const positions = {
+            top: { bottom: '-4px', left: `${arrowOffset}px` },
+            bottom: { top: '-4px', left: `${arrowOffset}px` },
+            left: { right: '-4px', top: `${arrowOffsetY}px` },
+            right: { left: '-4px', top: `${arrowOffsetY}px` }
+        };
+
+        if (positions[side]) {
             Object.assign(arrow.style, positions[side]);
         }
     }
 
     showTooltip() {
-        this.shadowRoot.querySelector('.infotip').style.display = 'block';
+        const tooltip = this.shadowRoot.querySelector('.infotip');
+        if (!tooltip) return;
+
+        this.isOpen = true;
+        tooltip.style.display = 'block';
+        tooltip.style.visibility = 'visible';
+        tooltip.setAttribute('aria-hidden', 'false');
         this.updatePosition();
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('scroll', this.handleReposition, { passive: true });
+            window.addEventListener('resize', this.handleReposition, { passive: true });
+        }
     }
 
     hideTooltip() {
-        this.shadowRoot.querySelector('.infotip').style.display = 'none';
+        const tooltip = this.shadowRoot.querySelector('.infotip');
+        if (!tooltip) return;
+
+        this.isOpen = false;
+        tooltip.style.display = 'none';
+        tooltip.style.visibility = 'hidden';
+        tooltip.setAttribute('aria-hidden', 'true');
+
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('scroll', this.handleReposition);
+            window.removeEventListener('resize', this.handleReposition);
+        }
     }
 
-    // Sets up mouse and keyboard event listeners for showing/hiding the tooltip
+    handleKeyDown(e) {
+        if (e.key === 'Escape' && this.isOpen) {
+            this.hideTooltip();
+            e.stopPropagation();
+        }
+    }
+
+    handleReposition() {
+        if (this.isOpen) {
+            this.updatePosition();
+        }
+    }
+
+    /**
+     * Sets up mouse and keyboard event listeners
+     */
     initEvents() {
-        const events = [
-            ['mouseenter', this.showTooltip],
-            ['mouseleave', this.hideTooltip],
-            ['focus', this.showTooltip],
-            ['blur', this.hideTooltip],
-        ];
-        events.forEach(([event, handler]) => {
-            this.addEventListener(event, handler.bind(this));
-        });
+        this.removeEvents();
+
+        this.addEventListener('mouseenter', this.showTooltip);
+        this.addEventListener('mouseleave', this.hideTooltip);
+
+        // focusin/focusout bubble across Shadow DOM
+        this.addEventListener('focusin', this.showTooltip);
+        this.addEventListener('focusout', this.hideTooltip);
+        this.addEventListener('keydown', this.handleKeyDown);
+
+        const tooltip = this.shadowRoot.querySelector('.infotip');
+        if (tooltip) {
+            tooltip.addEventListener('mouseenter', this.showTooltip);
+            tooltip.addEventListener('mouseleave', this.hideTooltip);
+        }
     }
 
-    // Handles attribute changes and updates the component accordingly
+    /**
+     * Removes all event listeners to prevent memory leaks
+     */
+    removeEvents() {
+        this.removeEventListener('mouseenter', this.showTooltip);
+        this.removeEventListener('mouseleave', this.hideTooltip);
+        this.removeEventListener('focusin', this.showTooltip);
+        this.removeEventListener('focusout', this.hideTooltip);
+        this.removeEventListener('keydown', this.handleKeyDown);
+
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('scroll', this.handleReposition);
+            window.removeEventListener('resize', this.handleReposition);
+        }
+
+        const tooltip = this.shadowRoot ? this.shadowRoot.querySelector('.infotip') : null;
+        if (tooltip) {
+            tooltip.removeEventListener('mouseenter', this.showTooltip);
+            tooltip.removeEventListener('mouseleave', this.hideTooltip);
+        }
+    }
+
+    /**
+     * Handles attribute changes cleanly without forcing tooltip to show
+     */
     attributeChangedCallback(name, oldValue, newValue) {
         if (!this.shadowRoot || oldValue === newValue || !this._isInitialized) return;
 
-        this.showTooltip();
-
         const updateActions = {
             content: () => {
-                this.shadowRoot.querySelector(
-                    '.infotip-popover-content'
-                ).innerHTML = newValue;
-                this.updatePosition();
+                const contentEl = this.shadowRoot.querySelector('.infotip-popover-content slot');
+                if (contentEl) {
+                    contentEl.textContent = newValue;
+                }
             },
             'icon-enabled': () => this.updateIcon(),
             'icon-type': () => this.updateIcon(),
-            'overlay-placement': () => this.updatePosition(),
-            offset: () => this.updatePosition(),
+            'icon-color': () => this.updateIcon(),
+            underline: () => {
+                const config = this.getComponentConfig();
+                const styleEl = this.shadowRoot.querySelector('style');
+                if (styleEl) styleEl.textContent = this.generateCSS(config);
+            },
+            'overlay-placement': () => {
+                if (this.isOpen) this.updatePosition();
+            },
+            offset: () => {
+                if (this.isOpen) this.updatePosition();
+            },
         };
 
         if (updateActions[name]) {
             updateActions[name]();
         }
 
-        // Always update styles
-        const config = this.getComponentConfig();
-        this.shadowRoot.querySelector('style').textContent = this.generateStyles(config).replace('<style>', '').replace('</style>', '');
+        // Update styles if appearance changed
+        if (['overlay-background-color', 'overlay-text-color', 'icon-position'].includes(name)) {
+            const config = this.getComponentConfig();
+            const styleEl = this.shadowRoot.querySelector('style');
+            if (styleEl) styleEl.textContent = this.generateCSS(config);
+        }
+
+        if (this.isOpen) {
+            this.updatePosition();
+        }
     }
 }
 
-// Expose class globally for external access
-window.TatvaInfotip = TatvaInfotip;
-
-// Register the custom element
-if (!window.customElements.get('tatva-infotip')) {
-    window.customElements.define('tatva-infotip', TatvaInfotip);
+// Expose class globally for external access in browser environments
+if (typeof window !== 'undefined') {
+    window.TatvaInfotip = TatvaInfotip;
+    if (typeof window.customElements !== 'undefined' && !window.customElements.get('tatva-infotip')) {
+        window.customElements.define('tatva-infotip', TatvaInfotip);
+    }
 }
+
+export default TatvaInfotip;
