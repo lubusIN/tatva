@@ -10,7 +10,7 @@ import '../public/css/manager.css';
 // If you have a specific logo asset, place it in public/ and update the URL below.
 const theme = create({
   base: 'light', // Light theme base
-  fontBase: '"Open Sans", sans-serif',
+  fontBase: '"Nunito Sans", -apple-system, sans-serif',
   fontCode: 'monospace',
   brandTitle: 'Tatva Components', // Brand title shown in the UI
   brandUrl: 'https://github.com/lubusIN/tatva', // Brand URL for links
@@ -23,30 +23,43 @@ const theme = create({
 
   // UI
   appBg: '#F1FFFA',
+  appContentBg: '#FFFFFF',
+  appPreviewBg: '#FFFFFF',
+  appHoverBg: '#b7efc5',
+  appBorderColor: 'rgba(14, 45, 20, 0.12)',
   appBorderRadius: 4,
 
   // Text colors
   textColor: '#0E2D14',
+  textInverseColor: '#FFFFFF',
 
   // Toolbar default and active colors
   barTextColor: '#0E2D14',
   barSelectedColor: '#3E8B5F',
   barHoverColor: '#3E8B5F',
+  barBg: '#F1FFFA',
+
+  // Form colors
+  inputBg: '#FFFFFF',
+  inputBorder: 'rgba(14, 45, 20, 0.2)',
+  inputTextColor: '#0E2D14',
+  inputBorderRadius: 4,
 });
 
 // Apply the custom theme to Storybook
 addons.setConfig({ theme });
 
 // Navigation sidebar visibility logic
-// Hide the sidebar (navigation) when viewing docs-only pages for a clean reading experience
+// Hide the sidebar (navigation) only when viewing the Welcome landing page for a clean hero experience
 try {
   // Function to update navigation visibility based on current URL
   const updateNavFromLocation = () => {
     try {
       const url = new URL(window.location.href);
-      const viewMode = url.searchParams.get('viewMode');
-      const isDocsView = viewMode === 'docs';
-      addons.setConfig({ showNav: !isDocsView }); // Hide nav for docs view
+      const path = url.searchParams.get('path') || '';
+      const id = url.searchParams.get('id') || '';
+      const isWelcome = path.includes('welcome') || id.includes('welcome');
+      addons.setConfig({ showNav: !isWelcome }); // Hide nav only for the Welcome landing page
     } catch {
       /* noop - handle cases where URL parsing fails */
     }
@@ -58,8 +71,8 @@ try {
   // Function to set navigation visibility based on story ID
   const setNavVisibilityById = (id) => {
     const storyId = typeof id === 'string' ? id : '';
-    const isDocsId = storyId.endsWith('--docs'); // Check if it's a docs page
-    addons.setConfig({ showNav: !isDocsId }); // Hide nav for docs pages
+    const isWelcome = storyId.includes('welcome'); // Only hide on the Welcome landing page
+    addons.setConfig({ showNav: !isWelcome });
   };
 
   // Initial setup and event listeners for reactive navigation updates

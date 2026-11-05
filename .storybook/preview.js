@@ -21,13 +21,14 @@ export const parameters = {
       // Define the order of stories in the sidebar
       order: [
         'Docs',           // Documentation section first
-        ['Welcome', 'Introduction'],  // Introduction page
+        ['Welcome', 'Getting Started'],  // Documentation pages
         'Examples',       // Examples section
         [
           'Marker',       // Marker component stories
           'Pulse',        // Pulse component stories
           'Text Animation', // Text Animation component stories
-          'Image Compare'  // Image Compare component stories
+          'Image Compare',  // Image Compare component stories
+          'Info Tip'      // Info Tip component stories
         ]
       ],
     },

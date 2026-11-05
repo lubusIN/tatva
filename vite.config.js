@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@tatva': path.resolve(__dirname, 'src/website'),
+      '@tatva': path.resolve(import.meta.dirname, 'src/website'),
     },
   },
   build: {

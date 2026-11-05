@@ -2,6 +2,13 @@
     background-color: #0E2D14 !important;
     padding: 20px 10px 0;
 
+    .components-heading,
+    h2 {
+        color: #ffffff !important;
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+    }
+
     .footer-content {
         flex-direction: column;
         align-items: center;

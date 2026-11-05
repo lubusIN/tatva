@@ -1,12 +1,34 @@
-/* Global preview styles for stories */
+/* Global preview styles for stories and docs */
 :root {
   --sb-font-sans: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* @stories example font change */
+/* @stories and docs example font change */
 .sb-show-main,
-.docs-story > div > div {
+.docs-story > div > div,
+.sbdocs,
+.sbdocs-content {
   font-family: var(--sb-font-sans);
+}
+
+/* Consistent, clean H2 formatting across docs */
+.sbdocs-content h2,
+#storybook-docs h2 {
+  font-family: var(--sb-font-sans);
+  color: #0E2D14;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 28px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(14, 45, 20, 0.12);
+}
+
+/* Ensure custom landing page headings are not polluted by docs default h2 styles */
+.tatva-hero-Section h2,
+.tatva-footer h2 {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
 }
 
 .sb-show-main tatva-marker,

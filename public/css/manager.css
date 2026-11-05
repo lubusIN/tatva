@@ -1,9 +1,16 @@
 /** @format */
 
 .sidebar-header img {
-  width: 100px !important; /* set your width */
+  width: 100px !important;
+  height: auto !important;
+  display: block;
 }
 
-.sidebar-item:hover:not([data-selected="true"]) {
+.sidebar-item:hover:not([data-selected="true"]),
+.sidebar-subheading button:hover {
   background-color: #b7efc5 !important;
+}
+
+.sidebar-item {
+  border-radius: 4px;
 }

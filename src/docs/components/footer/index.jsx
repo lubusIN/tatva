@@ -27,10 +27,10 @@ function Footer() {
         <footer className="tatva-footer">
             <VStack className="footer-content" spacing={0}>
                 <VStack alignment="center" spacing={4}>
-                    <Heading level={2} align='center' color='#ffffff !important' weight={600} style={{ margin: 0, fontSize: '45px', borderBottom: 'none', padding: 0 }}>
+                    <Heading level={2} align='center' color='#ffffff' weight={600} style={{ margin: 0, fontSize: '45px', borderBottom: 'none', padding: 0, color: '#ffffff' }}>
                         Open-source DNA,
                         <br />
-                        <Text level={2} weight={600} color='#DCFCE6' style={{ margin: 0, fontSize: '45px', borderBottom: 'none'}}>
+                        <Text weight={600} color='#DCFCE6' style={{ margin: 0, fontSize: '45px', borderBottom: 'none'}}>
                             Product-driven thinking
                         </Text>
                     </Heading>
