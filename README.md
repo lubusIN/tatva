@@ -1,16 +1,18 @@
 <!-- @format -->
 
 <p align="center">
-  <img width="250" src=".github/logo.svg?v=1" alt="Tatva Logo" />
+  <img height="50" src=".github/assets/logo.svg" alt="tatva" />
 </p>
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgZmlsbD0idHJhbnNwYXJlbnQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIvPjxnPjxwYXRoIGQ9Ik0xOSAxM3Y2YzAgMS4xMDUtLjg5NSAyLTIgMkg1Yy0xLjEwNSAwLTItLjg5NS0yLTJWN2MwLTEuMTA1Ljg5NS0yIDItMmg2djJINXYxMmgxMnYtNmgyek0xMyAzdjJoNC41ODZsLTcuNzkzIDcuNzkzIDEuNDE0IDEuNDE0TDE5IDYuNDE0VjExaDJWM2gtOHoiIGZpbGw9IiNmZmYiLz48L2c+PC9zdmc+)](https://tatva.lubus.in/)
+![tatva](.github/assets/banner.png)
 
-## Overview
+[![Open Storybook](https://img.shields.io/badge/Open%20Storybook-000?style=for-the-badge&logo=storybook&logoColor=white&labelColor=FF4785)](https://tatva.lubus.in/)
 
-### A Sanskrit word, "तत्त्व", meaning "Element", is a Library of custom HTML elements.
+## tatva
 
-A set of custom HTML elements / Web Components to power various functionality for our projects. Powering functionality for our WordPress Blocks and Formats plugins.
+ A Sanskrit word, `तत्त्व`, meaning `element`, is a Library of custom HTML elements / Web Components. Custom frontend functionality for our projects. 
+ 
+ Powering functionality for our [WordPress Richtext Formats plugins](https://github.com/lubusIN/blablablocks-formats).
 
 ## Elements
 
