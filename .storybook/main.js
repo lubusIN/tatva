@@ -9,8 +9,6 @@ export default {
   // Addons configuration - plugins that extend Storybook functionality
   addons: [
     '@storybook/addon-docs',
-    '@storybook/addon-actions',
-    '@storybook/addon-interactions',
   ],
 
   // Framework configuration - specifies the build system

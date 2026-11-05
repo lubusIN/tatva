@@ -3,7 +3,7 @@ import { addons } from 'storybook/manager-api';
 import { create } from 'storybook/theming/create';
 import { STORY_RENDERED, DOCS_RENDERED, STORY_CHANGED } from 'storybook/internal/core-events';
 
-import '../public/css/manager.css';
+import './manager.css';
 
 // Use an existing logo from your components folder (exported asset path)
 // For simplicity, we'll reuse the public favicon.svg as a placeholder logo.
@@ -46,8 +46,15 @@ const theme = create({
   inputBorderRadius: 4,
 });
 
-// Apply the custom theme to Storybook
-addons.setConfig({ theme });
+// Apply the custom theme and layout customizations to Storybook
+addons.setConfig({
+  theme,
+  layoutCustomisations: {
+    showToolbar(state, defaultValue) {
+      return state.viewMode === 'docs' ? false : defaultValue;
+    },
+  },
+});
 
 // Navigation sidebar visibility logic
 // Hide the sidebar (navigation) only when viewing the Welcome landing page for a clean hero experience
@@ -59,7 +66,7 @@ try {
       const path = url.searchParams.get('path') || '';
       const id = url.searchParams.get('id') || '';
       const isWelcome = path.includes('welcome') || id.includes('welcome');
-      addons.setConfig({ showNav: !isWelcome }); // Hide nav only for the Welcome landing page
+      addons.setConfig({ layout: { showNav: !isWelcome } }); // Hide nav only for the Welcome landing page
     } catch {
       /* noop - handle cases where URL parsing fails */
     }
@@ -72,7 +79,7 @@ try {
   const setNavVisibilityById = (id) => {
     const storyId = typeof id === 'string' ? id : '';
     const isWelcome = storyId.includes('welcome'); // Only hide on the Welcome landing page
-    addons.setConfig({ showNav: !isWelcome });
+    addons.setConfig({ layout: { showNav: !isWelcome } });
   };
 
   // Initial setup and event listeners for reactive navigation updates

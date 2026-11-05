@@ -6,7 +6,10 @@ import {
     __experimentalVStack as VStack,
     __experimentalHeading as Heading,
     __experimentalHStack as HStack,
+    Button,
 } from "@wordpress/components";
+import { RiArrowRightLine } from "react-icons/ri";
+
 /**
  * Internal dependencies.
  */
@@ -16,6 +19,12 @@ import './style.scss';
  * Render Banner
  */
 function Banner() {
+    const handleGettingStarted = (e) => {
+        if (e.metaKey || e.ctrlKey) return;
+        e.preventDefault();
+        window.parent.location = '/?path=/docs/docs-getting-started--docs';
+    };
+
     return (
         <div className="tatva-hero-Section">
             <VStack alignment="left" className='tatva-hero-card'>
@@ -27,6 +36,15 @@ function Banner() {
                     <Text size={16} align="left" color="#DCFCE6" lineHeight={1.5} style={{ maxWidth: '500px' }}>
                         A lightweight library of custom elements ready to drop into your project with simple tags.
                     </Text>
+                    <Button
+                        className="hero_btn"
+                        href="/?path=/docs/docs-getting-started--docs"
+                        target="_parent"
+                        onClick={handleGettingStarted}
+                        icon={RiArrowRightLine}
+                    >
+                        Getting Started
+                    </Button>
                 </VStack>
             </VStack>
         </div>

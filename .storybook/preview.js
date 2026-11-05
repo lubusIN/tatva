@@ -1,5 +1,5 @@
 import '../src/elements/index.js';
-import '../public/css/preview.css';
+import './preview.css';
 // Global parameters that apply to all stories
 export const parameters = {
   // Controls configuration - automatically matches control types based on prop names
