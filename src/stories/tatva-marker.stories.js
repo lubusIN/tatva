@@ -82,12 +82,13 @@ const DefaultValues = {
   'animation-function': 'ease-in'
 };
 
-const Template = ({ content, slot, ...args }) => {
+const Template = ({ content, slot, containerTag = 'h1', containerClass = '', ...args }) => {
   const el = document.createElement('tatva-marker');
 
   // Apply all provided arguments as attributes to the element
   // This handles boolean attributes (set empty string for true) and other values
   Object.entries(args).forEach(([key, value]) => {
+    if (key === 'containerTag' || key === 'containerClass') return;
     if (value === undefined || value === null) return;
     if (DefaultValues[key] === value) return;
     if (value === true) {
@@ -100,7 +101,12 @@ const Template = ({ content, slot, ...args }) => {
 
   // If content provided → inject el, else return el alone
   if (content) {
-    const container = document.createElement('h1');
+    if (containerTag === 'pre') {
+      el.style.fontSize = 'inherit';
+      el.style.fontWeight = 'inherit';
+    }
+    const container = document.createElement(containerTag);
+    if (containerClass) container.className = containerClass;
     container.innerHTML = content.replace('{{slot}}', el.outerHTML);
     return container;
   }
@@ -157,5 +163,46 @@ InteractiveRender.play = async ({ canvasElement, step }) => {
     const svg = el.shadowRoot.querySelector('svg');
     expect(svg).not.toBeNull();
     expect(svg.getAttribute('aria-hidden')).toBe('true');
+  });
+};
+
+export const Pre = Template.bind({});
+Pre.args = {
+  type: 'circle',
+  slot: 'travel',
+  content: `Two roads diverged in a yellow wood,
+And sorry I could not {{slot}} both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth;`,
+  containerTag: 'pre',
+};
+Pre.parameters = {
+  docs: {
+    description: {
+      story:
+        'Tests tatva-marker inside a multi-line preformatted text block (`<pre>`), which applies `overflow: auto; white-space: pre-wrap; padding: 0;`. Ensures consistent font size, uniform line spacing without vertical line jumps, and no clipping from parent scroll containers.',
+    },
+  },
+};
+Pre.play = async ({ canvasElement, step }) => {
+  const pre = canvasElement.querySelector('pre');
+  const el = canvasElement.querySelector('tatva-marker');
+
+  await step('Verify pre block contains marker element', async () => {
+    expect(pre).not.toBeNull();
+    expect(el).not.toBeNull();
+    expect(el.textContent.trim()).toBe('travel');
+  });
+
+  await step('Verify marker inherits consistent font size and weight from pre', async () => {
+    const preStyle = window.getComputedStyle(pre);
+    const elStyle = window.getComputedStyle(el);
+    expect(elStyle.fontSize).toBe(preStyle.fontSize);
+    expect(elStyle.fontWeight).toBe(preStyle.fontWeight);
+  });
+
+  await step('Verify marker does not cause vertical overflow clipping in pre container', async () => {
+    expect(pre.scrollHeight).toBeLessThanOrEqual(pre.clientHeight + 1);
   });
 };

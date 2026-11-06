@@ -195,6 +195,10 @@ export class TatvaMarker extends HTMLElement {
                 display: inline-block;
                 overflow: visible;
                 white-space: normal;
+                padding-block: var(--tatva-marker-padding-block, 0);
+                padding-inline: var(--tatva-marker-padding-inline, 0.15em);
+                vertical-align: baseline;
+                line-height: inherit;
             }
 
             .text {
@@ -209,8 +213,8 @@ export class TatvaMarker extends HTMLElement {
                 overflow: visible;
                 top: 50%;
                 left: 50%;
-                width: calc(100% + 4px);
-                height: calc(100% + 6px);
+                width: 100%;
+                height: 100%;
                 stroke-width: var(--tatva-marker-stroke-width, 9);
                 stroke-linecap: round;
                 stroke-linejoin: round;

@@ -41,3 +41,23 @@
   display: block;
   margin: 50px;
 }
+
+/* Preformatted text styles (handles generic pre and WordPress verse block) */
+pre,
+pre.wp-block-verse {
+  font-family: inherit;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  overflow: auto;
+  white-space: pre-wrap;
+  padding: 0;
+  margin: 0;
+}
+
+/* Ensure marker inside pre inherits font size and weight rather than the global 32px/700 preview override */
+.sb-show-main pre tatva-marker,
+.docs-story pre tatva-marker,
+pre tatva-marker {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}

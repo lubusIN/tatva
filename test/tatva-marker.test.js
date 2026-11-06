@@ -88,6 +88,15 @@ describe('TatvaMarker', () => {
         expect(css).toContain('white-space: normal');
     });
 
+    it('provides vertical alignment and line-height inheritance to prevent multi-line spacing while supporting padding override', () => {
+        const config = el.getComponentConfig();
+        const css = el.generateCSS(config);
+
+        expect(css).toContain('padding-block: var(--tatva-marker-padding-block, 0)');
+        expect(css).toContain('vertical-align: baseline');
+        expect(css).toContain('line-height: inherit');
+    });
+
     it('implements prefers-reduced-motion for WCAG 2.3.3 accessibility', () => {
         const config = el.getComponentConfig();
         const css = el.generateCSS(config);
