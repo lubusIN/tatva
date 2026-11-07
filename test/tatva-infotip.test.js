@@ -105,4 +105,52 @@ describe('TatvaInfotip', () => {
         const css = el.generateCSS(el.getComponentConfig());
         expect(css).toContain('white-space: normal');
     });
+
+    it('uses inline layout and vertical-align baseline to prevent paragraph layout shifts', () => {
+        const config = el.getComponentConfig();
+        const css = el.generateCSS(config);
+
+        expect(css).toMatch(/:host\s*\{[^}]*display:\s*inline;/);
+        expect(css).toMatch(/\.wrapper\s*\{[^}]*display:\s*inline;/);
+        expect(css).toMatch(/\.text\s*\{[^}]*display:\s*inline;/);
+        expect(css).toMatch(/\.wrapper\s*\{[^}]*vertical-align:\s*baseline;/);
+        expect(css).toMatch(/\.text\s*\{[^}]*vertical-align:\s*baseline;/);
+    });
+
+    it('positions arrow accurately relative to anchor and tooltip boundaries', () => {
+        const pos = el.calculateArrowPosition('top', { left: 100, top: 100, width: 40, height: 20 }, { width: 100, height: 50 }, { offsetWidth: 8 }, 70, 40);
+        expect(pos.mainProp).toBe('left');
+        expect(pos.pinProp).toBe('bottom');
+        // Anchor center is 120. Tooltip left is 70. Center is 120 - 70 - 4 = 46.
+        expect(pos.center).toBe(46);
+    });
+
+    it('correctly compensates tooltip position when inside a transformed containing block', () => {
+        const tooltip = el.shadowRoot.querySelector('.infotip');
+
+        // Without containing block
+        el.applyTooltipStyles(tooltip, 150, 200);
+        expect(tooltip.style.left).toBe('150px');
+        expect(tooltip.style.top).toBe('200px');
+
+        // Mock a transformed container
+        const mockCb = document.createElement('div');
+        mockCb.getBoundingClientRect = () => ({ left: 50, top: 80, width: 300, height: 200 });
+        Object.defineProperty(mockCb, 'clientLeft', { value: 2, configurable: true });
+        Object.defineProperty(mockCb, 'clientTop', { value: 4, configurable: true });
+        Object.defineProperty(mockCb, 'scrollLeft', { value: 10, configurable: true });
+        Object.defineProperty(mockCb, 'scrollTop', { value: 20, configurable: true });
+
+        // Spy or mock getContainingBlock
+        const origGetCb = el.getContainingBlock;
+        el.getContainingBlock = () => mockCb;
+
+        el.applyTooltipStyles(tooltip, 150, 200);
+        // expected x: 150 - (50 + 2) + 10 = 108
+        // expected y: 200 - (80 + 4) + 20 = 136
+        expect(tooltip.style.left).toBe('108px');
+        expect(tooltip.style.top).toBe('136px');
+
+        el.getContainingBlock = origGetCb;
+    });
 });

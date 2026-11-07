@@ -2,30 +2,12 @@
  * Storybook configuration for tatva-infotip component
  */
 import { expect, userEvent } from 'storybook/test';
+import '../elements/tatva-infotip.js';
 
 export default {
   title: 'Examples/Infotip',
   component: 'tatva-infotip',
   tags: ['autodocs'],
-  decorators: [
-    (storyFn) => {
-      const urls = [
-        'https://cdn.jsdelivr.net/npm/@floating-ui/core@1.7.3',
-        'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.3',
-      ];
-
-      urls.forEach((src) => {
-        if (!document.querySelector(`script[src="${src}"]`)) {
-          const s = document.createElement('script');
-          s.type = 'module';
-          s.src = src;
-          document.head.appendChild(s);
-        }
-      });
-
-      return storyFn();
-    },
-  ],
   parameters: {
     layout: 'centered',
     controls: { expanded: true },
@@ -133,7 +115,9 @@ const Template = ({ slot, slotContent, ...args }) => {
     el.setAttribute(key, String(value));
   });
 
-  el.textContent = slot;
+  if (slot != null) {
+    el.textContent = slot;
+  }
   if (slotContent) {
     const container = document.createElement('div');
     container.innerHTML = slotContent.replace('{{slot}}', el.outerHTML);

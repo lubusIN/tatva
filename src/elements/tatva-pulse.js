@@ -166,116 +166,126 @@ export class TatvaPulse extends HTMLElement {
     }
 
     /**
-     * Generates the CSS styles for the component
+     * Generates raw CSS styles
+     * @param {Object} config - Component configuration object
+     * @returns {string} Raw CSS string
+     */
+    generateCSS(config) {
+        return `
+            :host {
+                display: inline;
+                position: relative;
+                white-space: normal;
+            }
+
+            .pulse-container {
+                display: inline-flex;
+                flex-direction: row-reverse;
+                align-items: center;
+                position: relative;
+                vertical-align: baseline;
+                line-height: inherit;
+                gap: var(--pulse-gap, ${config.gap});
+                white-space: normal;
+            }
+
+            .content-wrapper {
+                display: inline;
+                position: relative;
+                z-index: 1; /* Ensure content is above pulse */
+                white-space: normal;
+                vertical-align: baseline;
+                line-height: inherit;
+            }
+
+            /* Pulse indicator wrapper - base positioning */
+            .pulse-wrapper {
+                display: inline-flex;
+                position: relative;
+                width: var(--pulse-size, ${config.size});
+                height: var(--pulse-size, ${config.size});
+                flex-shrink: 0;
+                align-items: center;
+                justify-content: center;
+                pointer-events: none;
+                vertical-align: middle;
+            }
+
+            /* Animated spreading circle that grows and fades */
+            .pulse-spread {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.75;
+                border-radius: 50%;
+                background-color: var(--pulse-color, ${config.color});
+                animation: pulse-animation var(--pulse-duration, ${config.animationDuration}) cubic-bezier(0, 0, 0.2, 1) infinite;
+            }
+
+            .pulse-dot {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-color: var(--pulse-color, ${config.color});
+                display: inline-flex;
+            }
+
+            :host([position="background"]) .pulse-wrapper {
+                position: absolute !important;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            :host([position="right"]) .pulse-container {
+                flex-direction: row;
+            }
+
+            :host([position="superscript"]) .pulse-container {
+                align-items: flex-start;
+            }
+
+            :host([position="superscript"]) .pulse-wrapper {
+                position: absolute !important;
+                top: var(--pulse-superscript-offset, ${config.superscriptOffset});
+                right: calc(-1 * var(--pulse-gap, ${config.gap}));
+                transform: translateX(100%);
+            }
+
+            /* Pulse animation: scales up and fades out */
+            @keyframes pulse-animation {
+                75%, 100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+
+            /* Accessibility support */
+            @media (prefers-contrast: high) {
+                .pulse-spread,
+                .pulse-dot {
+                    outline: 1px solid currentColor;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .pulse-spread {
+                    animation: none;
+                    opacity: 0.4;
+                }
+            }
+        `;
+    }
+
+    /**
+     * Backward-compatible method returning CSS wrapped in <style>
      * @param {Object} config - Component configuration object
      * @returns {string} Complete CSS styles wrapped in <style> tags
      */
     generateStyles(config) {
-        return `
-            <style>
-                :host {
-                    display: inline-flex;
-                    position: relative;
-                    vertical-align: middle;
-                    white-space: normal;
-                }
-
-                .pulse-container {
-                    display: inline-flex;
-                    flex-direction: row-reverse;
-                    align-items: center;
-                    position: relative;
-                    gap: var(--pulse-gap, ${config.gap});
-                    white-space: normal;
-                }
-
-                .content-wrapper {
-                    display: inline-flex;
-                    align-items: center;
-                    position: relative;
-                    z-index: 1; /* Ensure content is above pulse */
-                    white-space: normal;
-                }
-
-                /* Pulse indicator wrapper - base positioning */
-                .pulse-wrapper {
-                    display: flex;
-                    position: relative;
-                    width: var(--pulse-size, ${config.size});
-                    height: var(--pulse-size, ${config.size});
-                    flex-shrink: 0;
-                    align-items: center;
-                    justify-content: center;
-                    pointer-events: none;
-                }
-
-                /* Animated spreading circle that grows and fades */
-                .pulse-spread {
-                    position: absolute;
-                    inset: 0;
-                    width: 100%;
-                    height: 100%;
-                    opacity: 0.75;
-                    border-radius: 50%;
-                    background-color: var(--pulse-color, ${config.color});
-                    animation: pulse-animation var(--pulse-duration, ${config.animationDuration}) cubic-bezier(0, 0, 0.2, 1) infinite;
-                }
-
-                .pulse-dot {
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    background-color: var(--pulse-color, ${config.color});
-                    display: inline-flex;
-                }
-
-                :host([position="background"]) .pulse-wrapper {
-                    position: absolute !important;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                }
-
-                :host([position="right"]) .pulse-container {
-                    flex-direction: row;
-                }
-
-                :host([position="superscript"]) .pulse-container {
-                    align-items: flex-start;
-                }
-
-                :host([position="superscript"]) .pulse-wrapper {
-                    position: absolute !important;
-                    top: var(--pulse-superscript-offset, ${config.superscriptOffset});
-                    right: calc(-1 * var(--pulse-gap, ${config.gap}));
-                    transform: translateX(100%);
-                }
-
-                /* Pulse animation: scales up and fades out */
-                @keyframes pulse-animation {
-                    75%, 100% {
-                        transform: scale(2);
-                        opacity: 0;
-                    }
-                }
-
-                /* Accessibility support */
-                @media (prefers-contrast: high) {
-                    .pulse-spread,
-                    .pulse-dot {
-                        outline: 1px solid currentColor;
-                    }
-                }
-
-                @media (prefers-reduced-motion: reduce) {
-                    .pulse-spread {
-                        animation: none;
-                        opacity: 0.4;
-                    }
-                }
-            </style>
-        `;
+        return `<style>${this.generateCSS(config)}</style>`;
     }
 
     /**

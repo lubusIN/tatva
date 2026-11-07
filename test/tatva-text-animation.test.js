@@ -78,4 +78,22 @@ describe('TatvaTextAnimation', () => {
         el.dispatchAnimationComplete();
         expect(eventFired).toBe(true);
     });
+
+    it('falls back to textContent when words attribute is missing', () => {
+        const customEl = document.createElement('tatva-text-animation');
+        customEl.textContent = 'Inline Text';
+        const config = customEl.getComponentConfig();
+        expect(config.words).toEqual(['Inline Text']);
+    });
+
+    it('inherits typography and aligns to baseline for inline usage', () => {
+        const css = el.generateCSS();
+
+        expect(css).toMatch(/:host\s*\{[^}]*vertical-align:\s*baseline;/);
+        expect(css).toMatch(/\.textcontainer\s*\{[^}]*vertical-align:\s*baseline;/);
+        expect(css).toContain('font-size: var(--tatva-font-size, inherit);');
+        expect(css).toContain('font-weight: var(--tatva-font-weight, inherit);');
+        expect(css).toContain('color: var(--tatva-text-color, inherit);');
+        expect(css).toContain('line-height: inherit;');
+    });
 });

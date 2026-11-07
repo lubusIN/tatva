@@ -202,7 +202,7 @@ export class TatvaTextAnimation extends HTMLElement {
         const defaults = TatvaTextAnimation.DEFAULT_CONFIG;
 
         // Parse words attribute - handle JSON array, string, comma-separated, with fallback
-        let words = defaults.words;
+        let words = null;
         const wordsAttr = this.getAttribute('words');
         if (wordsAttr) {
             try {
@@ -223,7 +223,12 @@ export class TatvaTextAnimation extends HTMLElement {
             }
         }
 
-        // Ensure words is a non-empty array of non-empty strings
+        // Check textContent if words attribute is absent or empty
+        if ((!words || words.length === 0) && this.textContent && this.textContent.trim()) {
+            words = [this.textContent.trim()];
+        }
+
+        // Final fallback to defaults
         if (!Array.isArray(words) || words.length === 0) {
             words = defaults.words;
         }
@@ -253,13 +258,94 @@ export class TatvaTextAnimation extends HTMLElement {
      */
     generateMarkup(config) {
         const fullAccessibleText = Array.isArray(config.words) ? config.words.join(', ') : String(config.words);
+        return `<span class="sr-only">${fullAccessibleText}</span><div class="textcontainer" part="textcontainer" aria-hidden="true"></div><slot style="display: none;"></slot>`;
+    }
+
+    /**
+     * Generates raw CSS styles
+     * @returns {string} Raw CSS string
+     */
+    generateCSS() {
         return `
-            <span class="sr-only">${fullAccessibleText}</span>
-            <div
-                class="textcontainer"
-                part="textcontainer"
-                aria-hidden="true"
-            ></div>
+            :host {
+                display: inline-block;
+                vertical-align: baseline;
+                white-space: normal;
+                line-height: inherit;
+            }
+
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+
+            .textcontainer {
+                position: relative;
+                display: inline-block;
+                vertical-align: baseline;
+                line-height: inherit;
+                font-size: var(--tatva-font-size, inherit);
+                font-weight: var(--tatva-font-weight, inherit);
+                color: var(--tatva-text-color, inherit);
+                padding: var(--tatva-text-padding, 0);
+                margin: 0;
+                width: max-content;
+                white-space: normal;
+                min-height: 1.2em;
+            }
+            
+            .textcontainer .char {
+                display: inline-block;
+                white-space: pre;
+                transform: scale(5);
+                opacity: 0;
+                transition: transform 0.4s ease, opacity 0.5s ease;
+                vertical-align: baseline;
+            }
+
+            .textcontainer .char.letter-fade {
+                transform: scale(1);
+                opacity: 0;
+                transition: opacity var(--tatva-fade-duration, 0.5s) ease;
+            }
+
+            .textcontainer .char.letter-fade.show {
+                opacity: 1;
+            }
+
+            .textcontainer.blinking {
+                border-right: var(--tatva-caret-width, 2px) solid var(--tatva-caret-color, currentColor);
+                animation: tatva-caret-blink 1.1s infinite;
+            }
+
+            .textcontainer.no-repeat {
+                border-right: none;
+                animation: none;
+            }
+
+            @keyframes tatva-caret-blink {
+                0%, 50% { border-right-color: var(--tatva-caret-color, currentColor); }
+                51%, 100% { border-right-color: transparent; }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .textcontainer {
+                    animation: none !important;
+                    border-right: none !important;
+                }
+                .textcontainer .char {
+                    transform: none !important;
+                    opacity: 1 !important;
+                    transition: none !important;
+                }
+            }
         `;
     }
 
@@ -268,84 +354,7 @@ export class TatvaTextAnimation extends HTMLElement {
      * @returns {string} Complete CSS styles wrapped in <style> tags
      */
     generateStyles() {
-        return `
-            <style>
-                :host {
-                    display: inline-block;
-                    white-space: normal;
-                }
-
-                .sr-only {
-                    position: absolute;
-                    width: 1px;
-                    height: 1px;
-                    padding: 0;
-                    margin: -1px;
-                    overflow: hidden;
-                    clip: rect(0, 0, 0, 0);
-                    white-space: nowrap;
-                    border: 0;
-                }
-
-                .textcontainer {
-                    margin: auto;
-                    width: max-content;
-                    display: inline-flex;
-                    flex-wrap: wrap;
-                    align-items: center;
-                    font-size: var(--tatva-font-size, 2rem);
-                    font-weight: var(--tatva-font-weight, 800);
-                    line-height: initial;
-                    color: var(--tatva-text-color, #000);
-                    padding: 0px 5px;
-                    min-height: 1.2em;
-                }
-                
-                .textcontainer .char {
-                    white-space: pre;
-                    transform: scale(5);
-                    opacity: 0;
-                    transition: transform 0.4s ease, opacity 0.5s ease;
-                }
-
-                .textcontainer .char.letter-fade {
-                    transform: scale(1);
-                    opacity: 0;
-                    transition: opacity var(--tatva-fade-duration, 0.5s) ease;
-                }
-
-                .textcontainer .char.letter-fade.show {
-                    opacity: 1;
-                }
-
-                .textcontainer.blinking {
-                    border-right: var(--tatva-caret-width, 4px) solid var(--tatva-caret-color, currentColor);
-                    animation: tatva-caret-blink 1.1s infinite;
-                }
-
-                .textcontainer.no-repeat {
-                    border-right: none;
-                    animation: none;
-                }
-
-                @keyframes tatva-caret-blink {
-                    0%, 50% { border-right-color: var(--tatva-caret-color, currentColor); }
-                    51%, 100% { border-right-color: transparent; }
-                }
-
-                @media (prefers-reduced-motion: reduce) {
-                    .textcontainer {
-                        animation: none !important;
-                        border-right: none !important;
-                    }
-                    .textcontainer .char {
-                        transform: none !important;
-                        opacity: 1 !important;
-                        transition: none !important;
-                    }
-                }
-            </style>
-        `;
+        return `<style>${this.generateCSS()}</style>`;
     }
 
     /**

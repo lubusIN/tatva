@@ -227,25 +227,22 @@ export class TatvaInfotip extends HTMLElement {
     generateCSS(config) {
         let css = `
             :host {
-                display: inline-flex;
+                display: inline;
                 position: relative;
-                vertical-align: middle;
                 white-space: normal;
             }
             .wrapper {
                 position: relative;
-                display: inline-flex;
-                align-items: center;
+                display: inline;
                 white-space: normal;
+                vertical-align: baseline;
+                line-height: inherit;
             }
             .text {
                 text-decoration: ${config.underline ? 'dotted underline' : 'none'};
                 cursor: pointer;
-                display: inline-flex;
-                vertical-align: bottom;
-                gap: 4px;
-                flex-direction: ${config.iconPosition === 'right' ? 'row-reverse' : 'row'};
-                align-items: center;
+                display: inline;
+                vertical-align: baseline;
                 outline: none;
                 white-space: normal;
             }
@@ -280,14 +277,17 @@ export class TatvaInfotip extends HTMLElement {
                 transform: rotate(45deg);
             }
             .icon {
-                display: ${config.iconEnabled ? 'inline-flex' : 'none'};
-                align-items: center;
-                flex-shrink: 0;
+                display: ${config.iconEnabled ? 'inline-block' : 'none !important'};
+                vertical-align: -0.15em;
+                line-height: 1;
+                margin-left: ${config.iconEnabled && config.iconPosition === 'right' ? '4px' : '0px'};
+                margin-right: ${config.iconEnabled && config.iconPosition !== 'right' ? '4px' : '0px'};
             }
             .icon svg {
-                width: 18px;
-                height: 18px;
+                width: 1.1em;
+                height: 1.1em;
                 fill: var(--tatva-infotip-icon-color, ${config.iconColor});
+                vertical-align: -0.1em;
             }
         `;
 
@@ -309,7 +309,12 @@ export class TatvaInfotip extends HTMLElement {
      * @returns {string} Complete HTML structure
      */
     generateMarkup(config) {
-        return `<span class="wrapper" part="wrapper"><span class="text" part="trigger" tabindex="0" role="button" aria-describedby="infotip-popover"><span class="icon" part="icon"></span><slot></slot></span><div class="infotip" part="popover" id="infotip-popover" role="tooltip" aria-hidden="true"><div class="infotip-popover-content" part="content"><slot name="content">${config.content}</slot></div><div class="arrow" part="arrow"></div></div></span>`;
+        const iconMarkup = `<span class="icon" part="icon"></span>`;
+        const triggerContent = config.iconPosition === 'right'
+            ? `<slot></slot>${iconMarkup}`
+            : `${iconMarkup}<slot></slot>`;
+
+        return `<span class="wrapper" part="wrapper"><span class="text" part="trigger" tabindex="0" role="button" aria-describedby="infotip-popover">${triggerContent}</span><div class="infotip" part="popover" id="infotip-popover" role="tooltip" aria-hidden="true"><div class="infotip-popover-content" part="content"><slot name="content">${config.content}</slot></div><div class="arrow" part="arrow"></div></div></span>`;
     }
 
     /**
@@ -318,14 +323,29 @@ export class TatvaInfotip extends HTMLElement {
     updateIcon() {
         const config = this.getComponentConfig();
         const icon = this.shadowRoot.querySelector('.icon');
+        const text = this.shadowRoot.querySelector('.text');
         if (!icon) return;
 
-        icon.style.display = config.iconEnabled ? 'inline-flex' : 'none';
+        icon.style.display = config.iconEnabled ? 'inline-block' : 'none';
+        icon.style.marginLeft = config.iconEnabled && config.iconPosition === 'right' ? '4px' : '0px';
+        icon.style.marginRight = config.iconEnabled && config.iconPosition === 'left' ? '4px' : '0px';
         icon.innerHTML = config.iconEnabled
             ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" role="img">
                 ${TatvaInfotip.ICONS[config.iconType] || TatvaInfotip.ICONS.info}
             </svg>`
             : '';
+
+        if (text) {
+            if (config.iconPosition === 'right') {
+                if (text.lastElementChild !== icon) {
+                    text.appendChild(icon);
+                }
+            } else {
+                if (text.firstElementChild !== icon) {
+                    text.insertBefore(icon, text.firstChild);
+                }
+            }
+        }
     }
 
     /**
@@ -337,12 +357,31 @@ export class TatvaInfotip extends HTMLElement {
         const tooltip = this.shadowRoot.querySelector('.infotip');
         if (!anchor || !tooltip) return;
 
+        const isHidden = tooltip.style.display === 'none' || (typeof window !== 'undefined' && window.getComputedStyle && window.getComputedStyle(tooltip).display === 'none');
+        if (isHidden) {
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.display = 'block';
+        }
+
         const arrow = tooltip.querySelector('.arrow');
 
+        const restoreHidden = () => {
+            if (isHidden && !this.isOpen) {
+                tooltip.style.display = 'none';
+                tooltip.style.visibility = 'hidden';
+            }
+        };
+
         if (typeof window !== 'undefined' && window.FloatingUIDOM) {
-            this.updatePositionWithFloatingUI(anchor, tooltip, arrow, config);
+            const promise = this.updatePositionWithFloatingUI(anchor, tooltip, arrow, config);
+            if (promise && typeof promise.finally === 'function') {
+                promise.finally(restoreHidden);
+            } else {
+                restoreHidden();
+            }
         } else {
             this.updatePositionWithFallback(anchor, tooltip, arrow, config);
+            restoreHidden();
         }
     }
 
@@ -366,21 +405,39 @@ export class TatvaInfotip extends HTMLElement {
                 window.FloatingUIDOM.arrow({ element: arrow, padding: 5 }),
             ];
 
-            window.FloatingUIDOM
+            return window.FloatingUIDOM
                 .computePosition(anchor, tooltip, {
                     placement: config.overlayPlacement,
                     strategy: 'fixed',
                     middleware,
                 })
-                .then(({ x, y, placement, middlewareData }) => {
+                .then(({ placement }) => {
+                    const { x, y } = this.calculateTooltipPosition(
+                        placement,
+                        anchor,
+                        tooltip,
+                        arrow,
+                        config.offset
+                    );
                     this.applyTooltipStyles(tooltip, x, y);
-                    this.applyArrowStyles(arrow, placement, middlewareData.arrow, true);
+
+                    const { mainProp, pinProp, center } =
+                        this.calculateArrowPosition(
+                            placement,
+                            anchor,
+                            tooltip,
+                            arrow,
+                            x,
+                            y
+                        );
+                    this.applyArrowStyles(arrow, mainProp, pinProp, center);
                 })
                 .catch(() => {
                     this.updatePositionWithFallback(anchor, tooltip, arrow, config);
                 });
         } catch (error) {
             this.updatePositionWithFallback(anchor, tooltip, arrow, config);
+            return Promise.resolve();
         }
     }
 
@@ -388,108 +445,186 @@ export class TatvaInfotip extends HTMLElement {
      * Fallback positioning system that works reliably in all environments
      */
     updatePositionWithFallback(anchor, tooltip, arrow, config) {
-        // Temporarily ensure tooltip has measurable dimensions
-        const prevDisplay = tooltip.style.display;
-        const prevVisibility = tooltip.style.visibility;
-        tooltip.style.display = 'block';
-        tooltip.style.visibility = 'hidden';
-
-        const position = this.calculatePosition(anchor, tooltip, config);
-
-        tooltip.style.display = prevDisplay;
-        tooltip.style.visibility = prevVisibility;
-
-        this.applyTooltipStyles(tooltip, position.x, position.y);
-        this.applyArrowStyles(arrow, position.placement, position.arrowData, false);
-    }
-
-    calculatePosition(anchor, tooltip, config) {
-        const anchorRect = anchor.getBoundingClientRect();
-        const tooltipRect = tooltip.getBoundingClientRect();
         const placement = config.overlayPlacement;
-        const offset = config.offset;
+        const { x, y } = this.calculateTooltipPosition(
+            placement,
+            anchor,
+            tooltip,
+            arrow,
+            config.offset
+        );
+        this.applyTooltipStyles(tooltip, x, y);
 
-        let x, y;
-        const [side, align] = placement.split('-');
-
-        switch (side) {
-            case 'top':
-                x = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
-                y = anchorRect.top - tooltipRect.height - offset;
-                break;
-            case 'bottom':
-                x = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
-                y = anchorRect.bottom + offset;
-                break;
-            case 'left':
-                x = anchorRect.left - tooltipRect.width - offset;
-                y = anchorRect.top + anchorRect.height / 2 - tooltipRect.height / 2;
-                break;
-            case 'right':
-                x = anchorRect.right + offset;
-                y = anchorRect.top + anchorRect.height / 2 - tooltipRect.height / 2;
-                break;
-            default:
-                x = anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
-                y = anchorRect.top - tooltipRect.height - offset;
-        }
-
-        if (align === 'start') {
-            if (['top', 'bottom'].includes(side)) {
-                x = anchorRect.left;
-            } else {
-                y = anchorRect.top;
-            }
-        } else if (align === 'end') {
-            if (['top', 'bottom'].includes(side)) {
-                x = anchorRect.right - tooltipRect.width;
-            } else {
-                y = anchorRect.bottom - tooltipRect.height;
-            }
-        }
-
-        const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1024;
-        const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 768;
-        x = Math.max(5, Math.min(x, viewportWidth - tooltipRect.width - 5));
-        y = Math.max(5, Math.min(y, viewportHeight - tooltipRect.height - 5));
-
-        const arrowData = this.calculateArrowPosition(anchorRect, x, y, side);
-
-        return { x, y, placement, arrowData };
+        const { mainProp, pinProp, center } =
+            this.calculateArrowPosition(
+                placement,
+                anchor,
+                tooltip,
+                arrow,
+                x,
+                y
+            );
+        this.applyArrowStyles(arrow, mainProp, pinProp, center);
     }
 
-    calculateArrowPosition(anchorRect, tooltipX, tooltipY, side) {
-        const anchorCenterX = anchorRect.left + anchorRect.width / 2;
-        const anchorCenterY = anchorRect.top + anchorRect.height / 2;
+    calculateTooltipPosition(placement, anchor, tooltip, arrow, offset) {
+        const [base, align] = placement.split('-');
+        const ref = anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : anchor;
+        const tip = tooltip.getBoundingClientRect ? tooltip.getBoundingClientRect() : tooltip;
 
-        let x = 0, y = 0;
+        let x = 0;
+        let y = 0;
 
-        switch (side) {
-            case 'top':
-            case 'bottom':
-                x = anchorCenterX - tooltipX - 4;
-                break;
-            case 'left':
-            case 'right':
-                y = anchorCenterY - tooltipY - 4;
-                break;
+        if (['top', 'bottom'].includes(base)) {
+            if (align === 'start') {
+                x = ref.left;
+            } else if (align === 'end') {
+                x = ref.right - tip.width;
+            } else {
+                x = ref.left + (ref.width - tip.width) / 2;
+            }
+
+            if (base === 'top') {
+                y = ref.top - tip.height - offset;
+            } else {
+                y = ref.bottom + offset;
+            }
+        } else {
+            if (align === 'start') {
+                y = ref.top;
+            } else if (align === 'end') {
+                y = ref.bottom - tip.height;
+            } else {
+                y = ref.top + (ref.height - tip.height) / 2;
+            }
+
+            if (base === 'left') {
+                x = ref.left - tip.width - offset;
+            } else {
+                x = ref.right + offset;
+            }
         }
+
+        // Clamp within viewport
+        const vw = typeof window !== 'undefined' ? window.innerWidth : 1024;
+        const vh = typeof window !== 'undefined' ? window.innerHeight : 768;
+        x = Math.min(Math.max(5, x), Math.max(5, vw - tip.width - 5));
+        y = Math.min(Math.max(5, y), Math.max(5, vh - tip.height - 5));
 
         return { x, y };
     }
 
+    calculatePosition(anchor, tooltip, config) {
+        const arrow = tooltip.querySelector('.arrow');
+        const { x, y } = this.calculateTooltipPosition(
+            config.overlayPlacement,
+            anchor,
+            tooltip,
+            arrow,
+            config.offset
+        );
+        const arrowData = this.calculateArrowPosition(
+            config.overlayPlacement,
+            anchor,
+            tooltip,
+            arrow,
+            x,
+            y
+        );
+        return { x, y, placement: config.overlayPlacement, arrowData };
+    }
+
+    calculateArrowPosition(placement, anchor, tooltip, arrow, tooltipX, tooltipY) {
+        const ref = anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : anchor;
+        const tip = tooltip.getBoundingClientRect ? tooltip.getBoundingClientRect() : tooltip;
+        const arrowSize = (arrow?.offsetWidth || 8) / 2;
+        const [side] = placement.split('-');
+        const isHorizontal = ['top', 'bottom'].includes(side);
+
+        const center =
+            (isHorizontal
+                ? ref.left + ref.width / 2 - tooltipX
+                : ref.top + ref.height / 2 - tooltipY) - arrowSize;
+
+        // Keep arrow within tooltip boundaries
+        const maxOffset = isHorizontal ? (tip.width - 12) : (tip.height - 12);
+        const clampedCenter = Math.max(4, Math.min(center, Math.max(4, maxOffset)));
+
+        const mainProp = isHorizontal ? 'left' : 'top';
+        const pinProp = {
+            top: 'bottom',
+            bottom: 'top',
+            left: 'right',
+            right: 'left',
+        }[side] || 'bottom';
+
+        return { mainProp, pinProp, center: clampedCenter };
+    }
+
+    /**
+     * Finds the containing block for position: fixed elements
+     * @param {HTMLElement} el - Element to find containing block for
+     * @returns {HTMLElement|null} The containing block element or null if viewport
+     */
+    getContainingBlock(el) {
+        if (typeof window === 'undefined' || !el) return null;
+        let node = el.parentElement || (el.getRootNode && el.getRootNode().host);
+        while (node && node !== document.body && node !== document.documentElement) {
+            if (node.nodeType === 1) {
+                const s = window.getComputedStyle(node);
+                if (
+                    (s.transform && s.transform !== 'none') ||
+                    (s.perspective && s.perspective !== 'none') ||
+                    (s.filter && s.filter !== 'none') ||
+                    (s.backdropFilter && s.backdropFilter !== 'none') ||
+                    (s.contain && ['paint', 'layout', 'strict', 'content'].some(c => s.contain.includes(c))) ||
+                    (s.willChange && ['transform', 'perspective', 'filter'].some(w => s.willChange.includes(w)))
+                ) {
+                    return node;
+                }
+            }
+            node = node.parentElement || (node.getRootNode && node.getRootNode().host);
+        }
+        return null;
+    }
+
     applyTooltipStyles(tooltip, x, y) {
+        let finalX = x;
+        let finalY = y;
+        const cb = this.getContainingBlock(tooltip);
+        if (cb && typeof cb.getBoundingClientRect === 'function') {
+            const cbRect = cb.getBoundingClientRect();
+            finalX = x - (cbRect.left + (cb.clientLeft || 0)) + (cb.scrollLeft || 0);
+            finalY = y - (cbRect.top + (cb.clientTop || 0)) + (cb.scrollTop || 0);
+        }
         Object.assign(tooltip.style, {
-            left: `${x}px`,
-            top: `${y}px`,
+            left: `${finalX}px`,
+            top: `${finalY}px`,
         });
     }
 
-    applyArrowStyles(arrow, placement, arrowData, isFloatingUI) {
-        if (!arrow || !arrowData) return;
+    applyArrowStyles(arrow, mainProp, pinProp, center) {
+        if (!arrow) return;
+
+        // Support both (arrow, mainProp, pinProp, center) and legacy (arrow, placement, arrowData, isFloatingUI)
+        if (typeof mainProp === 'string' && (mainProp === 'left' || mainProp === 'top')) {
+            Object.assign(arrow.style, {
+                top: '',
+                right: '',
+                bottom: '',
+                left: '',
+                [mainProp]: `${center}px`,
+                [pinProp]: '-4px',
+            });
+            return;
+        }
+
+        const placement = mainProp || 'top';
+        const arrowData = pinProp;
+        const isFloatingUI = Boolean(center);
+        if (!arrowData) return;
 
         const [side] = placement.split('-');
-
         Object.assign(arrow.style, {
             top: '',
             right: '',
@@ -523,7 +658,7 @@ export class TatvaInfotip extends HTMLElement {
         this.updatePosition();
 
         if (typeof window !== 'undefined') {
-            window.addEventListener('scroll', this.handleReposition, { passive: true });
+            window.addEventListener('scroll', this.handleReposition, { capture: true, passive: true });
             window.addEventListener('resize', this.handleReposition, { passive: true });
         }
     }
@@ -538,7 +673,7 @@ export class TatvaInfotip extends HTMLElement {
         tooltip.setAttribute('aria-hidden', 'true');
 
         if (typeof window !== 'undefined') {
-            window.removeEventListener('scroll', this.handleReposition);
+            window.removeEventListener('scroll', this.handleReposition, { capture: true });
             window.removeEventListener('resize', this.handleReposition);
         }
     }
@@ -588,7 +723,7 @@ export class TatvaInfotip extends HTMLElement {
         this.removeEventListener('keydown', this.handleKeyDown);
 
         if (typeof window !== 'undefined') {
-            window.removeEventListener('scroll', this.handleReposition);
+            window.removeEventListener('scroll', this.handleReposition, { capture: true });
             window.removeEventListener('resize', this.handleReposition);
         }
 
@@ -613,6 +748,7 @@ export class TatvaInfotip extends HTMLElement {
                 }
             },
             'icon-enabled': () => this.updateIcon(),
+            'icon-position': () => this.updateIcon(),
             'icon-type': () => this.updateIcon(),
             'icon-color': () => this.updateIcon(),
             underline: () => {

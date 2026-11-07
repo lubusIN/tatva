@@ -69,4 +69,14 @@ describe('TatvaPulse', () => {
         expect(styles).toContain('@media (prefers-reduced-motion: reduce)');
         expect(styles).toContain('@media (prefers-contrast: high)');
     });
+
+    it('uses inline layout and vertical-align baseline to prevent layout shift', () => {
+        const config = el.getComponentConfig();
+        const css = el.generateCSS(config);
+
+        expect(css).toMatch(/:host\s*\{[^}]*display:\s*inline;/);
+        expect(css).toMatch(/\.pulse-container\s*\{[^}]*vertical-align:\s*baseline;/);
+        expect(css).toMatch(/\.content-wrapper\s*\{[^}]*vertical-align:\s*baseline;/);
+        expect(css).toMatch(/\.content-wrapper\s*\{[^}]*line-height:\s*inherit;/);
+    });
 });
