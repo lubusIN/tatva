@@ -15,8 +15,8 @@
 }
 
 .tatva-hero-Section {
-    background-color: #0E2D14;
-    background-image: url(/tatva-header-cover.png);
+    background-color: #071A4A;
+    background-image: url(/banner-bg.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left 25% bottom 45%;
@@ -38,8 +38,8 @@
   align-self: flex-start !important;
   width: fit-content !important;
   max-width: fit-content !important;
-  background-color: #FEEA00 !important;
-  color: #0E2D14 !important;
+  background-color: #ffffff !important;
+  color: #0052ff !important;
   border-radius: 4px !important;
   font-weight: 600 !important;
   padding: 8px 15px !important;
@@ -47,17 +47,21 @@
   text-decoration: none !important;
   border: none !important;
   cursor: pointer;
+  transition: all 0.2s ease-in-out !important;
 
   svg {
-    fill: #0E2D14 !important;
+    fill: #0052ff !important;
+    transition: transform 0.2s ease, fill 0.2s ease;
   }
 
   &:hover {
-    color: white !important;
-    background: #80808033 !important;
+    color: #0052ff !important;
+    background-color: #f0f5ff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 
     svg {
-      fill: white !important;
+      fill: #0052ff !important;
+      transform: translateX(3px);
     }
   }
 

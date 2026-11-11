@@ -14,35 +14,35 @@ const theme = create({
   fontCode: 'monospace',
   brandTitle: 'Tatva Components', // Brand title shown in the UI
   brandUrl: 'https://github.com/lubusIN/tatva', // Brand URL for links
-  brandImage: '/tatva-logo.svg', // Brand logo image
+  brandImage: '/logo.svg', // Brand logo image
   brandTarget: '_self', // Open brand links in same tab
 
   //
-  colorPrimary: '#3E8B5F',
-  colorSecondary: '#0E2D14',
+  colorPrimary: '#0052FF',
+  colorSecondary: '#0052FF',
 
   // UI
-  appBg: '#F1FFFA',
+  appBg: '#F0F5FF',
   appContentBg: '#FFFFFF',
   appPreviewBg: '#FFFFFF',
-  appHoverBg: '#b7efc5',
-  appBorderColor: 'rgba(14, 45, 20, 0.12)',
+  appHoverBg: '#E0ECFF',
+  appBorderColor: 'rgba(0, 82, 255, 0.12)',
   appBorderRadius: 4,
 
   // Text colors
-  textColor: '#0E2D14',
+  textColor: '#071A4A',
   textInverseColor: '#FFFFFF',
 
   // Toolbar default and active colors
-  barTextColor: '#0E2D14',
-  barSelectedColor: '#3E8B5F',
-  barHoverColor: '#3E8B5F',
-  barBg: '#F1FFFA',
+  barTextColor: '#071A4A',
+  barSelectedColor: '#0052FF',
+  barHoverColor: '#0052FF',
+  barBg: '#F0F5FF',
 
   // Form colors
   inputBg: '#FFFFFF',
-  inputBorder: 'rgba(14, 45, 20, 0.2)',
-  inputTextColor: '#0E2D14',
+  inputBorder: 'rgba(0, 82, 255, 0.2)',
+  inputTextColor: '#071A4A',
   inputBorderRadius: 4,
 });
 

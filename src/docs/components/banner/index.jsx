@@ -33,7 +33,7 @@ function Banner() {
                     <Heading className='head_title' size={40} align="left" color="white" lineHeight={1.3} weight={600} >
                         Bring Your Web to Life.
                     </Heading>
-                    <Text size={16} align="left" color="#DCFCE6" lineHeight={1.5} style={{ maxWidth: '500px' }}>
+                    <Text size={16} align="left" color="#D6E4FF" lineHeight={1.5} style={{ maxWidth: '500px' }}>
                         A lightweight library of custom elements ready to drop into your project with simple tags.
                     </Text>
                     <Button

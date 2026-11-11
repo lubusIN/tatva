@@ -15,13 +15,13 @@
 .sbdocs-content h2,
 #storybook-docs h2 {
   font-family: var(--sb-font-sans);
-  color: #0E2D14;
+  color: #071A4A;
   font-size: 24px;
   font-weight: 700;
   line-height: 1.3;
   margin: 28px 0 12px;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(14, 45, 20, 0.12);
+  border-bottom: 1px solid rgba(0, 82, 255, 0.12);
 }
 
 /* Ensure custom landing page headings are not polluted by docs default h2 styles */

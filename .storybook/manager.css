@@ -8,7 +8,7 @@
 
 .sidebar-item:hover:not([data-selected="true"]),
 .sidebar-subheading button:hover {
-  background-color: #b7efc5 !important;
+  background-color: #E0ECFF !important;
 }
 
 .sidebar-item {

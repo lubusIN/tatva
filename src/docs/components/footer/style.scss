@@ -1,5 +1,5 @@
 .tatva-footer {
-    background-color: #0E2D14 !important;
+    background-color: #071A4A !important;
     padding: 20px 10px 0;
 
     .components-heading,
@@ -36,17 +36,29 @@
 
 .footer_btn {
     display: flex;
-    background-color: #FEEA00;
-    color: #0E2D14 !important;
+    background-color: #ffffff;
+    color: #0052ff !important;
     border-radius: 4px;
     font-weight: 600 !important;
     padding: 8px 15px !important;
     gap: 8px;
+    text-decoration: none !important;
+    transition: all 0.2s ease-in-out !important;
+
+    svg {
+        fill: #0052ff !important;
+        transition: fill 0.2s ease;
+    }
 }
 
 .footer_btn:hover {
-    color: white !important;
-    background: #80808033;
+    color: #0052ff !important;
+    background-color: #f0f5ff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+
+    svg {
+        fill: #0052ff !important;
+    }
 }
 
 .copyright {
