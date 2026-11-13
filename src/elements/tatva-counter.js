@@ -258,10 +258,7 @@ export class TatvaCounter extends HTMLElement {
 
         this.setAttribute('aria-label', raw);
 
-        const clean = raw.replace(/,/g, '');
-        const targetNumber = parseFloat(clean);
-
-        if (isNaN(targetNumber)) {
+        if (!/\d/.test(raw)) {
             container.textContent = raw;
             return;
         }
@@ -273,8 +270,37 @@ export class TatvaCounter extends HTMLElement {
         if (mode === 'odometer') {
             this.animateOdometer(container, raw, duration, reducedMotion);
         } else {
+            const match = raw.match(
+                /^(.*?)([+-]?(?:[0-9]+(?:,[0-9]+)*(?:\.[0-9]+)?|\.[0-9]+))(.*)$/
+            );
+
+            if (!match) {
+                container.textContent = raw;
+                return;
+            }
+
+            const prefix = match[1] || '';
+            const numStr = match[2];
+            const suffix = match[3] || '';
+            const clean = numStr.replace(/,/g, '');
+            const targetNumber = parseFloat(clean);
+
+            if (isNaN(targetNumber)) {
+                container.textContent = raw;
+                return;
+            }
+
             const decimals = (clean.split('.')[1] || '').length;
-            this.animateNumeric(container, targetNumber, decimals, duration, mode, reducedMotion);
+            this.animateNumeric(
+                container,
+                targetNumber,
+                decimals,
+                duration,
+                mode,
+                reducedMotion,
+                prefix,
+                suffix
+            );
         }
     }
 
@@ -373,15 +399,27 @@ export class TatvaCounter extends HTMLElement {
         });
     }
 
-    animateNumeric(container, target, decimals, duration, mode, reducedMotion) {
+    animateNumeric(
+        container,
+        target,
+        decimals,
+        duration,
+        mode,
+        reducedMotion,
+        prefix = '',
+        suffix = ''
+    ) {
         const formatNumber = (val) =>
+            prefix +
             Number(val).toLocaleString(undefined, {
                 minimumFractionDigits: decimals,
                 maximumFractionDigits: decimals,
-            });
+            }) +
+            suffix;
 
         const numEl = document.createElement('span');
         numEl.className = 'numeric';
+        numEl.setAttribute('part', 'numeric');
         container.innerHTML = '';
         container.appendChild(numEl);
 
