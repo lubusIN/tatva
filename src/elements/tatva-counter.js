@@ -488,18 +488,10 @@ export class TatvaCounter extends HTMLElement {
     }
 }
 
-export class TatvaNumberCounter extends TatvaCounter {}
-
 if (typeof window !== 'undefined') {
     window.TatvaCounter = TatvaCounter;
-    window.TatvaNumberCounter = TatvaNumberCounter;
-    if (typeof window.customElements !== 'undefined') {
-        if (!window.customElements.get('tatva-counter')) {
-            window.customElements.define('tatva-counter', TatvaCounter);
-        }
-        if (!window.customElements.get('tatva-number-counter')) {
-            window.customElements.define('tatva-number-counter', TatvaNumberCounter);
-        }
+    if (typeof window.customElements !== 'undefined' && !window.customElements.get('tatva-counter')) {
+        window.customElements.define('tatva-counter', TatvaCounter);
     }
 }
 
