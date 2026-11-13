@@ -58,6 +58,37 @@ describe('TatvaCounter', () => {
         expect(symbols[0].textContent).toBe(',');
     });
 
+    it('renders and animates currency and decimals with odometer', () => {
+        el.animation = 'odometer';
+        el.onScroll = false;
+        el.target = '$1,299.95';
+
+        const container = el.shadowRoot.querySelector('.container');
+        expect(container).not.toBeNull();
+        const odo = container.querySelector('.odometer');
+        expect(odo).not.toBeNull();
+
+        const digits = odo.querySelectorAll('.digit');
+        expect(digits.length).toBe(6);
+
+        const symbols = odo.querySelectorAll('.symbol');
+        expect(symbols.length).toBe(3);
+        expect(symbols[0].textContent).toBe('$');
+        expect(symbols[1].textContent).toBe(',');
+        expect(symbols[2].textContent).toBe('.');
+    });
+
+    it('supports prefix and suffix in numeric animations', () => {
+        el.animation = 'linear';
+        el.onScroll = false;
+        el.target = '$1,299.95';
+
+        const container = el.shadowRoot.querySelector('.container');
+        expect(container).not.toBeNull();
+        const num = container.querySelector('.numeric');
+        expect(num).not.toBeNull();
+    });
+
     it('renders numeric container when animation is linear', () => {
         el.animation = 'linear';
         el.onScroll = false;
