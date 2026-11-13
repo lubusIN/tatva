@@ -28,7 +28,8 @@ export const parameters = {
           'Pulse',        // Pulse component stories
           'Text Animation', // Text Animation component stories
           'Image Compare',  // Image Compare component stories
-          'Info Tip'      // Info Tip component stories
+          'Info Tip',     // Info Tip component stories
+          'Counter'       // Counter component stories
         ]
       ],
     },

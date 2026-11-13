@@ -10,6 +10,7 @@ import * as pulseStories from '../../stories/tatva-pulse.stories.js';
 import * as textAnimationStories from '../../stories/tatva-text-animation.stories.js';
 import * as imageCompareStories from '../../stories/tatva-image-compare.stories.js';
 import * as infoTipStories from '../../stories/tatva-infotip.stories.js';
+import * as counterStories from '../../stories/tatva-counter.stories.js';
 
 // Helper function to get story count (excluding default export)
 const getStoryCount = (stories) => Object.keys(stories).filter(key => key !== 'default').length - 1;
@@ -45,6 +46,12 @@ const categories = [
     count: getStoryCount(infoTipStories),
     path: `/?path=/docs/examples-infotip--docs`,
     thumbnail: () => <tatva-infotip content="This is helpful information that appears in the tooltip" underline="false" icon-enabled="true" icon-position="left" icon-type="info" icon-color="#000000" offset="6" overlay-placement="top" overlay-text-color="#ffffff" overlay-background-color="#000000">Hover or focus for info</tatva-infotip>
+  },
+  {
+    title: 'Counter',
+    count: getStoryCount(counterStories),
+    path: `/?path=/docs/examples-counter--docs`,
+    thumbnail: () => <tatva-counter style={{ fontSize: '32px', fontWeight: '800' }}>1,500</tatva-counter>,
   },
 ];
 
