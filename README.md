@@ -19,13 +19,14 @@
 
 Tatva provides a set of easy-to-use web components that work with any framework:
 
-| Element                | Description                            |
-| ---------------------- | -------------------------------------- |
-| `tatva-marker`         | Highlight/underline animation for text |
-| `tatva-pulse`          | Pulsing indicator for labels/badges    |
-| `tatva-text-animation` | Text reveal and animation effects      |
-| `tatva-image-compare`  | Image comparison (before/after) slider |
-| `tatva-infotip`        | Small tooltip / infotip component      |
+| Element                | Description                                  |
+| ---------------------- | -------------------------------------------- |
+| `tatva-marker`         | Highlight/underline animation for text       |
+| `tatva-pulse`          | Pulsing indicator for labels/badges          |
+| `tatva-text-animation` | Text reveal and animation effects            |
+| `tatva-image-compare`  | Image comparison (before/after) slider       |
+| `tatva-infotip`        | Small tooltip / infotip component            |
+| `tatva-counter`        | Animated number and rolling odometer counter |
 
 ## Requirements
 
@@ -88,7 +89,6 @@ import '@lubusin/tatva/tatva-marker.js';
   Pro
 </tatva-pulse>
 ```
-
 ## Meet Your Artisans
 
 [LUBUS](https://lubus.in/?utm_source=github&utm_medium=open-source&utm_campaign=tatva) is a web design agency based in Mumbai.
