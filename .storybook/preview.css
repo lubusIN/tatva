@@ -33,7 +33,8 @@
 
 .sb-show-main tatva-marker,
 .sb-show-main tatva-pulse,
-.sb-show-main tatva-text-animation {
+.sb-show-main tatva-text-animation,
+.sb-show-main tatva-counter {
   font-size: 32px;
   font-weight: 700;
 }
