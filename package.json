@@ -9,7 +9,8 @@
     "./tatva-marker.js": "./src/elements/tatva-marker.js",
     "./tatva-pulse.js": "./src/elements/tatva-pulse.js",
     "./tatva-text-animation.js": "./src/elements/tatva-text-animation.js",
-    "./tatva-infotip.js": "./src/elements/tatva-infotip.js"
+    "./tatva-infotip.js": "./src/elements/tatva-infotip.js",
+    "./tatva-counter.js": "./src/elements/tatva-counter.js"
   },
   "files": [
     "src"

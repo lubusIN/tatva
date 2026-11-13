@@ -3,9 +3,11 @@ export { TatvaMarker } from './tatva-marker.js';
 export { TatvaPulse } from './tatva-pulse.js';
 export { TatvaTextAnimation } from './tatva-text-animation.js';
 export { TatvaInfotip } from './tatva-infotip.js';
+export { TatvaCounter } from './tatva-counter.js';
 
 import './tatva-image-compare.js';
 import './tatva-marker.js';
 import './tatva-pulse.js';
 import './tatva-text-animation.js';
 import './tatva-infotip.js';
+import './tatva-counter.js';
