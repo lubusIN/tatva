@@ -12,7 +12,7 @@ export class TatvaCounter extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['target', 'duration', 'animation', 'on-scroll'];
+        return ['target', 'duration', 'animation', 'on-scroll', 'editable'];
     }
 
     static convertAttributeToBoolean(value) {
@@ -74,6 +74,26 @@ export class TatvaCounter extends HTMLElement {
         else this.setAttribute('on-scroll', 'false');
     }
 
+    get editable() {
+        return (
+            TatvaCounter.convertAttributeToBoolean(this.getAttribute('editable')) ??
+            false
+        );
+    }
+
+    set editable(val) {
+        if (val) this.setAttribute('editable', '');
+        else this.removeAttribute('editable');
+    }
+
+    get isEditable() {
+        return Boolean(
+            this.editable ||
+            this.isContentEditable ||
+            (typeof this.closest === 'function' && this.closest('[contenteditable="true"]'))
+        );
+    }
+
     connectedCallback() {
         if (!this._isInitialized) {
             this.renderComponent();
@@ -121,9 +141,8 @@ export class TatvaCounter extends HTMLElement {
         container.setAttribute('part', 'container');
 
         const slot = document.createElement('slot');
-        slot.style.display = 'none';
         slot.addEventListener('slotchange', () => {
-            if (this._isInitialized && !this.target) {
+            if (this._isInitialized && !this.target && !this.isEditable) {
                 this.init();
             }
         });
@@ -137,10 +156,14 @@ export class TatvaCounter extends HTMLElement {
     generateCSS() {
         return `
             :host {
-                display: inline-block;
+                display: inline;
                 font-variant-numeric: tabular-nums;
                 line-height: inherit;
                 vertical-align: baseline;
+            }
+
+            :host([hidden]) {
+                display: none;
             }
 
             .container {
@@ -213,6 +236,21 @@ export class TatvaCounter extends HTMLElement {
         this.cleanup();
         this._hasAnimated = false;
 
+        const slot = this.shadowRoot ? this.shadowRoot.querySelector('slot') : null;
+        const container = this.shadowRoot ? this.shadowRoot.querySelector('.container') : null;
+
+        if (this.isEditable) {
+            if (slot) slot.style.display = '';
+            if (container) {
+                container.style.display = 'none';
+                container.innerHTML = '';
+            }
+            return;
+        }
+
+        if (slot) slot.style.display = 'none';
+        if (container) container.style.display = '';
+
         if (this.onScroll && typeof IntersectionObserver !== 'undefined') {
             this._observer = new IntersectionObserver(
                 (entries) => {
@@ -250,6 +288,7 @@ export class TatvaCounter extends HTMLElement {
     }
 
     start() {
+        if (this.isEditable) return;
         const container = this.shadowRoot.querySelector('.container');
         if (!container) return;
 

@@ -125,4 +125,37 @@ describe('TatvaCounter', () => {
             el.disconnectedCallback();
         }).not.toThrow();
     });
+
+    it('keeps slot visible and hides container when editable or inside contenteditable', () => {
+        el.editable = true;
+        const slot = el.shadowRoot.querySelector('slot');
+        const container = el.shadowRoot.querySelector('.container');
+
+        expect(el.isEditable).toBe(true);
+        expect(slot.style.display).toBe('');
+        expect(container.style.display).toBe('none');
+
+        el.editable = false;
+        expect(el.isEditable).toBe(false);
+        expect(slot.style.display).toBe('none');
+        expect(container.style.display).toBe('');
+    });
+
+    it('detects parent contenteditable container', () => {
+        const editableWrapper = document.createElement('div');
+        editableWrapper.setAttribute('contenteditable', 'true');
+        document.body.appendChild(editableWrapper);
+
+        const counterInEditor = document.createElement('tatva-counter');
+        counterInEditor.textContent = '1,500';
+        editableWrapper.appendChild(counterInEditor);
+
+        expect(counterInEditor.isEditable).toBe(true);
+        const slot = counterInEditor.shadowRoot.querySelector('slot');
+        const container = counterInEditor.shadowRoot.querySelector('.container');
+        expect(slot.style.display).toBe('');
+        expect(container.style.display).toBe('none');
+
+        editableWrapper.remove();
+    });
 });
