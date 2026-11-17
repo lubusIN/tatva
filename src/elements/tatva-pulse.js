@@ -196,6 +196,7 @@ export class TatvaPulse extends HTMLElement {
                 white-space: normal;
                 vertical-align: baseline;
                 line-height: inherit;
+                align-self: baseline;
             }
 
             /* Pulse indicator wrapper - base positioning */
