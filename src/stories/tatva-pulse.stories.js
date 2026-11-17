@@ -58,7 +58,10 @@ export default {
     content: {
       control: 'text',
       table: { disable: true },
-    }
+    },
+    containerTag: {
+      table: { disable: true },
+    },
   },
 };
 
@@ -71,9 +74,10 @@ const DefaultValues = {
   'superscript-offset': '-0.5em',
 }
 
-const Template = ({ content, slot, ...args }) => {
+const Template = ({ content, slot, containerTag = 'h1', ...args }) => {
   const el = document.createElement('tatva-pulse');
   Object.entries(args).forEach(([key, value]) => {
+    if (key === 'containerTag') return;
     if (value === undefined || value === null || value === false) return;
     if (DefaultValues[key] === value) return;
     if (value === true) {
@@ -85,7 +89,7 @@ const Template = ({ content, slot, ...args }) => {
   el.textContent = slot;
   // If content provided → inject el, else return el alone
   if (content) {
-    const container = document.createElement('h1');
+    const container = document.createElement(containerTag);
     container.innerHTML = content.replace('{{slot}}', el.outerHTML);
     return container;
   }
@@ -133,6 +137,38 @@ Superscript.args = {
 
 export const Background = Template.bind({});
 Background.args = { position: 'background', slot: 'Badge', color: '#ff9500', size: '2rem' };
+
+export const InlineLeft = Template.bind({});
+InlineLeft.args = {
+  slot: 'Important Notice',
+  content: 'Here is an {{slot}} for everyone attending today.',
+  position: 'left',
+  color: '#007aff',
+  containerTag: 'p',
+};
+InlineLeft.parameters = {
+  docs: {
+    description: {
+      story:
+        'Tests tatva-pulse positioned on the left within an inline paragraph (`<p>`). Verifies that the pulse indicator appears on the left while slotted text maintains proper baseline alignment with surrounding text without vertical shifting.',
+    },
+  },
+};
+InlineLeft.play = async ({ canvasElement, step }) => {
+  const el = canvasElement.querySelector('tatva-pulse');
+
+  await step('Verify pulse element rendered with left position', async () => {
+    expect(el).not.toBeNull();
+    expect(el.getAttribute('position') || 'left').toBe('left');
+    expect(el.textContent.trim()).toBe('Important Notice');
+  });
+
+  await step('Verify pulse ping indicator is present', async () => {
+    const ping = el.shadowRoot.querySelector('[part="ping"]');
+    expect(ping).not.toBeNull();
+    expect(ping.getAttribute('aria-hidden')).toBe('true');
+  });
+};
 
 export const InteractiveRender = Template.bind({});
 InteractiveRender.args = {

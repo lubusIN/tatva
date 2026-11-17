@@ -70,7 +70,7 @@ describe('TatvaPulse', () => {
         expect(styles).toContain('@media (prefers-contrast: high)');
     });
 
-    it('uses inline layout and vertical-align baseline to prevent layout shift', () => {
+    it('uses inline layout and baseline alignment to prevent layout shift', () => {
         const config = el.getComponentConfig();
         const css = el.generateCSS(config);
 
@@ -78,5 +78,6 @@ describe('TatvaPulse', () => {
         expect(css).toMatch(/\.pulse-container\s*\{[^}]*vertical-align:\s*baseline;/);
         expect(css).toMatch(/\.content-wrapper\s*\{[^}]*vertical-align:\s*baseline;/);
         expect(css).toMatch(/\.content-wrapper\s*\{[^}]*line-height:\s*inherit;/);
+        expect(css).toMatch(/\.content-wrapper\s*\{[^}]*align-self:\s*baseline;/);
     });
 });
