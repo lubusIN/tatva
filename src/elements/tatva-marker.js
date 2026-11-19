@@ -133,7 +133,10 @@ export class TatvaMarker extends HTMLElement {
             if (attributeName === 'type') {
                 const svg = this.shadowRoot.querySelector('svg');
                 if (svg) {
-                    svg.innerHTML = TatvaMarker.PATHS[config.type] || TatvaMarker.PATHS.circle;
+                    const path = Object.prototype.hasOwnProperty.call(TatvaMarker.PATHS, config.type)
+                        ? TatvaMarker.PATHS[config.type]
+                        : TatvaMarker.PATHS.circle;
+                    svg.innerHTML = path;
                 }
             }
 
@@ -150,14 +153,14 @@ export class TatvaMarker extends HTMLElement {
      */
     renderComponent() {
         const config = this.getComponentConfig();
-        const template = document.createElement('template');
+        const style = document.createElement('style');
+        style.textContent = this.generateCSS(config);
 
-        template.innerHTML = `
-            <style>${this.generateCSS(config)}</style>
-            ${this.generateMarkup(config)}
-        `;
+        const template = document.createElement('template');
+        template.innerHTML = this.generateMarkup(config);
 
         this.shadowRoot.innerHTML = '';
+        this.shadowRoot.appendChild(style);
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
@@ -275,7 +278,7 @@ export class TatvaMarker extends HTMLElement {
      * @returns {string} Complete CSS styles wrapped in <style> tags
      */
     generateStyles(config) {
-        return `<style>${this.generateCSS(config)}</style>`;
+        return `<style>${this.generateCSS(config).replace(/<\/style/gi, '<\\/style')}</style>`;
     }
 
     /**
@@ -284,7 +287,10 @@ export class TatvaMarker extends HTMLElement {
      * @returns {string} Complete HTML structure
      */
     generateMarkup(config) {
-        return `<span class="wrapper" part="wrapper"><span class="text" part="text"><slot></slot></span><svg class="marker" part="marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" preserveAspectRatio="none" aria-hidden="true">${TatvaMarker.PATHS[config.type] || TatvaMarker.PATHS.circle}</svg></span>`;
+        const path = Object.prototype.hasOwnProperty.call(TatvaMarker.PATHS, config.type)
+            ? TatvaMarker.PATHS[config.type]
+            : TatvaMarker.PATHS.circle;
+        return `<span class="wrapper" part="wrapper"><span class="text" part="text"><slot></slot></span><svg class="marker" part="marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" preserveAspectRatio="none" aria-hidden="true">${path}</svg></span>`;
     }
 }
 

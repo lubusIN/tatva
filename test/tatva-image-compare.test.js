@@ -100,4 +100,13 @@ describe('TatvaImageCompare', () => {
         expect(styles).toContain('clip-path: inset');
         expect(styles).toContain('[part="slider-handle"].bar');
     });
+
+    it('escapes handle attribute in generateMarkup to prevent injection', () => {
+        const payload = 'line" data-x="test';
+        el.setAttribute('handle', payload);
+        const markup = el.generateMarkup(el.getComponentConfig());
+
+        expect(markup).toContain('&quot;');
+        expect(markup).not.toContain('data-x="test"');
+    });
 });

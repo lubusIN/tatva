@@ -136,14 +136,14 @@ export class TatvaPulse extends HTMLElement {
      */
     renderComponent() {
         const config = this.getComponentConfig();
-        const template = document.createElement('template');
+        const style = document.createElement('style');
+        style.textContent = this.generateCSS(config);
 
-        template.innerHTML = `
-            ${this.generateStyles(config)}
-            ${this.generateMarkup()}
-        `;
+        const template = document.createElement('template');
+        template.innerHTML = this.generateMarkup();
 
         this.shadowRoot.innerHTML = '';
+        this.shadowRoot.appendChild(style);
         this.shadowRoot.appendChild(template.content.cloneNode(true));
         this.updateCSSVariables();
     }
@@ -286,7 +286,7 @@ export class TatvaPulse extends HTMLElement {
      * @returns {string} Complete CSS styles wrapped in <style> tags
      */
     generateStyles(config) {
-        return `<style>${this.generateCSS(config)}</style>`;
+        return `<style>${this.generateCSS(config).replace(/<\/style/gi, '<\\/style')}</style>`;
     }
 
     /**

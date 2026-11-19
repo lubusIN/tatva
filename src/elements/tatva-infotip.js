@@ -36,6 +36,22 @@ export class TatvaInfotip extends HTMLElement {
         return value === '' || value === 'true' || value === true;
     }
 
+    /**
+     * Escapes HTML characters to prevent XSS vulnerabilities.
+     *
+     * @param {string} str - Raw string.
+     * @return {string} Escaped string.
+     */
+    static escapeHTML(str) {
+        return String(str ?? '').replace(/[&<>'"]/g, (tag) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;',
+        }[tag] || tag));
+    }
+
     static ICONS = {
         info: `<path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 12a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0ZM12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm.75 4v1.5h-1.5V8h1.5Zm0 8v-5h-1.5v5h1.5Z"/>`,
         help: `<path d="M12 4.75a7.25 7.25 0 100 14.5 7.25 7.25 0 000-14.5zM3.25 12a8.75 8.75 0 1117.5 0 8.75 8.75 0 01-17.5 0zM12 8.75a1.5 1.5 0 01.167 2.99c-.465.052-.917.44-.917 1.01V14h1.5v-.845A3 3 0 109 10.25h1.5a1.5 1.5 0 011.5-1.5zM11.25 15v1.5h1.5V15h-1.5z"/>`,
@@ -186,14 +202,14 @@ export class TatvaInfotip extends HTMLElement {
      */
     renderComponent() {
         const config = this.getComponentConfig();
-        const template = document.createElement('template');
+        const style = document.createElement('style');
+        style.textContent = this.generateCSS(config);
 
-        template.innerHTML = `
-            ${this.generateStyles(config)}
-            ${this.generateMarkup(config)}
-        `;
+        const template = document.createElement('template');
+        template.innerHTML = this.generateMarkup(config);
 
         this.shadowRoot.innerHTML = '';
+        this.shadowRoot.appendChild(style);
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
@@ -300,7 +316,7 @@ export class TatvaInfotip extends HTMLElement {
      * @returns {string} Complete CSS styles wrapped in <style> tags
      */
     generateStyles(config) {
-        return `<style>${this.generateCSS(config)}</style>`;
+        return `<style>${this.generateCSS(config).replace(/<\/style/gi, '<\\/style')}</style>`;
     }
 
     /**
@@ -313,8 +329,9 @@ export class TatvaInfotip extends HTMLElement {
         const triggerContent = config.iconPosition === 'right'
             ? `<slot></slot>${iconMarkup}`
             : `${iconMarkup}<slot></slot>`;
+        const safeContent = TatvaInfotip.escapeHTML(config.content);
 
-        return `<span class="wrapper" part="wrapper"><span class="text" part="trigger" tabindex="0" role="button" aria-describedby="infotip-popover">${triggerContent}</span><div class="infotip" part="popover" id="infotip-popover" role="tooltip" aria-hidden="true"><div class="infotip-popover-content" part="content"><slot name="content">${config.content}</slot></div><div class="arrow" part="arrow"></div></div></span>`;
+        return `<span class="wrapper" part="wrapper"><span class="text" part="trigger" tabindex="0" role="button" aria-describedby="infotip-popover">${triggerContent}</span><div class="infotip" part="popover" id="infotip-popover" role="tooltip" aria-hidden="true"><div class="infotip-popover-content" part="content"><slot name="content">${safeContent}</slot></div><div class="arrow" part="arrow"></div></div></span>`;
     }
 
     /**
@@ -329,9 +346,12 @@ export class TatvaInfotip extends HTMLElement {
         icon.style.display = config.iconEnabled ? 'inline-block' : 'none';
         icon.style.marginLeft = config.iconEnabled && config.iconPosition === 'right' ? '4px' : '0px';
         icon.style.marginRight = config.iconEnabled && config.iconPosition === 'left' ? '4px' : '0px';
+        const iconSvg = Object.prototype.hasOwnProperty.call(TatvaInfotip.ICONS, config.iconType)
+            ? TatvaInfotip.ICONS[config.iconType]
+            : TatvaInfotip.ICONS.info;
         icon.innerHTML = config.iconEnabled
             ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" role="img">
-                ${TatvaInfotip.ICONS[config.iconType] || TatvaInfotip.ICONS.info}
+                ${iconSvg}
             </svg>`
             : '';
 
@@ -744,7 +764,7 @@ export class TatvaInfotip extends HTMLElement {
             content: () => {
                 const contentEl = this.shadowRoot.querySelector('.infotip-popover-content slot');
                 if (contentEl) {
-                    contentEl.textContent = newValue;
+                    contentEl.textContent = newValue ?? TatvaInfotip.DEFAULT_CONFIG.content;
                 }
             },
             'icon-enabled': () => this.updateIcon(),

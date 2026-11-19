@@ -153,4 +153,67 @@ describe('TatvaInfotip', () => {
 
         el.getContainingBlock = origGetCb;
     });
+
+    it('escapes content in generateMarkup to prevent stored XSS injection', () => {
+        const payload = '<img src=x onerror=alert(document.domain)>';
+        el.setAttribute('content', payload);
+        const markup = el.generateMarkup(el.getComponentConfig());
+
+        expect(markup).not.toContain('<img');
+        expect(markup).toContain('&lt;img src=x onerror=alert(document.domain)&gt;');
+    });
+
+    it('ensures author-supplied content reaches the DOM as text on first render', () => {
+        const testEl = document.createElement('tatva-infotip');
+        const payload = '<img src=x onerror=alert(document.domain)>';
+        testEl.setAttribute('content', payload);
+        document.body.appendChild(testEl);
+
+        const imgInShadow = testEl.shadowRoot.querySelector('img');
+        expect(imgInShadow).toBeNull();
+
+        const slot = testEl.shadowRoot.querySelector('.infotip-popover-content slot');
+        expect(slot).not.toBeNull();
+        expect(slot.children.length).toBe(0);
+        expect(slot.textContent).toBe(payload);
+
+        testEl.remove();
+    });
+
+    it('updates content as text without creating HTML elements on attribute change', () => {
+        const payload = '<script>alert(1)</script>';
+        el.setAttribute('content', payload);
+
+        expect(el.shadowRoot.querySelector('script')).toBeNull();
+        const slot = el.shadowRoot.querySelector('.infotip-popover-content slot');
+        expect(slot.children.length).toBe(0);
+        expect(slot.textContent).toBe(payload);
+    });
+
+    it('reverts content to default when content attribute is removed', () => {
+        el.setAttribute('content', 'Temporary text');
+        expect(el.shadowRoot.querySelector('.infotip-popover-content slot').textContent).toBe('Temporary text');
+
+        el.removeAttribute('content');
+        expect(el.shadowRoot.querySelector('.infotip-popover-content slot').textContent).toBe(TatvaInfotip.DEFAULT_CONFIG.content);
+    });
+
+    it('prevents style breakout when CSS custom properties or colors contain closing style tag', () => {
+        const payload = 'red</style><img src=x onerror=alert(1)>';
+        el.setAttribute('overlay-background-color', payload);
+        const styles = el.generateStyles(el.getComponentConfig());
+
+        expect(styles.toLowerCase()).not.toContain('</style><img');
+        expect(styles).toContain('<\\/style');
+    });
+
+    it('safely handles non-existent or prototype icon types in updateIcon', () => {
+        el.setAttribute('icon-enabled', 'true');
+        el.setAttribute('icon-type', 'constructor');
+        el.updateIcon();
+
+        const icon = el.shadowRoot.querySelector('.icon');
+        expect(icon.innerHTML).toContain('<svg');
+        expect(icon.innerHTML).not.toContain('function Object');
+    });
 });

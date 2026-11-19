@@ -80,4 +80,17 @@ describe('TatvaPulse', () => {
         expect(css).toMatch(/\.content-wrapper\s*\{[^}]*line-height:\s*inherit;/);
         expect(css).toMatch(/\.content-wrapper\s*\{[^}]*align-self:\s*baseline;/);
     });
+
+    it('prevents style breakout and stored XSS when attributes contain closing style tags', () => {
+        const payload = 'red</style><img src=x onerror=alert(1)>';
+        const testEl = document.createElement('tatva-pulse');
+        testEl.setAttribute('color', payload);
+        document.body.appendChild(testEl);
+
+        expect(testEl.shadowRoot.querySelector('img')).toBeNull();
+        const styles = testEl.generateStyles(testEl.getComponentConfig());
+        expect(styles.toLowerCase()).not.toContain('</style><img');
+
+        testEl.remove();
+    });
 });

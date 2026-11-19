@@ -111,4 +111,24 @@ describe('TatvaMarker', () => {
         expect(css.includes('<style>')).toBe(false);
         expect(css.includes('</style>')).toBe(false);
     });
+
+    it('prevents style breakout and stored XSS when attributes contain closing style tags', () => {
+        const payload = 'red</style><img src=x onerror=alert(1)>';
+        const testEl = document.createElement('tatva-marker');
+        testEl.setAttribute('color', payload);
+        document.body.appendChild(testEl);
+
+        expect(testEl.shadowRoot.querySelector('img')).toBeNull();
+        const styles = testEl.generateStyles(testEl.getComponentConfig());
+        expect(styles.toLowerCase()).not.toContain('</style><img');
+
+        testEl.remove();
+    });
+
+    it('safely handles prototype property names in type attribute', () => {
+        el.setAttribute('type', 'constructor');
+        const markup = el.generateMarkup(el.getComponentConfig());
+        expect(markup).not.toContain('function Object');
+        expect(markup).toContain(TatvaMarker.PATHS.circle);
+    });
 });

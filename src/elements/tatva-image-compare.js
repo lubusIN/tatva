@@ -22,6 +22,22 @@ export class TatvaImageCompare extends HTMLElement {
     }
 
     /**
+     * Escapes HTML characters to prevent XSS vulnerabilities.
+     *
+     * @param {string} str - Raw string.
+     * @return {string} Escaped string.
+     */
+    static escapeHTML(str) {
+        return String(str ?? '').replace(/[&<>'"]/g, (tag) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;',
+        }[tag] || tag));
+    }
+
+    /**
      * Constructor initializes the component
      */
     constructor() {
@@ -379,9 +395,10 @@ export class TatvaImageCompare extends HTMLElement {
      * @returns {string} Complete HTML structure
      */
     generateMarkup(config) {
+        const safeHandle = TatvaImageCompare.escapeHTML(config.handle);
         return `
             <div part="image-compare">
-                <div part="image-container" data-handle-type="${config.handle}" data-hover-enabled="${config.hover}">
+                <div part="image-container" data-handle-type="${safeHandle}" data-hover-enabled="${config.hover}">
                     <div part="before-image-wrapper">
                         <slot name="before-image">
                             <img part="default-before-image" alt="Before" src="assets/before.png" />
