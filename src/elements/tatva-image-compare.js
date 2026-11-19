@@ -500,7 +500,7 @@ export class TatvaImageCompare extends HTMLElement {
         const handleStyles = ['line', 'circle', 'rectangle', 'arrow', 'bar'];
         this.sliderHandle.classList.remove(...handleStyles);
 
-        if (this.handleType) {
+        if (this.handleType && handleStyles.includes(this.handleType)) {
             this.sliderHandle.classList.add(this.handleType);
         }
     }
