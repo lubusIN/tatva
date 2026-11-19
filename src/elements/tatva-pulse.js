@@ -154,14 +154,18 @@ export class TatvaPulse extends HTMLElement {
      */
     getComponentConfig() {
         const defaults = TatvaPulse.DEFAULT_CONFIG;
+        const position = this.getAttribute('position') || defaults.position;
+        const isSuperscript = position === 'superscript';
+        const defaultGap = isSuperscript ? '2px' : defaults.gap;
+        const defaultOffset = isSuperscript ? '-0.25em' : defaults.superscriptOffset;
 
         return {
             size: this.getAttribute('size') || defaults.size,
             color: this.getAttribute('color') || defaults.color,
             animationDuration: this.getAttribute('animation-duration') || defaults.animationDuration,
-            gap: this.getAttribute('gap') || defaults.gap,
-            position: this.getAttribute('position') || defaults.position,
-            superscriptOffset: this.getAttribute('superscript-offset') || defaults.superscriptOffset,
+            gap: this.getAttribute('gap') || defaultGap,
+            position: position,
+            superscriptOffset: this.getAttribute('superscript-offset') || defaultOffset,
         };
     }
 

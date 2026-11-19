@@ -93,4 +93,29 @@ describe('TatvaPulse', () => {
 
         testEl.remove();
     });
+
+    it('applies tighter gap and offset defaults for superscript position', () => {
+        const supEl = document.createElement('tatva-pulse');
+        supEl.setAttribute('position', 'superscript');
+        document.body.appendChild(supEl);
+
+        const config = supEl.getComponentConfig();
+        expect(config.gap).toBe('2px');
+        expect(config.superscriptOffset).toBe('-0.25em');
+
+        const container = supEl.shadowRoot.querySelector('.pulse-container');
+        expect(container.style.getPropertyValue('--pulse-gap')).toBe('2px');
+        expect(container.style.getPropertyValue('--pulse-superscript-offset')).toBe('-0.25em');
+
+        // Can still be customized explicitly
+        supEl.setAttribute('gap', '6px');
+        supEl.setAttribute('superscript-offset', '-0.4em');
+        const customConfig = supEl.getComponentConfig();
+        expect(customConfig.gap).toBe('6px');
+        expect(customConfig.superscriptOffset).toBe('-0.4em');
+        expect(container.style.getPropertyValue('--pulse-gap')).toBe('6px');
+        expect(container.style.getPropertyValue('--pulse-superscript-offset')).toBe('-0.4em');
+
+        supEl.remove();
+    });
 });
