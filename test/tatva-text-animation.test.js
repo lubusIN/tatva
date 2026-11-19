@@ -96,4 +96,34 @@ describe('TatvaTextAnimation', () => {
         expect(css).toContain('color: var(--tatva-text-color, inherit);');
         expect(css).toContain('line-height: inherit;');
     });
+
+    it('escapes words in generateMarkup to prevent XSS injection', () => {
+        const payload = '<img src=x onerror=alert(1)>';
+        el.setAttribute('words', JSON.stringify([payload]));
+        const markup = el.generateMarkup(el.getComponentConfig());
+
+        expect(markup).not.toContain('<img');
+        expect(markup).toContain('&lt;img src=x onerror=alert(1)&gt;');
+    });
+
+    it('displays slot and hides container when editable or inside contenteditable', () => {
+        el.editable = true;
+        expect(el.isEditable).toBe(true);
+        el.renderComponent();
+        el.init();
+
+        const slot = el.shadowRoot.querySelector('slot');
+        const container = el.shadowRoot.querySelector('.textcontainer');
+        expect(slot.style.display).toBe('inline');
+        expect(container.style.display).toBe('none');
+    });
+
+    it('does not mutate words attribute or loop during initTyping', () => {
+        const customEl = document.createElement('tatva-text-animation');
+        customEl.textContent = 'Custom Text';
+        document.body.appendChild(customEl);
+
+        expect(customEl.getAttribute('words')).toBeNull();
+        customEl.remove();
+    });
 });

@@ -13,7 +13,23 @@ export class TatvaTextAnimation extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['type', 'words', 'speed', 'repeat'];
+        return ['type', 'words', 'speed', 'repeat', 'editable'];
+    }
+
+    /**
+     * Escapes HTML characters to prevent XSS vulnerabilities.
+     *
+     * @param {string} str - Raw string.
+     * @return {string} Escaped string.
+     */
+    static escapeHTML(str) {
+        return String(str ?? '').replace(/[&<>'"]/g, (tag) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;',
+        }[tag] || tag));
     }
 
     /**
@@ -74,6 +90,24 @@ export class TatvaTextAnimation extends HTMLElement {
     set repeat(val) {
         if (val) this.setAttribute('repeat', '');
         else this.setAttribute('repeat', 'false');
+    }
+
+    get editable() {
+        const val = this.getAttribute('editable');
+        return val !== null && val !== 'false' && val !== '0';
+    }
+
+    set editable(val) {
+        if (val) this.setAttribute('editable', '');
+        else this.removeAttribute('editable');
+    }
+
+    get isEditable() {
+        return Boolean(
+            this.editable ||
+            this.isContentEditable ||
+            (typeof this.closest === 'function' && this.closest('[contenteditable="true"]'))
+        );
     }
 
     /**
@@ -143,6 +177,17 @@ export class TatvaTextAnimation extends HTMLElement {
      * Initialization method
      */
     init() {
+        if (this.isEditable) {
+            const slot = this.shadowRoot ? this.shadowRoot.querySelector('slot') : null;
+            const container = this.shadowRoot ? this.shadowRoot.querySelector('.textcontainer') : null;
+            if (slot) slot.style.display = 'inline';
+            if (container) {
+                container.style.display = 'none';
+                container.innerHTML = '';
+            }
+            return;
+        }
+
         const config = this.getComponentConfig();
 
         // Check for reduced motion preference
@@ -257,8 +302,12 @@ export class TatvaTextAnimation extends HTMLElement {
      * @returns {string} Complete HTML structure
      */
     generateMarkup(config) {
-        const fullAccessibleText = Array.isArray(config.words) ? config.words.join(', ') : String(config.words);
-        return `<span class="sr-only">${fullAccessibleText}</span><div class="textcontainer" part="textcontainer" aria-hidden="true"></div><slot style="display: none;"></slot>`;
+        const rawText = Array.isArray(config.words) ? config.words.join(', ') : String(config.words ?? '');
+        const fullAccessibleText = TatvaTextAnimation.escapeHTML(rawText);
+        const isEdit = this.isEditable;
+        const slotStyle = isEdit ? 'display: inline;' : 'display: none;';
+        const containerStyle = isEdit ? 'display: none;' : '';
+        return `<span class="sr-only">${fullAccessibleText}</span><div class="textcontainer" part="textcontainer" aria-hidden="true" style="${containerStyle}"></div><slot style="${slotStyle}"></slot>`;
     }
 
     /**
@@ -399,7 +448,7 @@ export class TatvaTextAnimation extends HTMLElement {
         const element = this.shadowRoot.querySelector('.textcontainer');
         if (!element) return;
 
-        this.words = config.words;
+        const wordsList = Array.isArray(config.words) ? config.words : [String(config.words)];
         this.wordIndex = 0;
         this.charIndex = 0;
         this.isForward = true;
@@ -412,7 +461,7 @@ export class TatvaTextAnimation extends HTMLElement {
         this.typingInterval = setInterval(() => {
             if (this.animationComplete || !this.isConnected) return;
 
-            const currentWord = this.words[this.wordIndex] || '';
+            const currentWord = wordsList[this.wordIndex] || '';
 
             if (this.isForward) {
                 this.charIndex++;
@@ -422,7 +471,7 @@ export class TatvaTextAnimation extends HTMLElement {
 
             // Check if we've finished typing the current word
             if (this.charIndex >= currentWord.length + this.skipCharDelay) {
-                if (!config.repeat && this.wordIndex === this.words.length - 1) {
+                if (!config.repeat && this.wordIndex === wordsList.length - 1) {
                     this.animationComplete = true;
                     clearInterval(this.typingInterval);
                     this.typingInterval = null;
@@ -438,7 +487,7 @@ export class TatvaTextAnimation extends HTMLElement {
             } else if (this.charIndex <= 0) {
                 // Move to next word
                 this.isForward = true;
-                this.wordIndex = (this.wordIndex + 1) % this.words.length;
+                this.wordIndex = (this.wordIndex + 1) % wordsList.length;
 
                 if (this.wordIndex === 0) {
                     this.cycleCount++;
