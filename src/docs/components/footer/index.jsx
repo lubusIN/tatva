@@ -38,7 +38,7 @@ function Footer() {
                         We build and deliver scalable solutions shaped by years of hands-on product and
                         open-source experience. We’re passionate about driving positive business impact.
                     </Text>
-                    <Button className='footer_btn' href='https://cal.com/lubus' icon={RiCalendarScheduleLine}>
+                    <Button className='footer_btn' href='https://book.lubus.in/' icon={RiCalendarScheduleLine}>
                         Schedule a Call
                     </Button>
                 </VStack>
